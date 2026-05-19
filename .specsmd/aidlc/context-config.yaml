@@ -1,0 +1,38 @@
+agents:
+  master:
+    required_context:
+      - path: project.yaml
+        purpose: "Project state and current phase"
+
+  inception:
+    required_context:
+      - path: project.yaml
+        purpose: "Project type and current phase"
+        critical: false
+    optional_context:
+      - path: standards/tech-stack.md
+        purpose: "Technology context for realistic decomposition"
+
+  construction:
+    required_context:
+      - path: standards/tech-stack.md
+        purpose: "Technology choices for code generation"
+        critical: true
+      - path: standards/coding-standards.md
+        purpose: "Code style and patterns for generated code"
+        critical: true
+    optional_context:
+      - path: standards/system-architecture.md
+        purpose: "Architectural patterns and decisions"
+      - path: standards/api-conventions.md
+        purpose: "API design conventions"
+      - path: standards/ux-guide.md
+        purpose: "UI and accessibility patterns"
+
+  operations:
+    required_context: []
+    optional_context:
+      - path: standards/system-architecture.md
+        purpose: "Architecture for deployment decisions"
+      - path: operations/deployment-config.md
+        purpose: "Existing deployment configuration"

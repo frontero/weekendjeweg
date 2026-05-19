@@ -1,0 +1,10 @@
+specsmd:
+  version: 1
+  flow: aidlc
+  initialized_at: "2026-05-19T10:15:23Z"
+  initialized_by: "Codex GitHub connector"
+  source: "manual GitHub-only initialization"
+
+project:
+  name: weekendjeweg
+  memory_bank: memory-bank

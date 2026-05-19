@@ -1,0 +1,58 @@
+# Memory Bank Configuration for AI-DLC Flow
+
+structure:
+  - path: intents/
+    description: "Intents, requirements, system context, units, and stories"
+  - path: bolts/
+    description: "Construction bolt execution records"
+  - path: standards/
+    description: "Project standards and architectural decisions"
+  - path: operations/
+    description: "Deployment, verification, monitoring, and rollback context"
+
+project_config:
+  path: "memory-bank/project.yaml"
+  description: "Project type and initialization metadata"
+
+conventions:
+  timestamps:
+    format: "ISO 8601 with time and timezone"
+    pattern: "YYYY-MM-DDTHH:MM:SSZ"
+    note: "All timestamps in memory-bank artifacts include time, not only date."
+
+naming:
+  intents:
+    format: "{NNN}-{intent-name}"
+    example: "001-user-authentication"
+  units:
+    format: "{UUU}-{unit-name}"
+    example: "001-booking-search"
+  stories:
+    format: "{SSS}-{title-slug}.md"
+    example: "001-search-weekend-stays.md"
+  bolts:
+    format: "{BBB}-{unit-name}/"
+    example: "001-booking-search/"
+
+schema:
+  intents: "memory-bank/intents/{intent-name}/"
+  units: "memory-bank/intents/{intent-name}/units/{unit-name}/"
+  stories: "memory-bank/intents/{intent-name}/units/{unit-name}/stories/"
+  bolts: "memory-bank/bolts/{bolt-id}/"
+  standards: "memory-bank/standards/"
+  story_index: "memory-bank/story-index.md"
+  decision_index: "memory-bank/standards/decision-index.md"
+
+ownership:
+  inception:
+    - intents
+    - units
+    - stories
+    - story_index
+    - bolts
+  construction:
+    - units
+    - bolts
+    - decision_index
+  operations:
+    - operations
