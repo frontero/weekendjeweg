@@ -76,7 +76,7 @@ Separate dynamic and static classes.
 ## Types and Interfaces
 
 - Do not define reusable interfaces or types inline in components.
-- Put reusable types in `src/types/`.
+- Put reusable shared types in `shared/types/` or `app/types/`.
 - Use `declare interface` for globally available types when appropriate.
 - Give new local variables and loop variables explicit, meaningful types where practical.
 - Prefer descriptive names such as `workplaceId` over abbreviations such as `wpId`.
@@ -107,7 +107,8 @@ const props = defineProps<{
 
 ## Composables
 
-- Move reusable logic to `src/composables/`.
+- Move reusable logic to `app/composables/` for Nuxt application code.
+- Shared framework-neutral helpers can live in `shared/`.
 - Composable names start with `use`, for example `useShiftModal` or `useUniqueId`.
 
 ## CSS Over JavaScript
