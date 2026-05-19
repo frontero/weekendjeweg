@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: unit_003_importer_skeleton_verified_real_import_blocked
+  status: tailwind_v4_added_and_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  last_completed_bolt: "003-landal-data-access"
-  next_action: "Implement real TradeTracker feed client after publisher/site/campaign approval and credentials are available."
+  last_completed_bolt: "tailwind-v4-integration"
+  next_action: "Continue with real TradeTracker feed client after publisher/site/campaign approval and credentials are available."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -19,14 +19,14 @@ inception:
 
 construction:
   status: quality_verified_mock_mvp_with_data_access_blocker
-  reason: "Bolts 001, 002, 004, 005, and 006 are implemented and verified; Unit 003 discovery, compliance gate, and import skeleton are verified, but real Landal imports require TradeTracker credentials/campaign approval or written scraping permission."
-  last_completed_bolt: "003-landal-data-access"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26106913937"
-  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26106913888"
-  last_verified_commit: "bea3e92cf7e5e4ba9f503a7dc031da7ee3a784f9"
+  reason: "Tailwind CSS v4.3.0 is integrated and verified; core MVP bolts remain verified, but real Landal imports require TradeTracker credentials/campaign approval or written scraping permission."
+  last_completed_bolt: "tailwind-v4-integration"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26112983564"
+  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26112983511"
+  last_verified_commit: "2230bc5a53f3493766d3e270f5672e3af07e5023"
   next_recommended_bolt: "003-landal-data-access-tradetracker-feed-client"
-  completed_at: "2026-05-19T15:23:30Z"
-  verified_at: "2026-05-19T15:23:30Z"
+  completed_at: "2026-05-19T17:12:49Z"
+  verified_at: "2026-05-19T17:12:49Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
@@ -49,6 +49,6 @@ spec_review:
 
 assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
-  - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel."
+  - "The production MVP uses Nuxt + TypeScript, Tailwind CSS v4, Supabase, and Vercel."
   - "Mock data supports frontend construction while Landal data access is unresolved."
   - "Real scraping cannot run before written permission and compliance approval."
