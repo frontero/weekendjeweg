@@ -8,7 +8,7 @@ project:
   status: awaiting_design_review
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  next_action: "Review generated design before units, tasks, or construction continue."
+  next_action: "Review updated design before units, tasks, or construction continue."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,9 +18,9 @@ inception:
 
 construction:
   status: paused
-  reason: "Spec-driven development flow is at design review."
+  reason: "Spec-driven development flow is at updated design review."
   draft_bolt: "001-application-foundation"
-  draft_bolt_status: stale_vue_vite_draft_not_approved
+  draft_bolt_status: stale_vue_vite_draft_to_remove
   paused_at: "2026-05-19T11:25:00Z"
 
 planned_bolts:
@@ -34,9 +34,10 @@ spec_review:
   requirements: "memory-bank/intents/001-weekendjeweg-mvp/requirements.md"
   system_context: "memory-bank/intents/001-weekendjeweg-mvp/system-context.md"
   design: "memory-bank/intents/001-weekendjeweg-mvp/design.md"
+  design_answers: "memory-bank/intents/001-weekendjeweg-mvp/design-answers.md"
   clarifying_answers: "memory-bank/intents/001-weekendjeweg-mvp/clarifying-answers.md"
 
 assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
   - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel unless design review changes it."
-  - "Existing Vue/Vite foundation code is stale draft code and should not be built on."
+  - "Existing Vue/Vite foundation code is stale draft code and should be removed during construction."
