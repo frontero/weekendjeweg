@@ -14,12 +14,19 @@ const euroFormatter = new Intl.NumberFormat('nl-NL', {
   style: 'currency',
 })
 
-const defaultParkVisualClassName = 'bg-gradient-to-br from-[#c94936] via-[#f5c84c] to-[#79b7a5]'
+const defaultParkVisualClassName = 'bg-[#153f3a]'
+const defaultParkVisualImageUrl = 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80'
 
 const parkVisualClassNames: Record<string, string> = {
-  coast: 'bg-gradient-to-br from-[#28665e] via-[#79b7a5] to-[#f5c84c]',
-  forest: 'bg-gradient-to-br from-[#153f3a] via-[#28665e] to-[#79b7a5]',
-  hills: 'bg-gradient-to-br from-[#153f3a] via-[#f5c84c] to-[#c94936]',
+  coast: 'bg-[#28665e]',
+  forest: 'bg-[#153f3a]',
+  hills: 'bg-[#644a24]',
+}
+
+const parkVisualImageUrls: Record<string, string> = {
+  coast: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80',
+  forest: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1400&q=80',
+  hills: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80',
 }
 
 export const createParkDetailPath = (park: ParkRecord): string => {
@@ -58,15 +65,32 @@ const getAffiliateUrl = (catalog: CatalogDataSet, park: ParkRecord): string => {
   return template.baseUrl
 }
 
+const getVisualKey = (park: ParkRecord): string => {
+  return park.visualPlaceholderKey ?? 'default'
+}
+
 const getVisualClassName = (park: ParkRecord): string => {
-  const visualKey: string = park.visualPlaceholderKey ?? 'default'
-  const visualClassName: string | undefined = parkVisualClassNames[visualKey]
+  const visualClassName: string | undefined = parkVisualClassNames[getVisualKey(park)]
 
   if (visualClassName === undefined) {
     return defaultParkVisualClassName
   }
 
   return visualClassName
+}
+
+export const getParkVisualImageUrl = (park: ParkRecord): string => {
+  const visualImageUrl: string | undefined = parkVisualImageUrls[getVisualKey(park)]
+
+  if (visualImageUrl === undefined) {
+    return defaultParkVisualImageUrl
+  }
+
+  return visualImageUrl
+}
+
+export const getParkVisualAltText = (park: ParkRecord, regionName: string): string => {
+  return `Sfeerbeeld voor ${park.name} in ${regionName}`
 }
 
 export const createParkCardViewModel = (
@@ -78,10 +102,11 @@ export const createParkCardViewModel = (
     parkId: park.id,
     ...priceSearch,
   })
+  const regionName: string = getRegionNameForPark(catalog, park)
 
   return {
     park,
-    regionName: getRegionNameForPark(catalog, park),
+    regionName,
     facilities: listFacilitiesForPark(catalog, park.id),
     priceSnapshot,
     priceLabel: formatPriceSnapshot(priceSnapshot),
@@ -89,6 +114,8 @@ export const createParkCardViewModel = (
     detailPath: createParkDetailPath(park),
     affiliateUrl: getAffiliateUrl(catalog, park),
     visualClassName: getVisualClassName(park),
+    visualImageUrl: getParkVisualImageUrl(park),
+    visualAltText: getParkVisualAltText(park, regionName),
   }
 }
 

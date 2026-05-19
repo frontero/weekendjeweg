@@ -7,31 +7,36 @@
       Naar hoofdinhoud
     </a>
 
-    <header class="flex flex-col gap-4 bg-[#153f3a] px-4 py-4 text-[#fdfaf2] md:flex-row md:items-center md:justify-between md:px-16">
-      <NuxtLink
-        class="text-lg font-extrabold no-underline"
-        to="/"
-      >
-        Weekendjeweg
-      </NuxtLink>
+    <header class="bg-[#fffdf7] text-[#1b2f2c] shadow-[0_1px_0_rgba(21,63,58,0.12)]">
+      <div class="bg-[#153f3a] px-4 py-2 text-center text-sm font-bold text-[#fffdf7] md:px-16">
+        Prijsvoorbeelden voor Landal-parken, helder vergeleken zonder beschikbaarheidsclaim
+      </div>
+      <div class="flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-16">
+        <NuxtLink
+          class="text-xl font-black no-underline"
+          to="/"
+        >
+          Weekendjeweg
+        </NuxtLink>
 
-      <nav
-        class="flex flex-wrap gap-2"
-        aria-label="Hoofdnavigatie"
-      >
-        <NuxtLink
-          class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#fdfaf2] no-underline hover:bg-[#28665e] focus-visible:bg-[#28665e]"
-          to="/parken"
+        <nav
+          class="flex flex-wrap gap-2"
+          aria-label="Hoofdnavigatie"
         >
-          Parken
-        </NuxtLink>
-        <NuxtLink
-          class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#fdfaf2] no-underline hover:bg-[#28665e] focus-visible:bg-[#28665e]"
-          to="/regio/nederland"
-        >
-          Regio's
-        </NuxtLink>
-      </nav>
+          <NuxtLink
+            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
+            to="/parken"
+          >
+            Parken
+          </NuxtLink>
+          <NuxtLink
+            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
+            to="/regio/nederland"
+          >
+            Regio's
+          </NuxtLink>
+        </nav>
+      </div>
     </header>
 
     <main

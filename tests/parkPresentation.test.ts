@@ -21,6 +21,8 @@ test('creates park card view models from the mock catalog', () => {
 
   assert.equal(cards.length, 3)
   assert.equal(cards[0]?.detailPath.startsWith('/parken/'), true)
+  assert.equal(cards[0]?.visualImageUrl.startsWith('https://images.unsplash.com/'), true)
+  assert.match(cards[0]?.visualAltText ?? '', /Sfeerbeeld/)
 })
 
 test('formats matching price snapshot without availability wording', () => {

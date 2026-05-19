@@ -17,6 +17,8 @@ export interface ParkCardViewModel {
   detailPath: string
   affiliateUrl: string
   visualClassName: string
+  visualImageUrl: string
+  visualAltText: string
 }
 
 export interface ParkResultCardProps {
