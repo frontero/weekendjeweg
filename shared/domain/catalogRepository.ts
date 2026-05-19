@@ -5,6 +5,7 @@ import type {
   ISODate,
   ParkRecord,
   PriceSnapshotRecord,
+  RegionRecord,
   UUID,
 } from '../types/database'
 
@@ -28,7 +29,9 @@ const sortByName = <RecordType extends { name: string }>(items: RecordType[]): R
 }
 
 const getRegionIdBySlug = (catalog: CatalogDataSet, regionSlug: string): UUID | null => {
-  const region = catalog.regions.find((regionRecord): boolean => regionRecord.slug === regionSlug)
+  const region: RegionRecord | undefined = catalog.regions.find(
+    (regionRecord: RegionRecord): boolean => regionRecord.slug === regionSlug,
+  )
 
   if (region === undefined) {
     return null

@@ -13,5 +13,14 @@ test('opens the park search route', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: 'Vergelijk Landal-parken' })).toBeVisible()
   await expect(page.getByLabel('Regio')).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Bekijk park' })).toBeVisible()
+  await expect(page.getByText('3 parken gevonden')).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Bekijk Landal Miggelenberg' })).toBeVisible()
+})
+
+test('opens a park detail route from search', async ({ page }) => {
+  await page.goto('/parken')
+  await page.getByRole('link', { name: 'Bekijk Landal Miggelenberg' }).click()
+
+  await expect(page.getByRole('heading', { name: 'Landal Miggelenberg' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Bekijk bij Landal' })).toBeVisible()
 })

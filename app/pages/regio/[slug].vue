@@ -1,13 +1,66 @@
 <script setup lang="ts">
-useHead({
-  title: 'Regio | Weekendjeweg',
+import { computed } from 'vue'
+import { mockCatalog } from '~~/shared/data/mockCatalog'
+import { listRegions } from '~~/shared/domain/catalogRepository'
+import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
+import type { RegionRecord } from '~~/shared/types/database'
+import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
+
+// Definitions
+const route = useRoute()
+const defaultPriceSearch: ParkPriceSearch = {
+  arrivalDate: '2026-06-05',
+  departureDate: '2026-06-08',
+  adultCount: 2,
+  childCount: 0,
+}
+
+// Computed
+const routeSlug = computed<string>(() => String(route.params.slug ?? ''))
+
+const region = computed<RegionRecord | null>(() => {
+  const matchingRegion: RegionRecord | undefined = listRegions(mockCatalog).find(
+    (regionRecord: RegionRecord): boolean => regionRecord.slug === routeSlug.value,
+  )
+
+  if (matchingRegion === undefined) {
+    return null
+  }
+
+  return matchingRegion
+})
+
+const regionName = computed<string>(() => {
+  if (region.value === null) {
+    return 'Regio niet gevonden'
+  }
+
+  return region.value.name
+})
+
+const regionCards = computed<ParkCardViewModel[]>(() => {
+  if (region.value === null) {
+    return []
+  }
+
+  return createParkCardViewModels(
+    mockCatalog,
+    {
+      regionSlug: region.value.slug,
+    },
+    defaultPriceSearch,
+  )
+})
+
+useHead(() => ({
+  title: `${regionName.value} | Weekendjeweg`,
   meta: [
     {
       name: 'description',
       content: 'Route voor toekomstige regio-overzichten van Landal-parken in Nederland.',
     },
   ],
-})
+}))
 </script>
 
 <template>
@@ -17,9 +70,9 @@ useHead({
       aria-labelledby="region-title"
     >
       <p class="eyebrow">Regio</p>
-      <h1 id="region-title">Regio-overzicht</h1>
+      <h1 id="region-title">{{ regionName }}</h1>
       <p class="measure-text">
-        Deze route bestaat alvast voor de latere regio-uitbreiding. Rijke regio-SEO blijft buiten de eerste release.
+        Deze route ondersteunt alvast regio-overzichten. Rijke regio-SEO blijft buiten de eerste release.
       </p>
       <NuxtLink
         class="text-action"
@@ -27,6 +80,20 @@ useHead({
       >
         Terug naar parken
       </NuxtLink>
+    </section>
+
+    <section
+      v-if="regionCards.length > 0"
+      class="content-band"
+      aria-label="Parken in deze regio"
+    >
+      <div class="result-list">
+        <ParkResultCard
+          v-for="card in regionCards"
+          :key="card.park.id"
+          :card="card"
+        />
+      </div>
     </section>
   </div>
 </template>

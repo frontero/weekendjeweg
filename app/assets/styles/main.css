@@ -71,7 +71,8 @@ select {
 
 .site-nav__link,
 .text-action,
-.primary-action {
+.primary-action,
+.secondary-action {
   min-height: 2.75rem;
   display: inline-flex;
   align-items: center;
@@ -91,11 +92,22 @@ select {
   background: #28665e;
 }
 
-.primary-action {
+.primary-action,
+.secondary-action {
   width: fit-content;
   padding: 0.8rem 1rem;
+  border: 0;
+  cursor: pointer;
+}
+
+.primary-action {
   color: #ffffff;
   background: #c94936;
+}
+
+.secondary-action {
+  color: #153f3a;
+  background: #f5c84c;
 }
 
 .text-action {
@@ -105,10 +117,17 @@ select {
 
 .primary-action:hover,
 .primary-action:focus-visible,
+.secondary-action:hover,
+.secondary-action:focus-visible,
 .text-action:hover,
 .text-action:focus-visible {
   outline: 3px solid #f5c84c;
   outline-offset: 3px;
+}
+
+.secondary-action:hover,
+.secondary-action:focus-visible {
+  outline-color: #153f3a;
 }
 
 main:focus {
@@ -200,6 +219,7 @@ h2 {
 .section-heading {
   display: grid;
   gap: 0.35rem;
+  margin-bottom: 1rem;
 }
 
 .search-layout {
@@ -211,7 +231,8 @@ h2 {
 
 .filter-panel,
 .park-card,
-.detail-panel {
+.detail-panel,
+.empty-state {
   border: 1px solid #d8d2c2;
   border-radius: 0.5rem;
   background: #fffdf7;
@@ -276,6 +297,11 @@ select:focus-visible {
   width: auto;
 }
 
+.filter-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .result-list {
   display: grid;
   gap: 1rem;
@@ -286,6 +312,12 @@ select:focus-visible {
   margin: 0;
   color: #28665e;
   font-weight: 800;
+}
+
+.price-note {
+  margin: 0;
+  color: #5b6a66;
+  font-size: 0.92rem;
 }
 
 .park-card,
@@ -304,12 +336,45 @@ select:focus-visible {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 
+.park-card__visual--coast {
+  background:
+    linear-gradient(135deg, rgba(40, 102, 94, 0.84), rgba(123, 183, 165, 0.72)),
+    repeating-linear-gradient(90deg, #f7f4ec 0 1rem, #f5c84c 1rem 2rem);
+}
+
+.park-card__visual--hills {
+  background:
+    linear-gradient(135deg, rgba(21, 63, 58, 0.84), rgba(245, 200, 76, 0.72)),
+    repeating-linear-gradient(45deg, #c94936 0 1rem, #f7f4ec 1rem 2rem);
+}
+
 .park-card__content,
-.detail-panel {
+.detail-panel,
+.empty-state {
   display: grid;
   align-content: center;
   gap: 0.8rem;
   padding: 1rem;
+}
+
+.park-card__facility-list,
+.detail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.park-card__facility-list li,
+.detail-list li {
+  padding: 0.35rem 0.55rem;
+  color: #153f3a;
+  background: #e7efe8;
+  border-radius: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .detail-layout {

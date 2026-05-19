@@ -1,4 +1,22 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { mockCatalog } from '~~/shared/data/mockCatalog'
+import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
+import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
+
+// Definitions
+const homePriceSearch: ParkPriceSearch = {
+  arrivalDate: '2026-06-05',
+  departureDate: '2026-06-08',
+  adultCount: 2,
+  childCount: 0,
+}
+
+// Computed
+const featuredCards = computed<ParkCardViewModel[]>(() => {
+  return createParkCardViewModels(mockCatalog, {}, homePriceSearch).slice(0, 2)
+})
+
 useHead({
   title: 'Weekendjeweg | Landal-parken vergelijken',
   meta: [
@@ -50,6 +68,23 @@ useHead({
       <p class="measure-text">
         We tonen prijscontext voor gekozen data en reisgezelschap, maar maken geen beschikbaarheidsclaim. Boeken gebeurt altijd bij Landal.
       </p>
+    </section>
+
+    <section
+      class="content-band"
+      aria-labelledby="featured-parks-title"
+    >
+      <div class="section-heading">
+        <p class="eyebrow">Voorbeeldselectie</p>
+        <h2 id="featured-parks-title">Populaire startpunten</h2>
+      </div>
+      <div class="result-list">
+        <ParkResultCard
+          v-for="card in featuredCards"
+          :key="card.park.id"
+          :card="card"
+        />
+      </div>
     </section>
   </div>
 </template>

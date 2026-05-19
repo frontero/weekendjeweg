@@ -1,22 +1,14 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-in-progress
-Updated: 2026-05-19T14:00:00Z
-
-## Source
-
-This task plan is generated from the approved requirements and updated design:
-
-- `memory-bank/intents/001-weekendjeweg-mvp/requirements.md`
-- `memory-bank/intents/001-weekendjeweg-mvp/design.md`
-- `memory-bank/intents/001-weekendjeweg-mvp/units.md`
+Updated: 2026-05-19T14:15:00Z
 
 ## Current Progress
 
-- Checkpoint 4 units/tasks: approved by user.
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
 - Bolt 002 `supabase-data-model`: completed and CI verified.
-- Next recommended bolt: `004-park-search-and-detail` using mock data.
+- Bolt 004 `park-search-and-detail`: completed pending CI.
+- Next recommended bolt after CI: `005-affiliate-consent-tracking`.
 
 ## Blockers and Constraints
 
@@ -60,13 +52,13 @@ This task plan is generated from the approved requirements and updated design:
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T017 | Build Dutch home page | foundation-skeleton-completed |
-| T018 | Build `/parken` search page | foundation-skeleton-completed |
-| T019 | Add filters for region, arrival/departure, adults, children, and facilities | foundation-skeleton-completed |
-| T020 | Select and display matching price snapshots | planned |
-| T021 | Build `/parken/[slug]` detail page | foundation-skeleton-completed |
-| T022 | Add `/regio/[slug]` placeholder route | foundation-skeleton-completed |
-| T023 | Add accessible empty and loading states | planned |
+| T017 | Build Dutch home page | completed-pending-ci |
+| T018 | Build `/parken` search page | completed-pending-ci |
+| T019 | Add filters for region, arrival/departure, adults, children, and facilities | completed-pending-ci |
+| T020 | Select and display matching price snapshots | completed-pending-ci |
+| T021 | Build `/parken/[slug]` detail page | completed-pending-ci |
+| T022 | Add `/regio/[slug]` placeholder route | completed-pending-ci |
+| T023 | Add accessible empty and loading states | completed-pending-ci |
 
 ## Unit 005 Tasks: Affiliate, Consent, and Tracking
 
@@ -86,13 +78,5 @@ This task plan is generated from the approved requirements and updated design:
 | T030 | Add sitemap and robots behavior | planned |
 | T031 | Add accurate structured data where supported | planned |
 | T032 | Add unit/integration tests for core logic | data-model-tests-completed |
-| T033 | Add E2E happy paths | foundation-baseline-completed |
+| T033 | Add E2E happy paths | expanded-pending-ci |
 | T034 | Run Lighthouse quality review | planned |
-
-## Deferred Work
-
-- Rich `/regio/[slug]` SEO landing pages.
-- Real park imagery and media ingestion.
-- Admin/CMS tooling.
-- Payment, checkout, reservation, or availability claims.
-- Final Landal affiliate-network parameter mapping until account/network details are known.
