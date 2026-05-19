@@ -1,14 +1,14 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: construction_quality_verified_mock_mvp
+  project_type_status: construction_quality_verified_tailwind_mvp
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: tailwind_v4_added_and_verified
+  status: tailwind_utility_refactor_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  last_completed_bolt: "tailwind-v4-integration"
+  last_completed_bolt: "tailwind-utility-refactor"
   next_action: "Continue with real TradeTracker feed client after publisher/site/campaign approval and credentials are available."
 
 inception:
@@ -19,14 +19,14 @@ inception:
 
 construction:
   status: quality_verified_mock_mvp_with_data_access_blocker
-  reason: "Tailwind CSS v4.3.0 is integrated and verified; core MVP bolts remain verified, but real Landal imports require TradeTracker credentials/campaign approval or written scraping permission."
-  last_completed_bolt: "tailwind-v4-integration"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26112983564"
-  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26112983511"
-  last_verified_commit: "2230bc5a53f3493766d3e270f5672e3af07e5023"
+  reason: "Tailwind CSS v4.3.0 is integrated and existing custom CSS selectors are replaced by Tailwind utility classes; core MVP bolts remain verified, but real Landal imports require TradeTracker credentials/campaign approval or written scraping permission."
+  last_completed_bolt: "tailwind-utility-refactor"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26114273281"
+  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26114273186"
+  last_verified_commit: "bb81dae2b5693762d9957e82332ef5d0e4fef22e"
   next_recommended_bolt: "003-landal-data-access-tradetracker-feed-client"
-  completed_at: "2026-05-19T17:12:49Z"
-  verified_at: "2026-05-19T17:12:49Z"
+  completed_at: "2026-05-19T17:38:43Z"
+  verified_at: "2026-05-19T17:38:43Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"

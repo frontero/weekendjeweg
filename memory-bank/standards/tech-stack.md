@@ -1,7 +1,7 @@
 # Tech Stack Standard
 
 Status: confirmed-for-production-mvp
-Updated: 2026-05-19T17:12:49Z
+Updated: 2026-05-19T17:38:43Z
 
 The first production MVP uses:
 
@@ -11,7 +11,7 @@ The first production MVP uses:
 - Persistence: Supabase in later units.
 - Daily import path: Vercel Cron calling a protected Nuxt server endpoint in later units.
 - Tests: Node test for current foundation smoke checks and Playwright for critical user flows.
-- Styling: Tailwind CSS v4.3.0 through `@tailwindcss/vite`, with existing accessible custom CSS preserved during the initial migration.
+- Styling: Tailwind CSS v4.3.0 through `@tailwindcss/vite`; page and component styling uses Tailwind utility classes, with `app/assets/styles/main.css` limited to the Tailwind import.
 
 ## Constraints
 
