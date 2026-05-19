@@ -1,7 +1,7 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-in-progress
-Updated: 2026-05-19T14:35:00Z
+Updated: 2026-05-19T14:45:16Z
 
 ## Current Progress
 
@@ -9,8 +9,8 @@ Updated: 2026-05-19T14:35:00Z
 - Bolt 002 `supabase-data-model`: completed and CI verified.
 - Bolt 004 `park-search-and-detail`: completed and CI verified.
 - Bolt 005 `affiliate-consent-tracking`: completed and CI verified.
-- Bolt 006 `production-seo-quality`: completed pending CI.
-- Next recommended step after CI: deployed preview and Lighthouse measurement.
+- Bolt 006 `production-seo-quality`: CI verified; Lighthouse measurement pending.
+- Next recommended step: deployed preview and Lighthouse measurement.
 
 ## Blockers and Constraints
 
@@ -76,9 +76,9 @@ Updated: 2026-05-19T14:35:00Z
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T029 | Add SEO metadata for home, search, and park detail | completed-pending-ci |
-| T030 | Add sitemap and robots behavior | completed-pending-ci |
-| T031 | Add accurate structured data where supported | completed-pending-ci |
-| T032 | Add unit/integration tests for core logic | completed-pending-ci |
-| T033 | Add E2E happy paths | expanded-pending-ci |
+| T029 | Add SEO metadata for home, search, and park detail | completed |
+| T030 | Add sitemap and robots behavior | completed |
+| T031 | Add accurate structured data where supported | completed |
+| T032 | Add unit/integration tests for core logic | completed |
+| T033 | Add E2E happy paths | expanded |
 | T034 | Run Lighthouse quality review | pending-preview-measurement |

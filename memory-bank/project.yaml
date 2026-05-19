@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: bolt_006_completed_pending_ci
+  status: bolt_006_ci_verified_lighthouse_pending
   active_intent: "001-weekendjeweg-mvp"
-  active_bolt: "006-production-seo-quality"
-  last_completed_bolt: "005-affiliate-consent-tracking"
-  next_action: "Wait for CI verification on 006-production-seo-quality."
+  active_bolt: null
+  last_completed_bolt: "006-production-seo-quality"
+  next_action: "Create or inspect deployed preview, then run Lighthouse measurement."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,14 +18,14 @@ inception:
   checkpoint_4: units_tasks_approved
 
 construction:
-  status: awaiting_ci
-  reason: "Bolt 006 implementation committed and awaiting GitHub Actions verification."
-  last_completed_bolt: "005-affiliate-consent-tracking"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26103869775"
-  last_verified_commit: "b689ca68496371cc88c8adbed704f9f9e636ac61"
+  status: paused_after_ci_verified_bolt
+  reason: "Bolt 006 implementation completed and verified by GitHub Actions; Lighthouse requires a running preview URL."
+  last_completed_bolt: "006-production-seo-quality"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26104690981"
+  last_verified_commit: "ac69e184a0887973870c4579409ba1f2e1bf6597"
   next_recommended_bolt: null
   completed_at: "2026-05-19T14:35:00Z"
-  verified_at: null
+  verified_at: "2026-05-19T14:45:16Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"

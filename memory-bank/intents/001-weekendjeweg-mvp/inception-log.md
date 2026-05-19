@@ -93,3 +93,11 @@
 - Added normalization and scraping-compliance gate helpers.
 - Added SEO and quality gate tests.
 - Marked bolt 006 implementation complete pending GitHub Actions verification.
+
+## 2026-05-19T14:45:16Z
+
+- GitHub Actions run `26104534648` failed on Nuxt head script typing for park detail JSON-LD.
+- Fixed structured data head script typing in commit `ac69e184a0887973870c4579409ba1f2e1bf6597`.
+- GitHub Actions run `26104690981` passed for commit `ac69e184a0887973870c4579409ba1f2e1bf6597`.
+- Verified steps: install dependencies, typecheck, unit tests, and build.
+- Project status set to `bolt_006_ci_verified_lighthouse_pending`.

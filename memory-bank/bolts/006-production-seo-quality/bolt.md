@@ -1,8 +1,9 @@
 # Bolt 006: Production SEO Quality
 
-Status: completed-pending-ci
+Status: ci-verified-lighthouse-pending
 Started: 2026-05-19T14:35:00Z
 Completed: 2026-05-19T14:35:00Z
+Verified: 2026-05-19T14:45:16Z
 
 ## Source Stories
 
@@ -20,7 +21,14 @@ Completed: 2026-05-19T14:35:00Z
 
 ## Verification
 
-Pending GitHub Actions verification.
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26104690981 passed for commit `ac69e184a0887973870c4579409ba1f2e1bf6597`.
+
+Passed steps:
+
+- Install dependencies.
+- Typecheck.
+- Unit tests.
+- Build.
 
 ## Lighthouse
 
