@@ -1,8 +1,9 @@
 # Requirements: weekendjeweg MVP
 
-Status: checkpoint-2-requirements-review
+Status: approved-for-design
 Created: 2026-05-19T10:30:00Z
-Updated: 2026-05-19T11:40:00Z
+Updated: 2026-05-19T11:55:00Z
+Approved: 2026-05-19T11:55:00Z
 Phase: Inception
 
 ## Intent
@@ -175,24 +176,24 @@ Acceptance criteria:
 
 ## Non-Functional Requirements
 
-- The application shall be implemented with Nuxt and TypeScript unless requirements review changes that decision.
-- The database shall be Supabase unless requirements review changes that decision.
+- The application shall be implemented with Nuxt and TypeScript unless design review changes that decision.
+- The database shall be Supabase unless design review changes that decision.
 - The first deployment target shall be Vercel.
 - The UI shall be Dutch-only with a warm holiday/inspiration style.
 - The implementation shall follow `memory-bank/standards/coding-standards.md`.
 - Scraping shall not be implemented without an explicit compliance check in design.
 - The product shall avoid false or misleading availability claims.
 
-## Open Questions for Requirements Review
+## Resolved Review Questions
 
-1. Are these requirements correct for the first production release?
-2. Should the existing Vue/Vite draft foundation be removed because the selected stack is Nuxt + TypeScript?
-3. Should affiliate-network research be added as a blocking requirement before any outbound link implementation?
-4. What consent/privacy standard should govern GA4 and Supabase click tracking?
-5. Which exact Landal domains/markets are in scope for "all technically available parks"?
+1. Requirements are approved for design after the user said: `ga door in het proces`.
+2. The existing Vue/Vite draft foundation is not aligned with the approved Nuxt stack and must be removed or replaced during construction planning.
+3. Affiliate-network research is a design/task concern before live outbound affiliate tracking.
+4. Consent/privacy rules must be specified in design for GA4 and Supabase click tracking.
+5. Exact Landal domains/markets require design discovery; requirement remains "technically available parks".
 
 ## Review Gate
 
-Stop here for requirements review.
+Requirements are approved for design.
 
-Do not regenerate design, units, tasks, or construction bolts until the requirements are approved or revised.
+Stop next at design review before generating final units/tasks or continuing construction.
