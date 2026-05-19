@@ -5,8 +5,9 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: inception
-  status: initialized
-  next_action: "Create the first intent after clarifying product scope."
+  status: awaiting_inception_checkpoint_1
+  active_intent: "001-weekendjeweg-mvp"
+  next_action: "Answer clarifying questions in memory-bank/intents/001-weekendjeweg-mvp/requirements.md."
 
 assumptions:
   - "The name suggests a weekend-away web product, but product scope is not confirmed yet."
