@@ -99,6 +99,7 @@ export interface ScrapingComplianceReviewRecord {
   targetDomain: string
   robotsCheckedAt: ISODateTime | null
   termsCheckedAt: ISODateTime | null
+  termsPermitCommercialUse: boolean
   rateLimitPolicy: string | null
   approvedForRun: boolean
   approvedAt: ISODateTime | null

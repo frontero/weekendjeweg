@@ -10,6 +10,7 @@ const approvedReview: ScrapingComplianceReviewRecord = {
   targetDomain: 'landal.nl',
   robotsCheckedAt: '2026-05-19T12:00:00.000Z',
   termsCheckedAt: '2026-05-19T12:05:00.000Z',
+  termsPermitCommercialUse: true,
   rateLimitPolicy: 'Maximaal 1 request per 5 seconden; stop bij blokkade.',
   approvedForRun: true,
   approvedAt: '2026-05-19T12:10:00.000Z',
@@ -48,13 +49,25 @@ test('blocks scraping when robots, terms, or rate limit checks are incomplete', 
     ...approvedReview,
     robotsCheckedAt: null,
     termsCheckedAt: null,
+    termsPermitCommercialUse: false,
     rateLimitPolicy: null,
     approvedForRun: false,
   }
   const result = evaluateScrapingComplianceGate(incompleteReview)
 
   assert.equal(result.approved, false)
-  assert.equal(result.reasons.length, 4)
+  assert.equal(result.reasons.length, 5)
+})
+
+test('blocks scraping when terms do not explicitly permit commercial use', () => {
+  const termsBlockedReview: ScrapingComplianceReviewRecord = {
+    ...approvedReview,
+    termsPermitCommercialUse: false,
+  }
+  const result = evaluateScrapingComplianceGate(termsBlockedReview)
+
+  assert.equal(result.approved, false)
+  assert.equal(result.reasons.includes('Voorwaarden staan commercieel gebruik niet expliciet toe.'), true)
 })
 
 test('allows scraper orchestration only after full compliance approval', () => {

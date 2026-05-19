@@ -37,6 +37,10 @@ export const evaluateScrapingComplianceGate = (
     reasons.push('Voorwaarden zijn nog niet gecontroleerd.')
   }
 
+  if (review.termsPermitCommercialUse === false) {
+    reasons.push('Voorwaarden staan commercieel gebruik niet expliciet toe.')
+  }
+
   if (hasText(review.rateLimitPolicy) === false) {
     reasons.push('Rate-limit beleid ontbreekt.')
   }

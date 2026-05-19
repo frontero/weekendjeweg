@@ -93,6 +93,7 @@ create table if not exists public.scraping_compliance_reviews (
   target_domain text not null,
   robots_checked_at timestamptz,
   terms_checked_at timestamptz,
+  terms_permit_commercial_use boolean not null default false,
   rate_limit_policy text,
   approved_for_run boolean not null default false,
   approved_at timestamptz,
