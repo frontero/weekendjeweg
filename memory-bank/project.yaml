@@ -1,43 +1,50 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: design_awaiting_review
+  project_type_status: units_tasks_awaiting_review
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
-  current_phase: inception
-  status: awaiting_design_review
+  current_phase: planning
+  status: awaiting_units_tasks_review
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  next_action: "Review updated design before units, tasks, or construction continue."
+  next_action: "Review units, story index, and task plan before construction starts."
 
 inception:
   checkpoint_1: completed_guided_questions
   checkpoint_2: requirements_approved_for_design
-  checkpoint_3: awaiting_design_review
-  checkpoint_4: blocked_until_design_and_tasks_approval
+  checkpoint_3: design_approved_for_units_tasks
+  checkpoint_4: awaiting_units_tasks_review
 
 construction:
   status: paused
-  reason: "Spec-driven development flow is at updated design review."
-  draft_bolt: "001-application-foundation"
+  reason: "Spec-driven development flow is at checkpoint-4 units/tasks review."
+  first_recommended_bolt: "001-nuxt-foundation-and-cleanup"
   draft_bolt_status: stale_vue_vite_draft_to_remove
-  paused_at: "2026-05-19T11:25:00Z"
+  paused_at: "2026-05-19T12:56:57Z"
 
 planned_bolts:
-  - "001-application-foundation"
-  - "002-stay-catalog"
-  - "003-discovery-experience"
-  - "004-favorites-and-outbound"
+  - "001-nuxt-foundation-and-cleanup"
+  - "002-supabase-data-model"
+  - "003-landal-data-access"
+  - "004-park-search-and-detail"
+  - "005-affiliate-consent-tracking"
+  - "006-production-seo-quality"
 
 spec_review:
-  status: awaiting_design_review
+  status: awaiting_units_tasks_review
   requirements: "memory-bank/intents/001-weekendjeweg-mvp/requirements.md"
   system_context: "memory-bank/intents/001-weekendjeweg-mvp/system-context.md"
   design: "memory-bank/intents/001-weekendjeweg-mvp/design.md"
   design_answers: "memory-bank/intents/001-weekendjeweg-mvp/design-answers.md"
+  units: "memory-bank/intents/001-weekendjeweg-mvp/units.md"
+  tasks: "memory-bank/intents/001-weekendjeweg-mvp/tasks.md"
+  story_index: "memory-bank/story-index.md"
   clarifying_answers: "memory-bank/intents/001-weekendjeweg-mvp/clarifying-answers.md"
 
 assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
-  - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel unless design review changes it."
+  - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel."
   - "Existing Vue/Vite foundation code is stale draft code and should be removed during construction."
+  - "Mock data may support frontend construction while Landal data access is unresolved."
+  - "Real scraping cannot run before compliance approval."
