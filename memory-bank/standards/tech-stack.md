@@ -1,23 +1,26 @@
 # Tech Stack Standard
 
-Status: confirmed-for-mvp-draft
-Updated: 2026-05-19T10:45:00Z
+Status: confirmed-for-production-mvp
+Updated: 2026-05-19T13:25:00Z
 
-The first MVP construction phase uses:
+The first production MVP uses:
 
-- Frontend: Vue 3 with TypeScript.
-- Build tooling: Vite.
-- Routing: Vue Router.
-- State: Pinia when shared state is needed, especially favorites and filters.
-- Tests: Vitest for unit/component tests and Playwright for critical user flows.
-- Styling: CSS classes and component-scoped CSS, avoiding inline styles.
+- Application framework: Nuxt with TypeScript.
+- Runtime structure: Nuxt 4-style `app/` directory.
+- Hosting target: Vercel.
+- Persistence: Supabase in later units.
+- Daily import path: Vercel Cron calling a protected Nuxt server endpoint in later units.
+- Tests: Node test for current foundation smoke checks and Playwright for critical user flows.
+- Styling: CSS classes with accessible, responsive layouts and no inline styles.
 
 ## Constraints
 
-- No backend is required for the first MVP.
-- Stay data starts as static seed data in the frontend repository.
-- Real booking, payments, user accounts, admin tooling, and CMS integration are out of scope for the first construction phase.
+- Existing Vue/Vite draft code is stale and must not be used as active production code.
+- Real Landal data access is unresolved.
+- Scraping is blocked until compliance review is approved.
+- Payment, checkout, booking, user accounts, admin tooling, and CMS integration remain out of scope for the first release.
+- The UI may use mock data while the data-access unit is blocked.
 
 ## Review Note
 
-This stack is accepted as a working assumption after the user said "begin maar". It can still be changed during Checkpoint 3 review before construction starts.
+This stack supersedes the earlier Vue 3 + Vite draft assumption after requirements, design, units, and tasks were approved by the user.
