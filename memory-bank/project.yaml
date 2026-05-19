@@ -4,16 +4,21 @@ project:
   project_type_status: confirmed_for_mvp_draft
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
-  current_phase: inception
-  status: awaiting_inception_checkpoint_3_artifacts_review
+  current_phase: construction
+  status: construction_in_progress
   active_intent: "001-weekendjeweg-mvp"
-  next_action: "Review requirements, system context, units, stories, and bolt plan before construction starts."
+  active_bolt: "001-application-foundation"
+  next_action: "Implement and review application foundation before starting the stay catalog bolt."
 
 inception:
   checkpoint_1: completed_with_assumptions
   checkpoint_2: completed_as_draft
-  checkpoint_3: awaiting_review
-  checkpoint_4: pending_construction_approval
+  checkpoint_3: approved_by_user_begin_maar
+  checkpoint_4: approved_for_construction
+
+construction:
+  current_bolt: "001-application-foundation"
+  started_at: "2026-05-19T11:00:00Z"
 
 planned_bolts:
   - "001-application-foundation"
@@ -24,4 +29,4 @@ planned_bolts:
 assumptions:
   - "Weekendjeweg is a Dutch consumer-facing weekend stay discovery app."
   - "The MVP uses static seed data and external booking links."
-  - "No production code should be generated until the artifact review is approved."
+  - "Construction started after the user said begin maar."
