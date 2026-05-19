@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: bolt_001_completed
+  status: bolt_001_completed_and_ci_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
   last_completed_bolt: "001-nuxt-foundation-and-cleanup"
-  next_action: "Review GitHub Actions for bolt 001, then continue with 002-supabase-data-model."
+  next_action: "Continue with 002-supabase-data-model."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -19,10 +19,13 @@ inception:
 
 construction:
   status: paused_after_bolt
-  reason: "Bolt 001 completed direct-to-GitHub; executable verification should come from GitHub Actions."
+  reason: "Bolt 001 completed and verified by GitHub Actions."
   last_completed_bolt: "001-nuxt-foundation-and-cleanup"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26100763885"
+  last_verified_commit: "dd95d0c324179ee09911482fa711ea6a7eaedf90"
   next_recommended_bolt: "002-supabase-data-model"
   completed_at: "2026-05-19T13:45:00Z"
+  verified_at: "2026-05-19T14:00:00Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
