@@ -1,21 +1,23 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-quality-verified-with-data-access-blocker
-Updated: 2026-05-19T15:05:10Z
+Updated: 2026-05-19T15:15:46Z
 
 ## Current Progress
 
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
 - Bolt 002 `supabase-data-model`: completed and CI verified.
+- Bolt 003 `landal-data-access`: discovery completed, compliance gate tightened, real import blocked pending TradeTracker credentials/campaign approval.
 - Bolt 004 `park-search-and-detail`: completed and CI verified.
 - Bolt 005 `affiliate-consent-tracking`: completed and CI verified.
 - Bolt 006 `production-seo-quality`: CI verified and Lighthouse verified.
-- Next recommended step: Unit 003 Landal data access discovery and compliance review before any real scraper/import run.
+- Next recommended step: build a protected TradeTracker importer skeleton that returns blocked import runs until credentials and campaign approval exist.
 
 ## Blockers and Constraints
 
-- Real Landal data access is unresolved.
-- Scraping fallback may be implemented, but no real scraper run is allowed before the compliance gate is approved.
+- Real Landal data access requires TradeTracker publisher/site/campaign approval and credentials.
+- Scraping fallback may be implemented with fixtures, but no real scraper run is allowed before written permission and compliance approval.
+- Landal public terms currently prohibit commercial site use unless written permission is obtained.
 - If API/feed access and compliant scraping are both impossible, real import work is blocked until data access is arranged.
 - Landal affiliate account/network details are not arranged yet, so first release uses placeholder affiliate-link structure.
 
@@ -43,11 +45,11 @@ Updated: 2026-05-19T15:05:10Z
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T011 | Research official API/feed options | next |
-| T012 | Implement scraping compliance review model and gate | blocked-before-real-run |
-| T013 | Add protected daily import endpoint | planned |
-| T014 | Add importer orchestration | blocked-until-access-decision |
-| T015 | Normalize imported parks, regions, facilities, and price snapshots | blocked-until-access-decision |
+| T011 | Research official API/feed options | completed |
+| T012 | Implement scraping compliance review model and gate | completed-real-run-blocked |
+| T013 | Add protected daily import endpoint | next |
+| T014 | Add importer orchestration | blocked-waiting-tradetracker-credentials |
+| T015 | Normalize imported parks, regions, facilities, and price snapshots | blocked-waiting-tradetracker-credentials |
 | T016 | Record import run status | planned |
 
 ## Unit 004 Tasks: Park Search and Detail

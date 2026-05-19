@@ -1,7 +1,7 @@
 # Unit 003: Landal Data Access
 
-Status: planned-partially-blocked
-Updated: 2026-05-19T12:56:57Z
+Status: discovery-completed-real-import-blocked
+Updated: 2026-05-19T15:15:46Z
 
 ## Purpose
 
@@ -15,11 +15,11 @@ Create a compliant path for daily Landal Netherlands park and price data, using 
 
 ## Acceptance Criteria
 
-- Official/API/feed availability is researched and recorded before scraper activation.
-- Scraping compliance checks exist for robots.txt, terms, affiliate/network rules where available, and rate limits.
+- Official/API/feed availability is researched and recorded before scraper activation. Completed in `memory-bank/bolts/003-landal-data-access/discovery-report.md`.
+- Scraping compliance checks exist for robots.txt, terms, affiliate/network rules where available, and rate limits. The gate now requires explicit terms permission for commercial use.
 - Real scraper execution is blocked until a compliance review is approved.
-- Vercel Cron can call a protected Nuxt server endpoint for daily import.
-- Import runs record status, failures, and imported record counts.
+- Vercel Cron can call a protected Nuxt server endpoint for daily import. Pending credentials-backed implementation.
+- Import runs record status, failures, and imported record counts. Pending credentials-backed implementation.
 - If API/feed and compliant scraping are impossible, real import work is blocked until data access is arranged.
 
 ## Out of Scope
@@ -30,6 +30,10 @@ Create a compliant path for daily Landal Netherlands park and price data, using 
 
 ## Risks
 
-- Landal may not provide a public API/feed.
-- Scraping may be prohibited or impractical.
+- Landal may not provide a public API/feed outside TradeTracker publisher access.
+- Scraping appears prohibited for commercial use unless written permission is obtained.
 - Frontend must be able to continue with mock data if this unit blocks.
+
+## Next Step
+
+Use TradeTracker as the first real data route. Build the protected importer behind explicit credentials and return blocked import runs when credentials, campaign approval, or permission are missing.

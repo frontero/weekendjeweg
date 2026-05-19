@@ -8,9 +8,10 @@ Construction bolts are created after Inception has produced units and stories.
 | --- | --- | --- |
 | `001-nuxt-foundation-and-cleanup` | completed-and-ci-verified | Remove stale Vue/Vite draft and create Nuxt foundation |
 | `002-supabase-data-model` | completed-and-ci-verified | Add Supabase schema, shared types, mock data, data helpers, and tests |
+| `003-landal-data-access` | discovery-completed-real-import-blocked | Record official/affiliate data route and tighten scraping compliance gate |
 | `004-park-search-and-detail` | completed-and-ci-verified | Build mock-data-backed home, search, detail, and region routes |
 | `005-affiliate-consent-tracking` | completed-and-ci-verified | Add placeholder affiliate links, consent banner, outbound click logging, and GA4 consent gate |
-| `006-production-seo-quality` | ci-verified-lighthouse-pending | Add production SEO routes, conservative structured data, and quality gate tests |
+| `006-production-seo-quality` | completed-ci-and-lighthouse-verified | Add production SEO routes, conservative structured data, and quality gate tests |
 
 ## Superseded Draft Bolts
 

@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: bolt_006_lighthouse_verified
+  status: unit_003_discovery_completed_real_import_blocked
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  last_completed_bolt: "006-production-seo-quality"
-  next_action: "Start Unit 003 Landal data access discovery/compliance; real scraper/import runs remain blocked until approved."
+  last_completed_bolt: "003-landal-data-access"
+  next_action: "Build protected TradeTracker importer skeleton; real import remains blocked until publisher/site/campaign approval and credentials exist."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,15 +18,15 @@ inception:
   checkpoint_4: units_tasks_approved
 
 construction:
-  status: quality_verified_mock_mvp
-  reason: "Bolts 001, 002, 004, 005, and 006 are implemented and verified; Unit 003 remains the data-access/compliance blocker for real Landal imports."
-  last_completed_bolt: "006-production-seo-quality"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26105841042"
-  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26105840860"
-  last_verified_commit: "9051739919782e152b077c246c25845c964e3a8c"
-  next_recommended_bolt: "003-landal-data-access"
-  completed_at: "2026-05-19T14:35:00Z"
-  verified_at: "2026-05-19T15:05:10Z"
+  status: quality_verified_mock_mvp_with_data_access_blocker
+  reason: "Bolts 001, 002, 004, 005, and 006 are implemented and verified; Unit 003 discovery is complete but real Landal imports require TradeTracker credentials/campaign approval or written scraping permission."
+  last_completed_bolt: "003-landal-data-access"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26106463771"
+  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26106463769"
+  last_verified_commit: "4a17b2b4c6241b9856c9199a5e5d0661dc7444f1"
+  next_recommended_bolt: "003-landal-data-access-importer-skeleton"
+  completed_at: "2026-05-19T15:15:46Z"
+  verified_at: "2026-05-19T15:15:46Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
@@ -51,4 +51,4 @@ assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
   - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel."
   - "Mock data supports frontend construction while Landal data access is unresolved."
-  - "Real scraping cannot run before compliance approval."
+  - "Real scraping cannot run before written permission and compliance approval."
