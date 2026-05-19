@@ -1,14 +1,27 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: provisional
+  project_type_status: confirmed_for_mvp_draft
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: inception
-  status: awaiting_inception_checkpoint_1
+  status: awaiting_inception_checkpoint_3_artifacts_review
   active_intent: "001-weekendjeweg-mvp"
-  next_action: "Answer clarifying questions in memory-bank/intents/001-weekendjeweg-mvp/requirements.md."
+  next_action: "Review requirements, system context, units, stories, and bolt plan before construction starts."
+
+inception:
+  checkpoint_1: completed_with_assumptions
+  checkpoint_2: completed_as_draft
+  checkpoint_3: awaiting_review
+  checkpoint_4: pending_construction_approval
+
+planned_bolts:
+  - "001-application-foundation"
+  - "002-stay-catalog"
+  - "003-discovery-experience"
+  - "004-favorites-and-outbound"
 
 assumptions:
-  - "The name suggests a weekend-away web product, but product scope is not confirmed yet."
-  - "No production code should be generated until the first intent and bolt plan are approved."
+  - "Weekendjeweg is a Dutch consumer-facing weekend stay discovery app."
+  - "The MVP uses static seed data and external booking links."
+  - "No production code should be generated until the artifact review is approved."
