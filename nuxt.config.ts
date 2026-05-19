@@ -21,6 +21,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel',
   },
+  runtimeConfig: {
+    supabaseServiceRoleKey: '',
+    supabaseUrl: '',
+    public: {
+      ga4MeasurementId: '',
+    },
+  },
   typescript: {
     strict: true,
     typeCheck: true,

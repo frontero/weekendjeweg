@@ -381,6 +381,44 @@ select:focus-visible {
   align-items: stretch;
 }
 
+.consent-banner {
+  position: fixed;
+  right: clamp(1rem, 4vw, 3rem);
+  bottom: clamp(1rem, 4vw, 3rem);
+  z-index: 20;
+  max-width: min(44rem, calc(100vw - 2rem));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  color: #fdfaf2;
+  background: #1b2f2c;
+  border: 1px solid #79b7a5;
+  border-radius: 0.5rem;
+  box-shadow: 0 1rem 2rem rgba(21, 63, 58, 0.24);
+}
+
+.consent-banner h2 {
+  color: #ffffff;
+  font-size: 1.15rem;
+}
+
+.consent-banner__content,
+.consent-banner__actions {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.consent-banner__copy {
+  margin: 0;
+  color: #dce8e4;
+}
+
+.consent-banner__actions {
+  grid-template-columns: repeat(2, max-content);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -400,7 +438,8 @@ select:focus-visible {
   .hero-section,
   .search-layout,
   .park-card,
-  .detail-layout {
+  .detail-layout,
+  .consent-banner {
     grid-template-columns: 1fr;
   }
 
@@ -415,5 +454,14 @@ select:focus-visible {
   .park-card__visual,
   .detail-visual {
     border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .consent-banner {
+    left: 1rem;
+    right: 1rem;
+  }
+
+  .consent-banner__actions {
+    grid-template-columns: 1fr;
   }
 }

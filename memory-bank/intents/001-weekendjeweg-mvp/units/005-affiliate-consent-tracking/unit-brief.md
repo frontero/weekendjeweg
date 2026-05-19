@@ -1,7 +1,7 @@
 # Unit 005: Affiliate Consent Tracking
 
-Status: planned-awaiting-checkpoint-4-review
-Updated: 2026-05-19T12:56:57Z
+Status: completed-pending-ci
+Updated: 2026-05-19T14:25:00Z
 
 ## Purpose
 
@@ -9,17 +9,17 @@ Create placeholder Landal affiliate links, outbound click logging, consent handl
 
 ## Stories
 
-1. Affiliate Link Templates
-2. Consent-Aware Click Tracking
-3. GA4 Consent Banner
+1. Affiliate Link Templates - completed pending CI
+2. Consent-Aware Click Tracking - completed pending CI
+3. GA4 Consent Banner - completed pending CI
 
 ## Acceptance Criteria
 
-- Affiliate URLs can be generated from placeholder templates and later extended with real network parameters.
-- Outbound clicks are stored in Supabase before redirect where possible.
-- Redirect to Landal continues even if non-blocking click logging fails.
-- GA4 loads only after analytics consent is accepted.
-- Cookie rejection still allows anonymous functional click logging without cookie or user ID.
+- Affiliate URLs can be generated from placeholder templates and later extended with real network parameters. Completed pending CI.
+- Outbound clicks are stored in Supabase before redirect where possible. Completed pending CI.
+- Redirect to Landal continues even if non-blocking click logging fails. Completed pending CI.
+- GA4 loads only after analytics consent is accepted. Completed pending CI.
+- Cookie rejection still allows anonymous functional click logging without cookie or user ID. Completed pending CI.
 
 ## Out of Scope
 
@@ -29,5 +29,5 @@ Create placeholder Landal affiliate links, outbound click logging, consent handl
 
 ## Risks
 
-- Tracking implementation must not accidentally load analytics before consent.
-- Affiliate placeholder structure should be flexible enough for future network parameters.
+- Supabase persistence depends on server-side runtime config.
+- Final affiliate-network parameters still need account/network details.

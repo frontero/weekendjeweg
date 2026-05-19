@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
+import { buildAffiliateUrl } from '~~/shared/domain/affiliateLinks'
 import {
   getAffiliateTemplateForPark,
   getParkBySlug,
@@ -8,14 +9,22 @@ import {
   selectPriceSnapshot,
 } from '~~/shared/domain/catalogRepository'
 import { createParkMetaDescription, formatPriceSnapshot, getRegionNameForPark } from '~~/shared/domain/parkPresentation'
+import type { AffiliateUrlResult } from '~~/shared/types/affiliate'
 import type { AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
 
 // Definitions
 const route = useRoute()
+const { consentState } = useConsentState()
+const { trackOutboundClick } = useOutboundClickTracking()
 const defaultArrivalDate = '2026-06-05'
 const defaultDepartureDate = '2026-06-08'
 const defaultAdultCount = 2
 const defaultChildCount = 0
+const fallbackAffiliateLink: AffiliateUrlResult = {
+  url: 'https://www.landal.nl/',
+  destinationUrlKey: 'landal:fallback',
+  status: 'source_fallback',
+}
 
 // Computed
 const routeSlug = computed<string>(() => String(route.params.slug ?? ''))
@@ -70,28 +79,61 @@ const priceSnapshot = computed<PriceSnapshotRecord | null>(() => {
 
 const priceLabel = computed<string>(() => formatPriceSnapshot(priceSnapshot.value))
 
-const affiliateUrl = computed<string>(() => {
+const affiliateLink = computed<AffiliateUrlResult>(() => {
   if (park.value === null) {
-    return 'https://www.landal.nl/'
+    return fallbackAffiliateLink
   }
 
   const template: AffiliateLinkTemplateRecord | null = getAffiliateTemplateForPark(mockCatalog, park.value.id)
 
-  if (template === null) {
-    return park.value.sourceUrl
+  return buildAffiliateUrl({
+    park: park.value,
+    template,
+    pagePath: route.path,
+    trackingParameters: {
+      source: 'park-detail',
+      medium: 'affiliate',
+      campaign: 'landal-placeholder',
+      content: park.value.slug,
+    },
+  })
+})
+
+const affiliateUrl = computed<string>(() => affiliateLink.value.url)
+
+const metaDescription = computed<string>(() => {
+  if (park.value === null) {
+    return 'Park niet gevonden in de Weekendjeweg mock-catalogus.'
   }
 
-  return template.baseUrl
+  return createParkMetaDescription(park.value, regionName.value)
 })
+
+// Functions
+const handleAffiliateClick = (): void => {
+  if (park.value === null) {
+    return
+  }
+
+  trackOutboundClick({
+    parkId: park.value.id,
+    destinationUrlKey: affiliateLink.value.destinationUrlKey,
+    pagePath: route.path,
+    consentState: consentState.value,
+    utmContext: {
+      source: 'park-detail',
+      campaign: 'landal-placeholder',
+      park: park.value.slug,
+    },
+  })
+}
 
 useHead(() => ({
   title: `${parkName.value} | Weekendjeweg`,
   meta: [
     {
       name: 'description',
-      content: hasPark.value === true
-        ? createParkMetaDescription(park.value as ParkRecord, regionName.value)
-        : 'Park niet gevonden in de Weekendjeweg mock-catalogus.',
+      content: metaDescription.value,
     },
   ],
 }))
@@ -133,9 +175,10 @@ useHead(() => ({
           </li>
         </ul>
         <a
-          class="primary-action"
           :href="affiliateUrl"
+          class="primary-action"
           rel="nofollow sponsored noopener"
+          @click="handleAffiliateClick"
         >
           Bekijk bij Landal
         </a>

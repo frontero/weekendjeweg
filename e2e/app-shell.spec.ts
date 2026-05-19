@@ -24,3 +24,11 @@ test('opens a park detail route from search', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Landal Miggelenberg' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Bekijk bij Landal' })).toBeVisible()
 })
+
+test('keeps analytics behind an explicit consent choice', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.getByRole('region', { name: 'Cookiekeuze' })).toBeVisible()
+  await page.getByRole('button', { name: 'Alleen noodzakelijk' }).click()
+  await expect(page.getByRole('region', { name: 'Cookiekeuze' })).toBeHidden()
+})

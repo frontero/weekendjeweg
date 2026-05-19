@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: bolt_004_completed_and_ci_verified
+  status: bolt_005_completed_pending_ci
   active_intent: "001-weekendjeweg-mvp"
-  active_bolt: null
+  active_bolt: "005-affiliate-consent-tracking"
   last_completed_bolt: "004-park-search-and-detail"
-  next_action: "Continue with 005-affiliate-consent-tracking."
+  next_action: "Wait for CI verification on 005-affiliate-consent-tracking."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,14 +18,14 @@ inception:
   checkpoint_4: units_tasks_approved
 
 construction:
-  status: paused_after_bolt
-  reason: "Bolt 004 completed and verified by GitHub Actions."
+  status: awaiting_ci
+  reason: "Bolt 005 implementation committed and awaiting GitHub Actions verification."
   last_completed_bolt: "004-park-search-and-detail"
   last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26102998069"
   last_verified_commit: "cba5e95aba352ab1eab92549c50f15aea0da3ea7"
-  next_recommended_bolt: "005-affiliate-consent-tracking"
-  completed_at: "2026-05-19T14:15:00Z"
-  verified_at: "2026-05-19T14:22:00Z"
+  next_recommended_bolt: "006-production-seo-quality"
+  completed_at: "2026-05-19T14:25:00Z"
+  verified_at: null
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"

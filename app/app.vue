@@ -40,5 +40,7 @@
     >
       <NuxtPage />
     </main>
+
+    <ConsentBanner />
   </div>
 </template>
