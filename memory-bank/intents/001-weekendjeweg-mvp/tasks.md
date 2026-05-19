@@ -1,17 +1,17 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-quality-verified-with-data-access-blocker
-Updated: 2026-05-19T15:15:46Z
+Updated: 2026-05-19T15:23:30Z
 
 ## Current Progress
 
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
 - Bolt 002 `supabase-data-model`: completed and CI verified.
-- Bolt 003 `landal-data-access`: discovery completed, compliance gate tightened, real import blocked pending TradeTracker credentials/campaign approval.
+- Bolt 003 `landal-data-access`: discovery completed, compliance gate tightened, protected importer skeleton verified, real import blocked pending TradeTracker credentials/campaign approval.
 - Bolt 004 `park-search-and-detail`: completed and CI verified.
 - Bolt 005 `affiliate-consent-tracking`: completed and CI verified.
 - Bolt 006 `production-seo-quality`: CI verified and Lighthouse verified.
-- Next recommended step: build a protected TradeTracker importer skeleton that returns blocked import runs until credentials and campaign approval exist.
+- Next recommended step: implement the real TradeTracker feed client after credentials and campaign approval are available.
 
 ## Blockers and Constraints
 
@@ -47,10 +47,10 @@ Updated: 2026-05-19T15:15:46Z
 | --- | --- | --- |
 | T011 | Research official API/feed options | completed |
 | T012 | Implement scraping compliance review model and gate | completed-real-run-blocked |
-| T013 | Add protected daily import endpoint | next |
-| T014 | Add importer orchestration | blocked-waiting-tradetracker-credentials |
+| T013 | Add protected daily import endpoint | completed-skeleton |
+| T014 | Add importer orchestration | skeleton-completed-real-feed-blocked |
 | T015 | Normalize imported parks, regions, facilities, and price snapshots | blocked-waiting-tradetracker-credentials |
-| T016 | Record import run status | planned |
+| T016 | Record import run status | response-body-skeleton-completed-persistence-planned |
 
 ## Unit 004 Tasks: Park Search and Detail
 

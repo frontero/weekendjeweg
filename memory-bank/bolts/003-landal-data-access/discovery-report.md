@@ -1,7 +1,7 @@
 # Discovery Report: Landal Data Access
 
 Status: completed-real-import-blocked
-Updated: 2026-05-19T15:15:46Z
+Updated: 2026-05-19T15:23:30Z
 
 ## Sources Checked
 
@@ -62,9 +62,13 @@ Use environment variables or encrypted deployment secrets for the eventual impor
 - `TRADETRACKER_LANDAL_CAMPAIGN_ID`
 - `IMPORT_CRON_SECRET`
 
+## Implemented Skeleton
+
+`POST /api/import/landal` now exists as a protected endpoint. It validates `x-import-secret` and returns blocked import plans until required TradeTracker credentials are configured. The real feed client remains a future step.
+
 ## Next Engineering Step
 
-Build a protected import endpoint and TradeTracker adapter behind credential checks. The adapter may be implemented and tested with fixtures, but it must return a blocked import run when credentials or campaign approval are missing.
+Implement the real TradeTracker feed client after credentials and campaign approval are available. Until then, fixture-based tests can continue to shape normalization logic without making external calls.
 
 ## Real Scraping Gate
 

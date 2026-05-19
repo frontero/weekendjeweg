@@ -1,7 +1,7 @@
 # Unit 003: Landal Data Access
 
-Status: discovery-completed-real-import-blocked
-Updated: 2026-05-19T15:15:46Z
+Status: importer-skeleton-verified-real-import-blocked
+Updated: 2026-05-19T15:23:30Z
 
 ## Purpose
 
@@ -18,8 +18,8 @@ Create a compliant path for daily Landal Netherlands park and price data, using 
 - Official/API/feed availability is researched and recorded before scraper activation. Completed in `memory-bank/bolts/003-landal-data-access/discovery-report.md`.
 - Scraping compliance checks exist for robots.txt, terms, affiliate/network rules where available, and rate limits. The gate now requires explicit terms permission for commercial use.
 - Real scraper execution is blocked until a compliance review is approved.
-- Vercel Cron can call a protected Nuxt server endpoint for daily import. Pending credentials-backed implementation.
-- Import runs record status, failures, and imported record counts. Pending credentials-backed implementation.
+- Vercel Cron can call a protected Nuxt server endpoint for daily import. Skeleton completed via `POST /api/import/landal`.
+- Import runs record status, failures, and imported record counts. Current skeleton returns blocked-run response bodies; Supabase persistence remains a later implementation step.
 - If API/feed and compliant scraping are impossible, real import work is blocked until data access is arranged.
 
 ## Out of Scope
@@ -36,4 +36,4 @@ Create a compliant path for daily Landal Netherlands park and price data, using 
 
 ## Next Step
 
-Use TradeTracker as the first real data route. Build the protected importer behind explicit credentials and return blocked import runs when credentials, campaign approval, or permission are missing.
+Implement the real TradeTracker feed client after `TRADETRACKER_CUSTOMER_ID`, `TRADETRACKER_ACCESS_KEY`, `TRADETRACKER_AFFILIATE_SITE_ID`, `TRADETRACKER_LANDAL_CAMPAIGN_ID`, and campaign approval are available.
