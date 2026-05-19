@@ -1,8 +1,9 @@
 # Bolt 001: Nuxt Foundation and Cleanup
 
-Status: completed-with-remote-code-review
+Status: completed-and-ci-verified
 Started: 2026-05-19T13:25:00Z
 Completed: 2026-05-19T13:45:00Z
+Verified: 2026-05-19T14:00:00Z
 
 ## Source Stories
 
@@ -56,9 +57,14 @@ Completed: 2026-05-19T13:45:00Z
 
 ## Verification
 
-Remote code review was performed through GitHub file inspection. Local install/build/test were not run because the user requested direct GitHub-only work without local repository files.
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26100763885 passed for commit `dd95d0c324179ee09911482fa711ea6a7eaedf90`.
 
-GitHub Actions should run after the pushes to `main` and is the first executable verification point for this bolt.
+Passed steps:
+
+- Install dependencies.
+- Typecheck.
+- Unit tests.
+- Build.
 
 ## Next Bolt
 
