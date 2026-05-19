@@ -1,15 +1,15 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: construction_quality_verified_tailwind_mvp
+  project_type_status: holiday_design_refresh_verified
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: tradetracker_feed_client_verified
+  status: holiday_design_refresh_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  last_completed_bolt: "003-landal-data-access-tradetracker-feed-client"
-  next_action: "Configure TradeTracker publisher/site/campaign credentials, then continue with feed-to-catalog normalization and Supabase import-run persistence."
+  last_completed_bolt: "004-holiday-park-inspired-design-refresh"
+  next_action: "Collect site feedback with an AI-FIRE-style feedback loop, or continue AI-DLC construction with feed-to-catalog normalization and Supabase import-run persistence."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,15 +18,16 @@ inception:
   checkpoint_4: units_tasks_approved
 
 construction:
-  status: quality_verified_mock_mvp_with_data_access_blocker
-  reason: "TradeTracker SOAP feed client, XML parser, protected import orchestration, Tailwind CSS v4.3.0, and core MVP bolts are verified; real Landal imports still require TradeTracker credentials/campaign approval, and real scraping requires written permission."
-  last_completed_bolt: "003-landal-data-access-tradetracker-feed-client"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26120007958"
-  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26120008031"
-  last_verified_commit: "65a73d5155ef8631e50c8490ccca417aeecc5046"
+  status: quality_verified_holiday_design_refresh_with_data_access_blocker
+  reason: "TradeTracker SOAP feed client, XML parser, protected import orchestration, Tailwind CSS v4.3.0, core MVP bolts, GitHub Pages deployment, and holiday-park-inspired visual refresh are verified; real Landal imports still require TradeTracker credentials/campaign approval, and real scraping requires written permission."
+  last_completed_bolt: "004-holiday-park-inspired-design-refresh"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26122339653"
+  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26122339658"
+  last_pages_run: "https://github.com/frontero/weekendjeweg/actions/runs/26122339582"
+  last_verified_commit: "78fd439f26923cb1acb400d2119385bfb06e2106"
   next_recommended_bolt: "003-landal-feed-normalization-and-import-persistence"
-  completed_at: "2026-05-19T19:27:01Z"
-  verified_at: "2026-05-19T19:27:01Z"
+  completed_at: "2026-05-19T20:11:39Z"
+  verified_at: "2026-05-19T20:11:39Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
@@ -37,7 +38,7 @@ planned_bolts:
   - "006-production-seo-quality"
 
 spec_review:
-  status: construction_quality_verified_with_data_access_blocker
+  status: construction_quality_verified_with_holiday_design_refresh
   requirements: "memory-bank/intents/001-weekendjeweg-mvp/requirements.md"
   system_context: "memory-bank/intents/001-weekendjeweg-mvp/system-context.md"
   design: "memory-bank/intents/001-weekendjeweg-mvp/design.md"
@@ -53,3 +54,4 @@ assumptions:
   - "Mock data supports frontend construction while Landal data access credentials are unresolved."
   - "TradeTracker feed calls require approved publisher/site/campaign credentials."
   - "Real scraping cannot run before written permission and compliance approval."
+  - "The visual refresh uses original Weekendjeweg implementation, own copy, and generic nature imagery rather than competitor assets or copied layouts."
