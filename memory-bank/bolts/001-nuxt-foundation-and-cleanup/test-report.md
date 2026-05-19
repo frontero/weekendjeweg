@@ -1,7 +1,7 @@
 # Test Report: Nuxt Foundation and Cleanup
 
-Status: not-run-locally
-Updated: 2026-05-19T13:45:00Z
+Status: verified-by-github-actions
+Updated: 2026-05-19T14:00:00Z
 
 ## Checks Added
 
@@ -10,20 +10,29 @@ Updated: 2026-05-19T13:45:00Z
 - `npm run build` maps to `nuxt build`.
 - `npm run test:e2e` builds and runs Playwright against Nuxt preview.
 
-## Manual Review
+## GitHub Actions Verification
 
-Reviewed direct GitHub file contents for:
+Latest verified run:
 
-- Nuxt route skeletons.
-- Accessible skip link and navigation.
-- Removal of stale Vue/Vite files.
-- Package scripts no longer pointing to Vite.
-- Test and Playwright config no longer depending on Vue Test Utils or Vitest.
+- Run: https://github.com/frontero/weekendjeweg/actions/runs/26100763885
+- Commit: `dd95d0c324179ee09911482fa711ea6a7eaedf90`
+- Status: success
+
+Passed steps:
+
+- Install dependencies.
+- Typecheck.
+- Unit tests.
+- Build.
+
+## Fix Applied During Verification
+
+The first CI attempt failed during `nuxt build` because the CSS path used `~/app/assets/styles/main.css`. Nuxt 4 resolves `~/` inside the `app/` directory, so this was corrected to `~/assets/styles/main.css`.
 
 ## Not Run
 
-Local dependency install, typecheck, unit tests, build, and Playwright were not run because this construction step was performed direct-to-GitHub without local repository files, matching the user's requested workflow.
+Playwright E2E is configured but not part of the current CI workflow. It remains available through `npm run test:e2e` and should become mandatory in a later quality-gate unit.
 
-## Next Verification Point
+## Result
 
-GitHub Actions on `main` should run the CI workflow. Any CI failures should be handled through the GitHub CI debug flow before starting production release work.
+Bolt 001 is verified green by GitHub Actions for install, typecheck, unit test, and build.
