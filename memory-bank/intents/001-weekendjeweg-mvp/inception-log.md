@@ -76,5 +76,12 @@
 - Removed stale Vue/Vite app files and Vue test setup.
 - Updated package scripts, TypeScript config, Playwright config, README, tech stack, coding standards, story index, unit status, and task progress.
 - Added construction record under `memory-bank/bolts/001-nuxt-foundation-and-cleanup/`.
-- Local install/build/tests were not run because work was performed direct-to-GitHub without local repository files.
 - Project status set to `bolt_001_completed`; next recommended bolt is `002-supabase-data-model`.
+
+## 2026-05-19T14:00:00Z
+
+- GitHub Actions first failed during `nuxt build` because the Nuxt CSS path used `~/app/assets/styles/main.css`.
+- Fixed the Nuxt 4 CSS alias to `~/assets/styles/main.css`.
+- GitHub Actions run `26100763885` passed for commit `dd95d0c324179ee09911482fa711ea6a7eaedf90`.
+- Verified steps: install dependencies, typecheck, unit tests, and build.
+- Project status set to `bolt_001_completed_and_ci_verified`.
