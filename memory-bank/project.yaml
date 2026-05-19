@@ -1,27 +1,28 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: units_tasks_awaiting_review
+  project_type_status: construction_in_progress
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
-  current_phase: planning
-  status: awaiting_units_tasks_review
+  current_phase: construction
+  status: bolt_001_completed
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  next_action: "Review units, story index, and task plan before construction starts."
+  last_completed_bolt: "001-nuxt-foundation-and-cleanup"
+  next_action: "Review GitHub Actions for bolt 001, then continue with 002-supabase-data-model."
 
 inception:
   checkpoint_1: completed_guided_questions
   checkpoint_2: requirements_approved_for_design
   checkpoint_3: design_approved_for_units_tasks
-  checkpoint_4: awaiting_units_tasks_review
+  checkpoint_4: units_tasks_approved
 
 construction:
-  status: paused
-  reason: "Spec-driven development flow is at checkpoint-4 units/tasks review."
-  first_recommended_bolt: "001-nuxt-foundation-and-cleanup"
-  draft_bolt_status: stale_vue_vite_draft_to_remove
-  paused_at: "2026-05-19T12:56:57Z"
+  status: paused_after_bolt
+  reason: "Bolt 001 completed direct-to-GitHub; executable verification should come from GitHub Actions."
+  last_completed_bolt: "001-nuxt-foundation-and-cleanup"
+  next_recommended_bolt: "002-supabase-data-model"
+  completed_at: "2026-05-19T13:45:00Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
@@ -32,7 +33,7 @@ planned_bolts:
   - "006-production-seo-quality"
 
 spec_review:
-  status: awaiting_units_tasks_review
+  status: construction_in_progress
   requirements: "memory-bank/intents/001-weekendjeweg-mvp/requirements.md"
   system_context: "memory-bank/intents/001-weekendjeweg-mvp/system-context.md"
   design: "memory-bank/intents/001-weekendjeweg-mvp/design.md"
@@ -45,6 +46,5 @@ spec_review:
 assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
   - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel."
-  - "Existing Vue/Vite foundation code is stale draft code and should be removed during construction."
   - "Mock data may support frontend construction while Landal data access is unresolved."
   - "Real scraping cannot run before compliance approval."
