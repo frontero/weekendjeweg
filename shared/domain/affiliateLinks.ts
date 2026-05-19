@@ -3,10 +3,11 @@ import type { AffiliateTrackingParameters, AffiliateUrlResult, BuildAffiliateUrl
 
 const fallbackLandalUrl = 'https://www.landal.nl/'
 
-const defaultTrackingParameters: AffiliateTrackingParameters = {
+const defaultTrackingParameters: Required<AffiliateTrackingParameters> = {
   source: 'weekendjeweg',
   medium: 'affiliate',
   campaign: 'landal-placeholder',
+  content: 'landal',
 }
 
 const resolveBaseUrl = (park: ParkRecord, template: AffiliateLinkTemplateRecord | null): string => {
