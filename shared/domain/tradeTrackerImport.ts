@@ -1,6 +1,8 @@
+import { fetchTradeTrackerFeedProducts, type TradeTrackerSoapFetcher } from './tradeTrackerSoapClient'
 import type {
   ImportAccessCheckResult,
   LandalImportResponseBody,
+  TradeTrackerFeedImportResult,
   TradeTrackerImportConfig,
 } from '../types/importPipeline'
 
@@ -29,6 +31,14 @@ const getMissingCredentialNames = (config: TradeTrackerImportConfig): string[] =
   })
 
   return missingCredentialNames
+}
+
+const createFailureMessage = (error: unknown): string => {
+  if (error instanceof Error) {
+    return `TradeTracker feed-import is mislukt: ${error.message}`
+  }
+
+  return 'TradeTracker feed-import is mislukt door een onbekende fout.'
 }
 
 export const validateImportAccess = (configuredSecret: string, providedSecret: string | null): ImportAccessCheckResult => {
@@ -74,9 +84,40 @@ export const createLandalImportPlan = (config: TradeTrackerImportConfig): Landal
 
   return {
     credentialStatus: 'configured',
-    message: 'TradeTracker configuratie is aanwezig; echte feed-client is de volgende implementatiestap.',
+    message: 'TradeTracker configuratie is aanwezig; feed-import kan starten.',
     recordsImported: 0,
     sourceType: 'api_feed',
-    status: 'blocked',
+    status: 'pending',
+  }
+}
+
+export const runLandalTradeTrackerImport = async (
+  config: TradeTrackerImportConfig,
+  fetcher: TradeTrackerSoapFetcher = fetch,
+): Promise<LandalImportResponseBody> => {
+  const importPlan: LandalImportResponseBody = createLandalImportPlan(config)
+
+  if (importPlan.status === 'blocked') {
+    return importPlan
+  }
+
+  try {
+    const result: TradeTrackerFeedImportResult = await fetchTradeTrackerFeedProducts(config, fetcher)
+
+    return {
+      credentialStatus: 'configured',
+      message: `TradeTracker feed opgehaald; ${result.recordsImported} productrecords klaar voor normalisatie.`,
+      recordsImported: result.recordsImported,
+      sourceType: 'api_feed',
+      status: 'success',
+    }
+  } catch (error: unknown) {
+    return {
+      credentialStatus: 'configured',
+      message: createFailureMessage(error),
+      recordsImported: 0,
+      sourceType: 'api_feed',
+      status: 'failed',
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { useRuntimeConfig } from '#imports'
 import { defineEventHandler, getHeader, setResponseStatus, type H3Event } from 'h3'
-import { createLandalImportPlan, validateImportAccess } from '~~/shared/domain/tradeTrackerImport'
+import { runLandalTradeTrackerImport, validateImportAccess } from '~~/shared/domain/tradeTrackerImport'
 import type { ImportAccessCheckResult, LandalImportResponseBody, TradeTrackerImportConfig } from '~~/shared/types/importPipeline'
 
 const getRuntimeString = (value: unknown): string => {
@@ -37,7 +37,7 @@ const createUnauthorizedResponse = (message: string): LandalImportResponseBody =
   }
 }
 
-export default defineEventHandler((event): LandalImportResponseBody => {
+export default defineEventHandler(async (event): Promise<LandalImportResponseBody> => {
   const config: TradeTrackerImportConfig = getTradeTrackerImportConfig(event)
   const accessCheck: ImportAccessCheckResult = validateImportAccess(config.importCronSecret, getProvidedSecret(event))
 
@@ -47,5 +47,5 @@ export default defineEventHandler((event): LandalImportResponseBody => {
     return createUnauthorizedResponse(accessCheck.message)
   }
 
-  return createLandalImportPlan(config)
+  return await runLandalTradeTrackerImport(config)
 })

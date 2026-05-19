@@ -26,3 +26,24 @@ export interface ImportPipelineResult {
 export interface LandalImportResponseBody extends ImportPipelineResult {
   credentialStatus: 'missing' | 'configured'
 }
+
+export interface TradeTrackerFeedProductAdditional {
+  name: string
+  value: string
+}
+
+export interface TradeTrackerFeedProduct {
+  additional: TradeTrackerFeedProductAdditional[]
+  description: string | null
+  identifier: string
+  imageUrl: string | null
+  name: string
+  priceAmount: number
+  productCategoryName: string | null
+  productUrl: string
+}
+
+export interface TradeTrackerFeedImportResult {
+  products: TradeTrackerFeedProduct[]
+  recordsImported: number
+}
