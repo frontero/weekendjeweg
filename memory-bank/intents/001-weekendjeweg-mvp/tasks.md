@@ -1,7 +1,7 @@
 # Tasks: weekendjeweg MVP
 
-Status: construction-in-progress
-Updated: 2026-05-19T14:45:16Z
+Status: construction-quality-verified-with-data-access-blocker
+Updated: 2026-05-19T15:05:10Z
 
 ## Current Progress
 
@@ -9,8 +9,8 @@ Updated: 2026-05-19T14:45:16Z
 - Bolt 002 `supabase-data-model`: completed and CI verified.
 - Bolt 004 `park-search-and-detail`: completed and CI verified.
 - Bolt 005 `affiliate-consent-tracking`: completed and CI verified.
-- Bolt 006 `production-seo-quality`: CI verified; Lighthouse measurement pending.
-- Next recommended step: deployed preview and Lighthouse measurement.
+- Bolt 006 `production-seo-quality`: CI verified and Lighthouse verified.
+- Next recommended step: Unit 003 Landal data access discovery and compliance review before any real scraper/import run.
 
 ## Blockers and Constraints
 
@@ -43,7 +43,7 @@ Updated: 2026-05-19T14:45:16Z
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T011 | Research official API/feed options | planned |
+| T011 | Research official API/feed options | next |
 | T012 | Implement scraping compliance review model and gate | blocked-before-real-run |
 | T013 | Add protected daily import endpoint | planned |
 | T014 | Add importer orchestration | blocked-until-access-decision |
@@ -81,4 +81,4 @@ Updated: 2026-05-19T14:45:16Z
 | T031 | Add accurate structured data where supported | completed |
 | T032 | Add unit/integration tests for core logic | completed |
 | T033 | Add E2E happy paths | expanded |
-| T034 | Run Lighthouse quality review | pending-preview-measurement |
+| T034 | Run Lighthouse quality review | completed |

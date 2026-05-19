@@ -1,15 +1,15 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: construction_in_progress
+  project_type_status: construction_quality_verified_mock_mvp
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: bolt_006_ci_verified_lighthouse_pending
+  status: bolt_006_lighthouse_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
   last_completed_bolt: "006-production-seo-quality"
-  next_action: "Create or inspect deployed preview, then run Lighthouse measurement."
+  next_action: "Start Unit 003 Landal data access discovery/compliance; real scraper/import runs remain blocked until approved."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,14 +18,15 @@ inception:
   checkpoint_4: units_tasks_approved
 
 construction:
-  status: paused_after_ci_verified_bolt
-  reason: "Bolt 006 implementation completed and verified by GitHub Actions; Lighthouse requires a running preview URL."
+  status: quality_verified_mock_mvp
+  reason: "Bolts 001, 002, 004, 005, and 006 are implemented and verified; Unit 003 remains the data-access/compliance blocker for real Landal imports."
   last_completed_bolt: "006-production-seo-quality"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26104690981"
-  last_verified_commit: "ac69e184a0887973870c4579409ba1f2e1bf6597"
-  next_recommended_bolt: null
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26105841042"
+  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26105840860"
+  last_verified_commit: "9051739919782e152b077c246c25845c964e3a8c"
+  next_recommended_bolt: "003-landal-data-access"
   completed_at: "2026-05-19T14:35:00Z"
-  verified_at: "2026-05-19T14:45:16Z"
+  verified_at: "2026-05-19T15:05:10Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
@@ -36,7 +37,7 @@ planned_bolts:
   - "006-production-seo-quality"
 
 spec_review:
-  status: construction_in_progress
+  status: construction_quality_verified_with_data_access_blocker
   requirements: "memory-bank/intents/001-weekendjeweg-mvp/requirements.md"
   system_context: "memory-bank/intents/001-weekendjeweg-mvp/system-context.md"
   design: "memory-bank/intents/001-weekendjeweg-mvp/design.md"
@@ -49,5 +50,5 @@ spec_review:
 assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
   - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel."
-  - "Mock data may support frontend construction while Landal data access is unresolved."
+  - "Mock data supports frontend construction while Landal data access is unresolved."
   - "Real scraping cannot run before compliance approval."

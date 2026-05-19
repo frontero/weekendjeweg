@@ -1,9 +1,9 @@
 # Bolt 006: Production SEO Quality
 
-Status: ci-verified-lighthouse-pending
+Status: completed-ci-and-lighthouse-verified
 Started: 2026-05-19T14:35:00Z
 Completed: 2026-05-19T14:35:00Z
-Verified: 2026-05-19T14:45:16Z
+Verified: 2026-05-19T15:05:10Z
 
 ## Source Stories
 
@@ -18,10 +18,11 @@ Verified: 2026-05-19T14:45:16Z
 - Keep temporary region support pages out of the sitemap and mark them `noindex,follow`.
 - Add normalization and scraping-compliance gate helpers with tests.
 - Add SEO route and structured-data tests.
+- Add static-preview Lighthouse automation with a browser warm-up audit before enforced measurements.
 
 ## Verification
 
-GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26104690981 passed for commit `ac69e184a0887973870c4579409ba1f2e1bf6597`.
+GitHub Actions CI run https://github.com/frontero/weekendjeweg/actions/runs/26105841042 passed for commit `9051739919782e152b077c246c25845c964e3a8c`.
 
 Passed steps:
 
@@ -32,4 +33,11 @@ Passed steps:
 
 ## Lighthouse
 
-Lighthouse targets remain pending until a deployed or locally served preview URL is available for measurement. The target remains 90+ for Performance, Accessibility, and SEO on key pages.
+GitHub Actions Lighthouse Preview run https://github.com/frontero/weekendjeweg/actions/runs/26105840860 passed for commit `9051739919782e152b077c246c25845c964e3a8c`.
+
+Measured pages and scores:
+
+- `/`: Performance 99, Accessibility 100, SEO 100.
+- `/parken`: Performance 99, Accessibility 100, SEO 100.
+
+The enforced target remains 90+ for Performance, Accessibility, and SEO on key pages.
