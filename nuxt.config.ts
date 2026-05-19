@@ -39,8 +39,13 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    importCronSecret: '',
     supabaseServiceRoleKey: '',
     supabaseUrl: '',
+    tradeTrackerAccessKey: '',
+    tradeTrackerAffiliateSiteId: '',
+    tradeTrackerCampaignId: '',
+    tradeTrackerCustomerId: '',
     public: {
       ga4MeasurementId: '',
       siteUrl: '',
