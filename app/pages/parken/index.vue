@@ -4,11 +4,13 @@ import { mockCatalog } from '~~/shared/data/mockCatalog'
 import { listFacilities, listParks, listRegions } from '~~/shared/domain/catalogRepository'
 import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
 import { createCanonicalUrl, createParkItemListStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
+import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
 import type { FacilityRecord, ParkRecord, RegionRecord } from '~~/shared/types/database'
 import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
 
 // Definitions
 const requestUrl = useRequestURL()
+const runtimeConfig = useRuntimeConfig()
 const defaultArrivalDate = '2026-06-05'
 const defaultDepartureDate = '2026-06-08'
 const defaultAdultCount = 2
@@ -22,7 +24,7 @@ const adultCount = ref<number>(defaultAdultCount)
 const childCount = ref<number>(defaultChildCount)
 
 // Computed
-const siteOrigin = computed<string>(() => requestUrl.origin)
+const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
 const canonicalUrl = computed<string>(() => createCanonicalUrl(siteOrigin.value, '/parken'))
 const regions = computed<RegionRecord[]>(() => listRegions(mockCatalog))
 const facilities = computed<FacilityRecord[]>(() => listFacilities(mockCatalog))

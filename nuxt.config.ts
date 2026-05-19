@@ -1,5 +1,9 @@
+const appBaseUrl = process.env.NUXT_APP_BASE_URL ?? '/'
+const nitroPreset = process.env.NITRO_PRESET ?? 'vercel'
+
 export default defineNuxtConfig({
   app: {
+    baseURL: appBaseUrl,
     head: {
       htmlAttrs: {
         lang: 'nl',
@@ -19,13 +23,27 @@ export default defineNuxtConfig({
     enabled: false,
   },
   nitro: {
-    preset: 'vercel',
+    preset: nitroPreset,
+    prerender: {
+      crawlLinks: true,
+      routes: [
+        '/',
+        '/parken',
+        '/parken/landal-miggelenberg',
+        '/parken/landal-strand-resort-ouddorp-duin',
+        '/parken/landal-hoog-vaals',
+        '/regio/nederland',
+        '/sitemap.xml',
+        '/robots.txt',
+      ],
+    },
   },
   runtimeConfig: {
     supabaseServiceRoleKey: '',
     supabaseUrl: '',
     public: {
       ga4MeasurementId: '',
+      siteUrl: '',
     },
   },
   typescript: {

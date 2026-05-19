@@ -4,12 +4,14 @@ import { mockCatalog } from '~~/shared/data/mockCatalog'
 import { listRegions } from '~~/shared/domain/catalogRepository'
 import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
 import { createCanonicalUrl } from '~~/shared/domain/seo'
+import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
 import type { RegionRecord } from '~~/shared/types/database'
 import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
 
 // Definitions
 const route = useRoute()
 const requestUrl = useRequestURL()
+const runtimeConfig = useRuntimeConfig()
 const defaultPriceSearch: ParkPriceSearch = {
   arrivalDate: '2026-06-05',
   departureDate: '2026-06-08',
@@ -18,7 +20,7 @@ const defaultPriceSearch: ParkPriceSearch = {
 }
 
 // Computed
-const siteOrigin = computed<string>(() => requestUrl.origin)
+const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
 const canonicalUrl = computed<string>(() => createCanonicalUrl(siteOrigin.value, route.path))
 const routeSlug = computed<string>(() => String(route.params.slug ?? ''))
 

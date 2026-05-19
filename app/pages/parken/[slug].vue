@@ -10,12 +10,14 @@ import {
 } from '~~/shared/domain/catalogRepository'
 import { createParkDetailPath, createParkMetaDescription, formatPriceSnapshot, getRegionNameForPark } from '~~/shared/domain/parkPresentation'
 import { createCanonicalUrl, createParkBreadcrumbStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
+import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
 import type { AffiliateUrlResult } from '~~/shared/types/affiliate'
 import type { AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
 
 // Definitions
 const route = useRoute()
 const requestUrl = useRequestURL()
+const runtimeConfig = useRuntimeConfig()
 const { consentState } = useConsentState()
 const { trackOutboundClick } = useOutboundClickTracking()
 const defaultArrivalDate = '2026-06-05'
@@ -29,7 +31,7 @@ const fallbackAffiliateLink: AffiliateUrlResult = {
 }
 
 // Computed
-const siteOrigin = computed<string>(() => requestUrl.origin)
+const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
 const routeSlug = computed<string>(() => String(route.params.slug ?? ''))
 const park = computed<ParkRecord | null>(() => getParkBySlug(mockCatalog, routeSlug.value))
 const hasPark = computed<boolean>(() => park.value !== null)

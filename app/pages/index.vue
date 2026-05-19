@@ -3,10 +3,12 @@ import { computed } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
 import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
 import { createCanonicalUrl, createWebsiteStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
+import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
 import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
 
 // Definitions
 const requestUrl = useRequestURL()
+const runtimeConfig = useRuntimeConfig()
 const homePriceSearch: ParkPriceSearch = {
   arrivalDate: '2026-06-05',
   departureDate: '2026-06-08',
@@ -15,7 +17,7 @@ const homePriceSearch: ParkPriceSearch = {
 }
 
 // Computed
-const siteOrigin = computed<string>(() => requestUrl.origin)
+const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
 const canonicalUrl = computed<string>(() => createCanonicalUrl(siteOrigin.value, '/'))
 const websiteStructuredData = computed<string>(() => {
   return serialiseStructuredData(createWebsiteStructuredData(siteOrigin.value))

@@ -1,0 +1,104 @@
+name: Pages Preview
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/pages.yml'
+      - 'app/**'
+      - 'server/**'
+      - 'shared/**'
+      - 'scripts/**'
+      - 'nuxt.config.ts'
+      - 'package.json'
+      - 'tsconfig.json'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate static site
+        run: npm run generate
+        env:
+          NITRO_PRESET: static
+          NUXT_APP_BASE_URL: /weekendjeweg/
+          NUXT_PUBLIC_SITE_URL: https://frontero.github.io/weekendjeweg
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  lighthouse:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Wait for Pages
+        run: node scripts/wait-for-url.mjs "${{ needs.deploy.outputs.page_url }}"
+
+      - name: Lighthouse home
+        run: npx --yes lighthouse@latest "${{ needs.deploy.outputs.page_url }}" --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-home.json --quiet
+
+      - name: Lighthouse parks
+        run: |
+          BASE_URL="${{ needs.deploy.outputs.page_url }}"
+          npx --yes lighthouse@latest "${BASE_URL%/}/parken" --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-parken.json --quiet
+
+      - name: Check Lighthouse scores
+        run: node scripts/check-lighthouse.mjs lighthouse-home.json lighthouse-parken.json
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: lighthouse-*.json
