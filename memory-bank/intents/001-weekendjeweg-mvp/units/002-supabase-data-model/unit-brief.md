@@ -1,7 +1,7 @@
 # Unit 002: Supabase Data Model
 
-Status: planned-awaiting-checkpoint-4-review
-Updated: 2026-05-19T12:56:57Z
+Status: completed-pending-ci
+Updated: 2026-05-19T14:20:00Z
 
 ## Purpose
 
@@ -9,17 +9,17 @@ Define the Supabase-backed data model and reusable TypeScript data contracts bef
 
 ## Stories
 
-1. Supabase Schema
-2. Typed Data Access
-3. Mock Seed Data
+1. Supabase Schema - completed pending CI
+2. Typed Data Access - completed pending CI
+3. Mock Seed Data - completed pending CI
 
 ## Acceptance Criteria
 
-- The schema supports regions, facilities, parks, park facilities, price snapshots, affiliate templates, outbound clicks, import runs, and scraping compliance reviews.
-- Facilities can be derived from Landal data instead of fixed manually in the UI.
-- Price snapshots store arrival date, departure date, adults, children, currency, and price value/label.
-- Anonymous functional click logs do not contain cookie IDs or user IDs.
-- Mock or seed data allows frontend construction while real Landal data access is unresolved.
+- The schema supports regions, facilities, parks, park facilities, price snapshots, affiliate templates, outbound clicks, import runs, and scraping compliance reviews. Completed.
+- Facilities can be derived from Landal data instead of fixed manually in the UI. Completed through `facilities` and `park_facilities`.
+- Price snapshots store arrival date, departure date, adults, children, currency, and price value/label. Completed.
+- Anonymous functional click logs do not contain cookie IDs or user IDs. Completed in schema and helper tests.
+- Mock or seed data allows frontend construction while real Landal data access is unresolved. Completed.
 
 ## Out of Scope
 
@@ -29,5 +29,5 @@ Define the Supabase-backed data model and reusable TypeScript data contracts bef
 
 ## Risks
 
-- A too-narrow schema could make price and facility import brittle.
-- Click tracking must be designed carefully so rejected-cookie behavior stays privacy-safe.
+- The schema still needs to be applied to a real Supabase project in operations.
+- Frontend consumption of the mock catalog follows in a later bolt.

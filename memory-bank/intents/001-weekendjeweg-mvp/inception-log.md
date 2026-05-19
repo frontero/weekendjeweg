@@ -85,3 +85,14 @@
 - GitHub Actions run `26100763885` passed for commit `dd95d0c324179ee09911482fa711ea6a7eaedf90`.
 - Verified steps: install dependencies, typecheck, unit tests, and build.
 - Project status set to `bolt_001_completed_and_ci_verified`.
+
+## 2026-05-19T14:20:00Z
+
+- User asked to continue with the next step.
+- Started construction with bolt `002-supabase-data-model`.
+- Added Supabase schema migration for regions, facilities, parks, park facilities, price snapshots, affiliate templates, outbound clicks, import runs, and scraping compliance reviews.
+- Added shared TypeScript data contracts.
+- Added mock Landal Netherlands catalog data for frontend construction while real data access is unresolved.
+- Added catalog query helpers and anonymous functional click helper.
+- Added unit tests for filters, dynamic facilities, price selection, placeholder affiliate templates, and anonymous click safety.
+- Project status set to `bolt_002_completed_pending_ci`.
