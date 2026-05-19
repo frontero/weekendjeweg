@@ -47,3 +47,11 @@
 - Regenerated `design.md` from approved requirements.
 - Project status set to `awaiting_design_review`.
 - Stopped at design review.
+
+## 2026-05-19T12:10:00Z
+
+- Continued design review with guided questions.
+- Recorded answers in `design-answers.md`.
+- Updated `design.md` with concrete decisions for routes, Nuxt rebuild, import runner, Netherlands scope, SEO, consent, click tracking, date/person filters, dynamic facilities, and scraping compliance gate.
+- Project remains at `awaiting_design_review`.
+- No units, tasks, or construction changes were generated.
