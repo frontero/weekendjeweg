@@ -2,9 +2,11 @@
 import { computed } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
 import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
+import { createCanonicalUrl, createWebsiteStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
 import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
 
 // Definitions
+const requestUrl = useRequestURL()
 const homePriceSearch: ParkPriceSearch = {
   arrivalDate: '2026-06-05',
   departureDate: '2026-06-08',
@@ -13,19 +15,37 @@ const homePriceSearch: ParkPriceSearch = {
 }
 
 // Computed
+const siteOrigin = computed<string>(() => requestUrl.origin)
+const canonicalUrl = computed<string>(() => createCanonicalUrl(siteOrigin.value, '/'))
+const websiteStructuredData = computed<string>(() => {
+  return serialiseStructuredData(createWebsiteStructuredData(siteOrigin.value))
+})
+
 const featuredCards = computed<ParkCardViewModel[]>(() => {
   return createParkCardViewModels(mockCatalog, {}, homePriceSearch).slice(0, 2)
 })
 
-useHead({
+useHead(() => ({
   title: 'Weekendjeweg | Landal-parken vergelijken',
   meta: [
     {
       name: 'description',
-      content: 'Vind een Landal-park voor een weekendje weg in Nederland en vergelijk prijsinformatie.',
+      content: 'Vergelijk Landal-parken in Nederland op regio, voorzieningen en prijsvoorbeelden zonder beschikbaarheidsclaim.',
     },
   ],
-})
+  link: [
+    {
+      rel: 'canonical',
+      href: canonicalUrl.value,
+    },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: websiteStructuredData.value,
+    },
+  ],
+}))
 </script>
 
 <template>

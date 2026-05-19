@@ -84,3 +84,12 @@
 - GitHub Actions run `26103869775` passed for commit `b689ca68496371cc88c8adbed704f9f9e636ac61`.
 - Verified steps: install dependencies, typecheck, unit tests, and build.
 - Project status set to `bolt_005_completed_and_ci_verified`.
+
+## 2026-05-19T14:35:00Z
+
+- Started construction with bolt `006-production-seo-quality`.
+- Added canonical metadata, sitemap, robots, and conservative structured data.
+- Kept region support pages out of the sitemap and marked them `noindex,follow`.
+- Added normalization and scraping-compliance gate helpers.
+- Added SEO and quality gate tests.
+- Marked bolt 006 implementation complete pending GitHub Actions verification.

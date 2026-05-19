@@ -10,6 +10,7 @@ Construction bolts are created after Inception has produced units and stories.
 | `002-supabase-data-model` | completed-and-ci-verified | Add Supabase schema, shared types, mock data, data helpers, and tests |
 | `004-park-search-and-detail` | completed-and-ci-verified | Build mock-data-backed home, search, detail, and region routes |
 | `005-affiliate-consent-tracking` | completed-and-ci-verified | Add placeholder affiliate links, consent banner, outbound click logging, and GA4 consent gate |
+| `006-production-seo-quality` | completed-pending-ci | Add production SEO routes, conservative structured data, and quality gate tests |
 
 ## Superseded Draft Bolts
 

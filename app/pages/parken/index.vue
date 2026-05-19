@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
-import { listFacilities, listRegions } from '~~/shared/domain/catalogRepository'
+import { listFacilities, listParks, listRegions } from '~~/shared/domain/catalogRepository'
 import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
-import type { FacilityRecord, RegionRecord } from '~~/shared/types/database'
+import { createCanonicalUrl, createParkItemListStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
+import type { FacilityRecord, ParkRecord, RegionRecord } from '~~/shared/types/database'
 import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
 
 // Definitions
+const requestUrl = useRequestURL()
 const defaultArrivalDate = '2026-06-05'
 const defaultDepartureDate = '2026-06-08'
 const defaultAdultCount = 2
@@ -20,8 +22,14 @@ const adultCount = ref<number>(defaultAdultCount)
 const childCount = ref<number>(defaultChildCount)
 
 // Computed
+const siteOrigin = computed<string>(() => requestUrl.origin)
+const canonicalUrl = computed<string>(() => createCanonicalUrl(siteOrigin.value, '/parken'))
 const regions = computed<RegionRecord[]>(() => listRegions(mockCatalog))
 const facilities = computed<FacilityRecord[]>(() => listFacilities(mockCatalog))
+const allParks = computed<ParkRecord[]>(() => listParks(mockCatalog))
+const parkListStructuredData = computed<string>(() => {
+  return serialiseStructuredData(createParkItemListStructuredData(siteOrigin.value, allParks.value))
+})
 
 const priceSearch = computed<ParkPriceSearch>(() => {
   return {
@@ -69,15 +77,27 @@ const resetFilters = (): void => {
   childCount.value = defaultChildCount
 }
 
-useHead({
+useHead(() => ({
   title: 'Parken zoeken | Weekendjeweg',
   meta: [
     {
       name: 'description',
-      content: 'Zoek Landal-parken in Nederland op regio, periode, reisgezelschap en voorzieningen.',
+      content: 'Zoek Landal-parken in Nederland op regio, periode, reisgezelschap en voorzieningen met prijsvoorbeelden zonder beschikbaarheidsclaim.',
     },
   ],
-})
+  link: [
+    {
+      rel: 'canonical',
+      href: canonicalUrl.value,
+    },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: parkListStructuredData.value,
+    },
+  ],
+}))
 </script>
 
 <template>
@@ -198,12 +218,13 @@ useHead({
         aria-live="polite"
       >
         <p class="result-count">{{ resultCountLabel }}</p>
-        <ParkResultCard
-          v-for="card in parkCards"
-          v-if="hasResults"
-          :key="card.park.id"
-          :card="card"
-        />
+        <template v-if="hasResults">
+          <ParkResultCard
+            v-for="card in parkCards"
+            :key="card.park.id"
+            :card="card"
+          />
+        </template>
         <div
           v-if="hasResults === false"
           class="empty-state"

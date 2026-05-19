@@ -32,3 +32,17 @@ test('keeps analytics behind an explicit consent choice', async ({ page }) => {
   await page.getByRole('button', { name: 'Alleen noodzakelijk' }).click()
   await expect(page.getByRole('region', { name: 'Cookiekeuze' })).toBeHidden()
 })
+
+test('exposes production SEO support routes', async ({ page }) => {
+  const sitemapResponse = await page.goto('/sitemap.xml')
+  const sitemapText: string = await page.textContent('body') ?? ''
+
+  expect(sitemapResponse?.ok()).toBe(true)
+  expect(sitemapText).toContain('/parken/landal-miggelenberg')
+
+  const robotsResponse = await page.goto('/robots.txt')
+  const robotsText: string = await page.textContent('body') ?? ''
+
+  expect(robotsResponse?.ok()).toBe(true)
+  expect(robotsText).toContain('Sitemap:')
+})

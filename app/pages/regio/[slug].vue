@@ -3,11 +3,13 @@ import { computed } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
 import { listRegions } from '~~/shared/domain/catalogRepository'
 import { createParkCardViewModels } from '~~/shared/domain/parkPresentation'
+import { createCanonicalUrl } from '~~/shared/domain/seo'
 import type { RegionRecord } from '~~/shared/types/database'
 import type { ParkCardViewModel, ParkPriceSearch } from '~~/shared/types/parkSearch'
 
 // Definitions
 const route = useRoute()
+const requestUrl = useRequestURL()
 const defaultPriceSearch: ParkPriceSearch = {
   arrivalDate: '2026-06-05',
   departureDate: '2026-06-08',
@@ -16,6 +18,8 @@ const defaultPriceSearch: ParkPriceSearch = {
 }
 
 // Computed
+const siteOrigin = computed<string>(() => requestUrl.origin)
+const canonicalUrl = computed<string>(() => createCanonicalUrl(siteOrigin.value, route.path))
 const routeSlug = computed<string>(() => String(route.params.slug ?? ''))
 
 const region = computed<RegionRecord | null>(() => {
@@ -52,12 +56,24 @@ const regionCards = computed<ParkCardViewModel[]>(() => {
   )
 })
 
+const hasRegionCards = computed<boolean>(() => regionCards.value.length > 0)
+
 useHead(() => ({
   title: `${regionName.value} | Weekendjeweg`,
   meta: [
     {
       name: 'description',
       content: 'Route voor toekomstige regio-overzichten van Landal-parken in Nederland.',
+    },
+    {
+      name: 'robots',
+      content: 'noindex,follow',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: canonicalUrl.value,
     },
   ],
 }))
@@ -83,7 +99,7 @@ useHead(() => ({
     </section>
 
     <section
-      v-if="regionCards.length > 0"
+      v-if="hasRegionCards"
       class="content-band"
       aria-label="Parken in deze regio"
     >

@@ -8,12 +8,19 @@ import {
   listFacilitiesForPark,
   selectPriceSnapshot,
 } from '~~/shared/domain/catalogRepository'
-import { createParkMetaDescription, formatPriceSnapshot, getRegionNameForPark } from '~~/shared/domain/parkPresentation'
+import { createParkDetailPath, createParkMetaDescription, formatPriceSnapshot, getRegionNameForPark } from '~~/shared/domain/parkPresentation'
+import { createCanonicalUrl, createParkBreadcrumbStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
 import type { AffiliateUrlResult } from '~~/shared/types/affiliate'
 import type { AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
 
+interface StructuredDataScript {
+  type: string
+  innerHTML: string
+}
+
 // Definitions
 const route = useRoute()
+const requestUrl = useRequestURL()
 const { consentState } = useConsentState()
 const { trackOutboundClick } = useOutboundClickTracking()
 const defaultArrivalDate = '2026-06-05'
@@ -27,6 +34,7 @@ const fallbackAffiliateLink: AffiliateUrlResult = {
 }
 
 // Computed
+const siteOrigin = computed<string>(() => requestUrl.origin)
 const routeSlug = computed<string>(() => String(route.params.slug ?? ''))
 const park = computed<ParkRecord | null>(() => getParkBySlug(mockCatalog, routeSlug.value))
 const hasPark = computed<boolean>(() => park.value !== null)
@@ -101,12 +109,33 @@ const affiliateLink = computed<AffiliateUrlResult>(() => {
 
 const affiliateUrl = computed<string>(() => affiliateLink.value.url)
 
+const canonicalUrl = computed<string>(() => {
+  if (park.value === null) {
+    return createCanonicalUrl(siteOrigin.value, route.path)
+  }
+
+  return createCanonicalUrl(siteOrigin.value, createParkDetailPath(park.value))
+})
+
 const metaDescription = computed<string>(() => {
   if (park.value === null) {
     return 'Park niet gevonden in de Weekendjeweg mock-catalogus.'
   }
 
   return createParkMetaDescription(park.value, regionName.value)
+})
+
+const structuredDataScripts = computed<StructuredDataScript[]>(() => {
+  if (park.value === null) {
+    return []
+  }
+
+  return [
+    {
+      type: 'application/ld+json',
+      innerHTML: serialiseStructuredData(createParkBreadcrumbStructuredData(siteOrigin.value, park.value)),
+    },
+  ]
 })
 
 // Functions
@@ -136,6 +165,13 @@ useHead(() => ({
       content: metaDescription.value,
     },
   ],
+  link: [
+    {
+      rel: 'canonical',
+      href: canonicalUrl.value,
+    },
+  ],
+  script: structuredDataScripts.value,
 }))
 </script>
 
