@@ -1,24 +1,24 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: draft_awaiting_sdd_review
+  project_type_status: requirements_awaiting_review
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: inception
-  status: awaiting_sdd_spec_review
+  status: awaiting_requirements_review
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  next_action: "Review requirements, system context, design, units, and tasks before construction resumes."
+  next_action: "Review generated requirements before design, units, tasks, or construction continue."
 
 inception:
-  checkpoint_1: completed_with_assumptions
-  checkpoint_2: completed_as_draft
-  checkpoint_3: awaiting_explicit_sdd_review
-  checkpoint_4: blocked_until_sdd_approval
+  checkpoint_1: completed_guided_questions
+  checkpoint_2: awaiting_requirements_review
+  checkpoint_3: blocked_until_requirements_approval
+  checkpoint_4: blocked_until_design_and_tasks_approval
 
 construction:
   status: paused
-  reason: "Construction started before explicit spec-driven development review."
+  reason: "Spec-driven development flow is back at requirements review."
   draft_bolt: "001-application-foundation"
   draft_bolt_status: draft_not_approved
   paused_at: "2026-05-19T11:25:00Z"
@@ -30,10 +30,11 @@ planned_bolts:
   - "004-favorites-and-outbound"
 
 spec_review:
-  status: awaiting_user_review
-  checkpoint: "memory-bank/intents/001-weekendjeweg-mvp/spec-review.md"
+  status: awaiting_requirements_review
+  requirements: "memory-bank/intents/001-weekendjeweg-mvp/requirements.md"
+  clarifying_answers: "memory-bank/intents/001-weekendjeweg-mvp/clarifying-answers.md"
 
 assumptions:
-  - "Weekendjeweg is a Dutch consumer-facing weekend stay discovery app."
-  - "The MVP uses static seed data and external booking links."
-  - "Existing foundation code is a pre-approval draft until SDD review is complete."
+  - "Weekendjeweg is a Dutch Landal affiliate site."
+  - "The production MVP uses Nuxt + TypeScript, Supabase, and Vercel unless review changes it."
+  - "Existing Vue/Vite foundation code is stale draft code until the requirements review decides what to do with it."
