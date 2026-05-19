@@ -51,6 +51,9 @@ jobs:
       - name: Wait for preview
         run: node scripts/wait-for-url.mjs http://127.0.0.1:4173
 
+      - name: Warm Lighthouse browser
+        run: npx --yes lighthouse@latest http://127.0.0.1:4173 --chrome-flags="--headless=new --no-sandbox" --only-categories=performance --output=json --output-path=/tmp/lighthouse-warmup.json --quiet
+
       - name: Lighthouse home
         run: npx --yes lighthouse@latest http://127.0.0.1:4173 --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-home.json --quiet
 
