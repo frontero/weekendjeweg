@@ -55,3 +55,13 @@
 - Updated `design.md` with concrete decisions for routes, Nuxt rebuild, import runner, Netherlands scope, SEO, consent, click tracking, date/person filters, dynamic facilities, and scraping compliance gate.
 - Project remains at `awaiting_design_review`.
 - No units, tasks, or construction changes were generated.
+
+## 2026-05-19T12:56:57Z
+
+- User asked to continue with the next step.
+- Treated this as design approval for units/tasks generation.
+- Regenerated `units.md` from the approved design.
+- Regenerated `tasks.md` as the checkpoint-4 task plan.
+- Updated `memory-bank/story-index.md` to the Nuxt/Supabase/Landal story set.
+- Updated `project.yaml` to `awaiting_units_tasks_review`.
+- Construction remains paused until the checkpoint-4 units/tasks plan is approved or revised.
