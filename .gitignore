@@ -1,15 +1,24 @@
 # Dependencies
 node_modules/
 
-# Build output
+# Nuxt and build output
+.nuxt/
+.output/
 dist/
 build/
 coverage/
+
+# Test output
+playwright-report/
+test-results/
 
 # Environment
 .env
 .env.*
 !.env.example
+
+# Vercel
+.vercel/
 
 # OS and editor
 .DS_Store
