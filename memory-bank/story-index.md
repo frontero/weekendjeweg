@@ -1,16 +1,26 @@
 # Story Index
 
-Status: checkpoint-3-artifacts-review
-Updated: 2026-05-19T10:45:00Z
+Status: checkpoint-4-units-tasks-review
+Updated: 2026-05-19T12:56:57Z
+
+This index supersedes the earlier Vue/Vite/favorites draft story index.
 
 | Story | Intent | Unit | Status | Link |
 | --- | --- | --- | --- | --- |
-| App Shell and Routing | 001-weekendjeweg-mvp | 001-application-foundation | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/001-application-foundation/stories/001-app-shell-and-routing.md` |
-| Accessibility Baseline | 001-weekendjeweg-mvp | 001-application-foundation | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/001-application-foundation/stories/002-accessibility-baseline.md` |
-| Typed Stay Model | 001-weekendjeweg-mvp | 002-stay-catalog | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/002-stay-catalog/stories/001-typed-stay-model.md` |
-| Seeded Stay Catalog | 001-weekendjeweg-mvp | 002-stay-catalog | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/002-stay-catalog/stories/002-seeded-stay-catalog.md` |
-| Browse Stay List | 001-weekendjeweg-mvp | 003-discovery-experience | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/003-discovery-experience/stories/001-browse-stay-list.md` |
-| Search and Filter Stays | 001-weekendjeweg-mvp | 003-discovery-experience | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/003-discovery-experience/stories/002-search-and-filter-stays.md` |
-| View Stay Detail | 001-weekendjeweg-mvp | 003-discovery-experience | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/003-discovery-experience/stories/003-view-stay-detail.md` |
-| Save and Remove Favorites | 001-weekendjeweg-mvp | 004-favorites-and-outbound | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/004-favorites-and-outbound/stories/001-save-and-remove-favorites.md` |
-| Continue to External Booking | 001-weekendjeweg-mvp | 004-favorites-and-outbound | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/004-favorites-and-outbound/stories/002-continue-to-external-booking.md` |
+| Remove Vue/Vite Draft | 001-weekendjeweg-mvp | 001-nuxt-foundation-and-cleanup | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/001-nuxt-foundation-and-cleanup/stories/001-remove-vue-vite-draft.md` |
+| Scaffold Nuxt Foundation | 001-weekendjeweg-mvp | 001-nuxt-foundation-and-cleanup | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/001-nuxt-foundation-and-cleanup/stories/002-scaffold-nuxt-foundation.md` |
+| Accessible App Shell | 001-weekendjeweg-mvp | 001-nuxt-foundation-and-cleanup | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/001-nuxt-foundation-and-cleanup/stories/003-accessible-app-shell.md` |
+| Supabase Schema | 001-weekendjeweg-mvp | 002-supabase-data-model | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/002-supabase-data-model/stories/001-supabase-schema.md` |
+| Typed Data Access | 001-weekendjeweg-mvp | 002-supabase-data-model | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/002-supabase-data-model/stories/002-typed-data-access.md` |
+| Mock Seed Data | 001-weekendjeweg-mvp | 002-supabase-data-model | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/002-supabase-data-model/stories/003-mock-seed-data.md` |
+| Landal Data Discovery | 001-weekendjeweg-mvp | 003-landal-data-access | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/003-landal-data-access/stories/001-landal-data-discovery.md` |
+| Scraping Compliance Gate | 001-weekendjeweg-mvp | 003-landal-data-access | blocked-before-real-run | `memory-bank/intents/001-weekendjeweg-mvp/units/003-landal-data-access/stories/002-scraping-compliance-gate.md` |
+| Daily Import Pipeline | 001-weekendjeweg-mvp | 003-landal-data-access | blocked-until-access-decision | `memory-bank/intents/001-weekendjeweg-mvp/units/003-landal-data-access/stories/003-daily-import-pipeline.md` |
+| Home and Park Search | 001-weekendjeweg-mvp | 004-park-search-and-detail | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/004-park-search-and-detail/stories/001-home-and-park-search.md` |
+| Search Filters and Price Context | 001-weekendjeweg-mvp | 004-park-search-and-detail | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/004-park-search-and-detail/stories/002-search-filters-and-price-context.md` |
+| Park Detail and Region Route | 001-weekendjeweg-mvp | 004-park-search-and-detail | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/004-park-search-and-detail/stories/003-park-detail-and-region-route.md` |
+| Affiliate Link Templates | 001-weekendjeweg-mvp | 005-affiliate-consent-tracking | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/005-affiliate-consent-tracking/stories/001-affiliate-link-templates.md` |
+| Consent-Aware Click Tracking | 001-weekendjeweg-mvp | 005-affiliate-consent-tracking | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/005-affiliate-consent-tracking/stories/002-consent-aware-click-tracking.md` |
+| GA4 Consent Banner | 001-weekendjeweg-mvp | 005-affiliate-consent-tracking | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/005-affiliate-consent-tracking/stories/003-ga4-consent-banner.md` |
+| SEO Foundation | 001-weekendjeweg-mvp | 006-production-seo-quality | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/006-production-seo-quality/stories/001-seo-foundation.md` |
+| Quality Gates | 001-weekendjeweg-mvp | 006-production-seo-quality | planned | `memory-bank/intents/001-weekendjeweg-mvp/units/006-production-seo-quality/stories/002-quality-gates.md` |
