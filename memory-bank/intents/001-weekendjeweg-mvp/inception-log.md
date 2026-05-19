@@ -19,3 +19,12 @@
 - Updated story index, tech stack, and project state.
 - Current status: awaiting Checkpoint 3 artifact review.
 - Construction is not approved yet.
+
+## 2026-05-19T11:25:00Z
+
+- User correctly pointed out that the spec-driven development flow had not been strictly completed before construction.
+- Construction was paused.
+- Existing foundation code was marked as pre-approval draft, not completed construction.
+- Added explicit `design.md`, `tasks.md`, and `spec-review.md` artifacts.
+- Project status returned to Inception/spec review.
+- Next step: user review and approval or revision of the specs before construction resumes.
