@@ -95,4 +95,6 @@
 - Added mock Landal Netherlands catalog data for frontend construction while real data access is unresolved.
 - Added catalog query helpers and anonymous functional click helper.
 - Added unit tests for filters, dynamic facilities, price selection, placeholder affiliate templates, and anonymous click safety.
-- Project status set to `bolt_002_completed_pending_ci`.
+- GitHub Actions run `26102041215` passed for commit `7b389b232af6a5657424fa5d728f0ddb150df0e2`.
+- Verified steps: install dependencies, typecheck, unit tests, and build.
+- Project status set to `bolt_002_completed_and_ci_verified`.

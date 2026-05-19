@@ -1,7 +1,7 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-in-progress
-Updated: 2026-05-19T14:20:00Z
+Updated: 2026-05-19T14:00:00Z
 
 ## Source
 
@@ -15,8 +15,8 @@ This task plan is generated from the approved requirements and updated design:
 
 - Checkpoint 4 units/tasks: approved by user.
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
-- Bolt 002 `supabase-data-model`: completed pending CI.
-- Next recommended bolt after CI: `004-park-search-and-detail` using mock data.
+- Bolt 002 `supabase-data-model`: completed and CI verified.
+- Next recommended bolt: `004-park-search-and-detail` using mock data.
 
 ## Blockers and Constraints
 
@@ -39,11 +39,11 @@ This task plan is generated from the approved requirements and updated design:
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T006 | Define schema for regions, facilities, parks, park facilities, prices, affiliate templates, clicks, imports, and compliance reviews | completed-pending-ci |
-| T007 | Add TypeScript data contracts | completed-pending-ci |
-| T008 | Add repository/query helpers | completed-pending-ci |
-| T009 | Add mock or seed data | completed-pending-ci |
-| T010 | Verify anonymous click model | completed-pending-ci |
+| T006 | Define schema for regions, facilities, parks, park facilities, prices, affiliate templates, clicks, imports, and compliance reviews | completed |
+| T007 | Add TypeScript data contracts | completed |
+| T008 | Add repository/query helpers | completed |
+| T009 | Add mock or seed data | completed |
+| T010 | Verify anonymous click model | completed |
 
 ## Unit 003 Tasks: Landal Data Access
 
@@ -85,7 +85,7 @@ This task plan is generated from the approved requirements and updated design:
 | T029 | Add SEO metadata for home, search, and park detail | foundation-baseline-completed |
 | T030 | Add sitemap and robots behavior | planned |
 | T031 | Add accurate structured data where supported | planned |
-| T032 | Add unit/integration tests for core logic | data-model-tests-pending-ci |
+| T032 | Add unit/integration tests for core logic | data-model-tests-completed |
 | T033 | Add E2E happy paths | foundation-baseline-completed |
 | T034 | Run Lighthouse quality review | planned |
 

@@ -1,8 +1,9 @@
 # Bolt 002: Supabase Data Model
 
-Status: completed-pending-ci
+Status: completed-and-ci-verified
 Started: 2026-05-19T14:20:00Z
 Completed: 2026-05-19T14:20:00Z
+Verified: 2026-05-19T14:00:00Z
 
 ## Source Stories
 
@@ -32,9 +33,9 @@ Completed: 2026-05-19T14:20:00Z
 
 ## Verification
 
-CI is expected to run because this bolt changes application code and package dependencies.
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26102041215 passed for commit `7b389b232af6a5657424fa5d728f0ddb150df0e2`.
 
-Pending checks:
+Passed steps:
 
 - Install dependencies.
 - Typecheck.

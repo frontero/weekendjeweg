@@ -1,6 +1,6 @@
 # Story: Typed Data Access
 
-Status: completed-pending-ci
+Status: completed
 Unit: 002-supabase-data-model
 
 ## User Value

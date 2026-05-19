@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: bolt_002_completed_pending_ci
+  status: bolt_002_completed_and_ci_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
   last_completed_bolt: "002-supabase-data-model"
-  next_action: "Wait for CI on bolt 002, then continue with 004-park-search-and-detail."
+  next_action: "Continue with 004-park-search-and-detail."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -18,13 +18,14 @@ inception:
   checkpoint_4: units_tasks_approved
 
 construction:
-  status: ci_pending_after_bolt
-  reason: "Bolt 002 changes package dependencies, shared TypeScript, tests, and Supabase schema."
+  status: paused_after_bolt
+  reason: "Bolt 002 completed and verified by GitHub Actions."
   last_completed_bolt: "002-supabase-data-model"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26101329030"
-  last_verified_commit: "5d599e5ea9b730127ccec48e3ac4c9c9593d65f5"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26102041215"
+  last_verified_commit: "7b389b232af6a5657424fa5d728f0ddb150df0e2"
   next_recommended_bolt: "004-park-search-and-detail"
   completed_at: "2026-05-19T14:20:00Z"
+  verified_at: "2026-05-19T14:00:00Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"

@@ -6,7 +6,8 @@ Construction bolts are created after Inception has produced units and stories.
 
 | Bolt | Status | Purpose |
 | --- | --- | --- |
-| `001-nuxt-foundation-and-cleanup` | completed-with-remote-code-review | Remove stale Vue/Vite draft and create Nuxt foundation |
+| `001-nuxt-foundation-and-cleanup` | completed-and-ci-verified | Remove stale Vue/Vite draft and create Nuxt foundation |
+| `002-supabase-data-model` | completed-and-ci-verified | Add Supabase schema, shared types, mock data, data helpers, and tests |
 
 ## Superseded Draft Bolts
 

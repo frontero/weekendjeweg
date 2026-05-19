@@ -1,7 +1,7 @@
 # Unit 002: Supabase Data Model
 
-Status: completed-pending-ci
-Updated: 2026-05-19T14:20:00Z
+Status: completed-and-ci-verified
+Updated: 2026-05-19T14:00:00Z
 
 ## Purpose
 
@@ -9,9 +9,9 @@ Define the Supabase-backed data model and reusable TypeScript data contracts bef
 
 ## Stories
 
-1. Supabase Schema - completed pending CI
-2. Typed Data Access - completed pending CI
-3. Mock Seed Data - completed pending CI
+1. Supabase Schema - completed
+2. Typed Data Access - completed
+3. Mock Seed Data - completed
 
 ## Acceptance Criteria
 
@@ -20,6 +20,10 @@ Define the Supabase-backed data model and reusable TypeScript data contracts bef
 - Price snapshots store arrival date, departure date, adults, children, currency, and price value/label. Completed.
 - Anonymous functional click logs do not contain cookie IDs or user IDs. Completed in schema and helper tests.
 - Mock or seed data allows frontend construction while real Landal data access is unresolved. Completed.
+
+## Verification
+
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26102041215 passed.
 
 ## Out of Scope
 

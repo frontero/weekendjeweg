@@ -1,14 +1,22 @@
 # Test Report: Supabase Data Model
 
-Status: pending-ci
-Updated: 2026-05-19T14:20:00Z
+Status: verified-by-github-actions
+Updated: 2026-05-19T14:00:00Z
 
 ## Checks Added
 
 - `tests/catalog.test.ts` validates mock catalog behavior.
 - `npm run test:unit` now runs the existing foundation smoke test and TypeScript catalog tests through `tsx`.
 
-## Expected CI Checks
+## GitHub Actions Verification
+
+Latest verified run:
+
+- Run: https://github.com/frontero/weekendjeweg/actions/runs/26102041215
+- Commit: `7b389b232af6a5657424fa5d728f0ddb150df0e2`
+- Status: success
+
+Passed steps:
 
 - Install dependencies.
 - Typecheck.
@@ -28,4 +36,4 @@ Reviewed the schema and TypeScript contracts for:
 
 ## Result
 
-Pending GitHub Actions verification.
+Bolt 002 is verified green by GitHub Actions.
