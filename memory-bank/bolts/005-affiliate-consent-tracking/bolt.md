@@ -1,8 +1,9 @@
 # Bolt 005: Affiliate Consent Tracking
 
-Status: completed-pending-ci
+Status: completed-and-ci-verified
 Started: 2026-05-19T14:25:00Z
 Completed: 2026-05-19T14:25:00Z
+Verified: 2026-05-19T14:31:10Z
 
 ## Source Stories
 
@@ -20,8 +21,15 @@ Completed: 2026-05-19T14:25:00Z
 
 ## Verification
 
-Pending GitHub Actions verification.
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26103869775 passed for commit `b689ca68496371cc88c8adbed704f9f9e636ac61`.
+
+Passed steps:
+
+- Install dependencies.
+- Typecheck.
+- Unit tests.
+- Build.
 
 ## Next Bolt
 
-`006-production-seo-quality` is recommended after this bolt is green.
+`006-production-seo-quality` is recommended after this bolt.

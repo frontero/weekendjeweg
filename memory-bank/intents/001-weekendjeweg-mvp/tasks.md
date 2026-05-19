@@ -1,15 +1,15 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-in-progress
-Updated: 2026-05-19T14:25:00Z
+Updated: 2026-05-19T14:31:10Z
 
 ## Current Progress
 
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
 - Bolt 002 `supabase-data-model`: completed and CI verified.
 - Bolt 004 `park-search-and-detail`: completed and CI verified.
-- Bolt 005 `affiliate-consent-tracking`: completed pending CI.
-- Next recommended bolt after CI: `006-production-seo-quality`.
+- Bolt 005 `affiliate-consent-tracking`: completed and CI verified.
+- Next recommended bolt: `006-production-seo-quality`.
 
 ## Blockers and Constraints
 
@@ -65,11 +65,11 @@ Updated: 2026-05-19T14:25:00Z
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T024 | Add affiliate URL builder | completed-pending-ci |
-| T025 | Add outbound click endpoint | completed-pending-ci |
-| T026 | Add consent banner | completed-pending-ci |
-| T027 | Load GA4 only after analytics acceptance | completed-pending-ci |
-| T028 | Apply consent-aware click tracking | completed-pending-ci |
+| T024 | Add affiliate URL builder | completed |
+| T025 | Add outbound click endpoint | completed |
+| T026 | Add consent banner | completed |
+| T027 | Load GA4 only after analytics acceptance | completed |
+| T028 | Apply consent-aware click tracking | completed |
 
 ## Unit 006 Tasks: Production SEO and Quality
 

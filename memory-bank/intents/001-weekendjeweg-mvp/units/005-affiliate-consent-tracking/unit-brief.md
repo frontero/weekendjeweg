@@ -1,7 +1,7 @@
 # Unit 005: Affiliate Consent Tracking
 
-Status: completed-pending-ci
-Updated: 2026-05-19T14:25:00Z
+Status: completed-and-ci-verified
+Updated: 2026-05-19T14:31:10Z
 
 ## Purpose
 
@@ -9,17 +9,21 @@ Create placeholder Landal affiliate links, outbound click logging, consent handl
 
 ## Stories
 
-1. Affiliate Link Templates - completed pending CI
-2. Consent-Aware Click Tracking - completed pending CI
-3. GA4 Consent Banner - completed pending CI
+1. Affiliate Link Templates - completed
+2. Consent-Aware Click Tracking - completed
+3. GA4 Consent Banner - completed
 
 ## Acceptance Criteria
 
-- Affiliate URLs can be generated from placeholder templates and later extended with real network parameters. Completed pending CI.
-- Outbound clicks are stored in Supabase before redirect where possible. Completed pending CI.
-- Redirect to Landal continues even if non-blocking click logging fails. Completed pending CI.
-- GA4 loads only after analytics consent is accepted. Completed pending CI.
-- Cookie rejection still allows anonymous functional click logging without cookie or user ID. Completed pending CI.
+- Affiliate URLs can be generated from placeholder templates and later extended with real network parameters. Completed.
+- Outbound clicks are stored in Supabase before redirect where possible. Completed.
+- Redirect to Landal continues even if non-blocking click logging fails. Completed.
+- GA4 loads only after analytics consent is accepted. Completed.
+- Cookie rejection still allows anonymous functional click logging without cookie or user ID. Completed.
+
+## Verification
+
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26103869775 passed.
 
 ## Out of Scope
 
