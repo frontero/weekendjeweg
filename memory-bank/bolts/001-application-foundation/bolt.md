@@ -1,12 +1,19 @@
 # Bolt 001: application-foundation
 
-Status: implemented-pending-review
+Status: draft-not-approved
 Created: 2026-05-19T10:45:00Z
 Started: 2026-05-19T11:00:00Z
 Implemented: 2026-05-19T11:10:00Z
+Paused: 2026-05-19T11:25:00Z
 Intent: `001-weekendjeweg-mvp`
 Unit: `001-application-foundation`
 Bolt type: simple-construction
+
+## Process Status
+
+This bolt was implemented before the spec-driven development review was explicitly approved. It is therefore a draft, not an approved construction result.
+
+Construction is paused until `memory-bank/intents/001-weekendjeweg-mvp/spec-review.md` is approved.
 
 ## Objective
 
@@ -25,7 +32,7 @@ Create the technical and UX foundation for the Weekendjeweg MVP.
 - Vitest and Playwright setup.
 - Accessibility baseline verified for shell navigation.
 
-## Delivered Outputs
+## Draft Delivered Outputs
 
 - Vue 3 + TypeScript + Vite app foundation.
 - App shell with skip link, labeled navigation, and main landmark.
@@ -42,13 +49,14 @@ Create the technical and UX foundation for the Weekendjeweg MVP.
 - Keyboard focus is visible in app shell: implemented in CSS.
 - Initial tests can run: test files added, pending runtime verification.
 - Coding standards are followed: static review completed.
+- SDD review approval: pending.
 
 ## Implementation Notes
 
-- Construction started after user approval.
-- Work is GitHub-only through connector commits.
-- No local files are written by Codex.
+- Work was GitHub-only through connector commits.
+- No local files were written by Codex.
+- This draft should be kept, revised, or removed only after spec review.
 
 ## Human Checkpoint
 
-Review foundation and routing before starting catalog implementation.
+Review SDD artifacts before deciding whether this draft foundation is accepted.
