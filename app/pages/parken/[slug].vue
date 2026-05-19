@@ -13,11 +13,6 @@ import { createCanonicalUrl, createParkBreadcrumbStructuredData, serialiseStruct
 import type { AffiliateUrlResult } from '~~/shared/types/affiliate'
 import type { AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
 
-interface StructuredDataScript {
-  type: string
-  innerHTML: string
-}
-
 // Definitions
 const route = useRoute()
 const requestUrl = useRequestURL()
@@ -125,17 +120,12 @@ const metaDescription = computed<string>(() => {
   return createParkMetaDescription(park.value, regionName.value)
 })
 
-const structuredDataScripts = computed<StructuredDataScript[]>(() => {
+const structuredDataJson = computed<string | null>(() => {
   if (park.value === null) {
-    return []
+    return null
   }
 
-  return [
-    {
-      type: 'application/ld+json',
-      innerHTML: serialiseStructuredData(createParkBreadcrumbStructuredData(siteOrigin.value, park.value)),
-    },
-  ]
+  return serialiseStructuredData(createParkBreadcrumbStructuredData(siteOrigin.value, park.value))
 })
 
 // Functions
@@ -171,7 +161,14 @@ useHead(() => ({
       href: canonicalUrl.value,
     },
   ],
-  script: structuredDataScripts.value,
+  script: structuredDataJson.value === null
+    ? []
+    : [
+        {
+          type: 'application/ld+json',
+          innerHTML: structuredDataJson.value,
+        },
+      ],
 }))
 </script>
 
