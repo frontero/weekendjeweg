@@ -105,28 +105,39 @@ useHead(() => ({
 <template>
   <div>
     <section
-      class="page-intro"
+      class="px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="parks-title"
     >
-      <p class="eyebrow">Parken zoeken</p>
-      <h1 id="parks-title">Vergelijk Landal-parken</h1>
-      <p class="measure-text">
+      <p class="mb-3 text-[0.82rem] font-extrabold uppercase tracking-normal text-[#28665e]">Parken zoeken</p>
+      <h1
+        id="parks-title"
+        class="max-w-[14ch] text-5xl font-bold leading-[1.08] tracking-normal text-[#1b2f2c] md:text-7xl"
+      >
+        Vergelijk Landal-parken
+      </h1>
+      <p class="mt-6 max-w-[44rem] text-lg text-[#455b56]">
         Filter op regio, periode, reisgezelschap en voorzieningen. Prijzen zijn voorbeelden uit de mock-catalogus en zeggen niets over beschikbaarheid.
       </p>
     </section>
 
     <section
-      class="search-layout"
+      class="grid items-start gap-8 px-4 py-12 md:grid-cols-[minmax(16rem,22rem)_minmax(0,1fr)] md:px-16 md:py-16"
       aria-label="Parkfilters en resultaten"
     >
       <form
-        class="filter-panel"
+        class="grid gap-4 rounded-lg border border-[#d8d2c2] bg-[#fffdf7] p-4"
         @submit.prevent="handleSubmit"
       >
-        <div class="field-group">
-          <label for="region">Regio</label>
+        <div class="grid gap-2">
+          <label
+            class="font-extrabold text-[#22322f]"
+            for="region"
+          >
+            Regio
+          </label>
           <select
             v-model="selectedRegionSlug"
+            class="min-h-11 w-full rounded-md border border-[#a7b5ae] bg-white px-3 py-3 text-[#22322f] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#f5c84c]"
             id="region"
             name="region"
           >
@@ -141,20 +152,32 @@ useHead(() => ({
           </select>
         </div>
 
-        <div class="date-grid">
-          <div class="field-group">
-            <label for="arrival-date">Aankomst</label>
+        <div class="grid gap-3 md:grid-cols-2">
+          <div class="grid gap-2">
+            <label
+              class="font-extrabold text-[#22322f]"
+              for="arrival-date"
+            >
+              Aankomst
+            </label>
             <input
               v-model="arrivalDate"
+              class="min-h-11 w-full rounded-md border border-[#a7b5ae] bg-white px-3 py-3 text-[#22322f] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#f5c84c]"
               id="arrival-date"
               name="arrivalDate"
               type="date"
             />
           </div>
-          <div class="field-group">
-            <label for="departure-date">Vertrek</label>
+          <div class="grid gap-2">
+            <label
+              class="font-extrabold text-[#22322f]"
+              for="departure-date"
+            >
+              Vertrek
+            </label>
             <input
               v-model="departureDate"
+              class="min-h-11 w-full rounded-md border border-[#a7b5ae] bg-white px-3 py-3 text-[#22322f] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#f5c84c]"
               id="departure-date"
               name="departureDate"
               type="date"
@@ -162,21 +185,33 @@ useHead(() => ({
           </div>
         </div>
 
-        <div class="date-grid">
-          <div class="field-group">
-            <label for="adults">Volwassenen</label>
+        <div class="grid gap-3 md:grid-cols-2">
+          <div class="grid gap-2">
+            <label
+              class="font-extrabold text-[#22322f]"
+              for="adults"
+            >
+              Volwassenen
+            </label>
             <input
               v-model.number="adultCount"
+              class="min-h-11 w-full rounded-md border border-[#a7b5ae] bg-white px-3 py-3 text-[#22322f] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#f5c84c]"
               id="adults"
               min="1"
               name="adults"
               type="number"
             />
           </div>
-          <div class="field-group">
-            <label for="children">Kinderen</label>
+          <div class="grid gap-2">
+            <label
+              class="font-extrabold text-[#22322f]"
+              for="children"
+            >
+              Kinderen
+            </label>
             <input
               v-model.number="childCount"
+              class="min-h-11 w-full rounded-md border border-[#a7b5ae] bg-white px-3 py-3 text-[#22322f] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-[#f5c84c]"
               id="children"
               min="0"
               name="children"
@@ -185,18 +220,19 @@ useHead(() => ({
           </div>
         </div>
 
-        <fieldset class="facility-fieldset">
-          <legend>Voorzieningen</legend>
+        <fieldset class="grid gap-2">
+          <legend class="font-extrabold text-[#22322f]">Voorzieningen</legend>
           <label
             v-for="facility in facilities"
             :key="facility.id"
             :for="getFacilityInputId(facility)"
-            class="checkbox-row"
+            class="flex items-center gap-2"
           >
             <input
               v-model="selectedFacilitySlugs"
               :id="getFacilityInputId(facility)"
               :value="facility.slug"
+              class="h-4 w-4 rounded border-[#a7b5ae]"
               name="facilities"
               type="checkbox"
             />
@@ -204,9 +240,9 @@ useHead(() => ({
           </label>
         </fieldset>
 
-        <div class="filter-actions">
+        <div class="flex justify-start">
           <button
-            class="secondary-action"
+            class="inline-flex min-h-11 w-fit cursor-pointer items-center justify-center rounded-md border-0 bg-[#f5c84c] px-4 py-3 font-bold text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#153f3a] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#153f3a]"
             type="button"
             @click="resetFilters"
           >
@@ -216,10 +252,10 @@ useHead(() => ({
       </form>
 
       <div
-        class="result-list"
+        class="grid gap-4"
         aria-live="polite"
       >
-        <p class="result-count">{{ resultCountLabel }}</p>
+        <p class="font-extrabold text-[#28665e]">{{ resultCountLabel }}</p>
         <template v-if="hasResults">
           <ParkResultCard
             v-for="card in parkCards"
@@ -229,12 +265,12 @@ useHead(() => ({
         </template>
         <div
           v-if="hasResults === false"
-          class="empty-state"
+          class="grid content-center gap-3 rounded-lg border border-[#d8d2c2] bg-[#fffdf7] p-4"
         >
-          <h2>Geen parken gevonden</h2>
+          <h2 class="text-3xl font-bold leading-tight tracking-normal text-[#1b2f2c] md:text-4xl">Geen parken gevonden</h2>
           <p>Pas je filters aan of reset de selectie.</p>
           <button
-            class="secondary-action"
+            class="inline-flex min-h-11 w-fit cursor-pointer items-center justify-center rounded-md border-0 bg-[#f5c84c] px-4 py-3 font-bold text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#153f3a] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#153f3a]"
             type="button"
             @click="resetFilters"
           >

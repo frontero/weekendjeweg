@@ -84,16 +84,21 @@ useHead(() => ({
 <template>
   <div>
     <section
-      class="page-intro"
+      class="px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="region-title"
     >
-      <p class="eyebrow">Regio</p>
-      <h1 id="region-title">{{ regionName }}</h1>
-      <p class="measure-text">
+      <p class="mb-3 text-[0.82rem] font-extrabold uppercase tracking-normal text-[#28665e]">Regio</p>
+      <h1
+        id="region-title"
+        class="max-w-[14ch] text-5xl font-bold leading-[1.08] tracking-normal text-[#1b2f2c] md:text-7xl"
+      >
+        {{ regionName }}
+      </h1>
+      <p class="mt-6 max-w-[44rem] text-lg text-[#455b56]">
         Deze route ondersteunt alvast regio-overzichten. Rijke regio-SEO blijft buiten de eerste release.
       </p>
       <NuxtLink
-        class="text-action"
+        class="mt-4 inline-flex min-h-11 w-fit items-center justify-center rounded-md font-bold text-[#153f3a] no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
         to="/parken"
       >
         Terug naar parken
@@ -102,10 +107,10 @@ useHead(() => ({
 
     <section
       v-if="hasRegionCards"
-      class="content-band"
+      class="max-w-[72rem] px-4 py-12 md:px-16 md:py-16"
       aria-label="Parken in deze regio"
     >
-      <div class="result-list">
+      <div class="grid gap-4">
         <ParkResultCard
           v-for="card in regionCards"
           :key="card.park.id"

@@ -14,6 +14,14 @@ const euroFormatter = new Intl.NumberFormat('nl-NL', {
   style: 'currency',
 })
 
+const defaultParkVisualClassName = 'bg-gradient-to-br from-[#c94936] via-[#f5c84c] to-[#79b7a5]'
+
+const parkVisualClassNames: Record<string, string> = {
+  coast: 'bg-gradient-to-br from-[#28665e] via-[#79b7a5] to-[#f5c84c]',
+  forest: 'bg-gradient-to-br from-[#153f3a] via-[#28665e] to-[#79b7a5]',
+  hills: 'bg-gradient-to-br from-[#153f3a] via-[#f5c84c] to-[#c94936]',
+}
+
 export const createParkDetailPath = (park: ParkRecord): string => {
   return `/parken/${park.slug}`
 }
@@ -52,8 +60,13 @@ const getAffiliateUrl = (catalog: CatalogDataSet, park: ParkRecord): string => {
 
 const getVisualClassName = (park: ParkRecord): string => {
   const visualKey: string = park.visualPlaceholderKey ?? 'default'
+  const visualClassName: string | undefined = parkVisualClassNames[visualKey]
 
-  return `park-card__visual--${visualKey}`
+  if (visualClassName === undefined) {
+    return defaultParkVisualClassName
+  }
+
+  return visualClassName
 }
 
 export const createParkCardViewModel = (

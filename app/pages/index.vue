@@ -53,54 +53,69 @@ useHead(() => ({
 <template>
   <div>
     <section
-      class="hero-section"
+      class="grid min-h-[72vh] gap-8 bg-[#f7f4ec] px-4 py-12 md:grid-cols-[minmax(0,1.1fr)_minmax(16rem,0.9fr)] md:px-16 md:py-20"
       aria-labelledby="home-title"
     >
-      <div class="hero-section__content">
-        <p class="eyebrow">Landal-parken in Nederland</p>
-        <h1 id="home-title">Vind je volgende weekendje weg</h1>
-        <p class="hero-section__intro">
+      <div class="max-w-[72rem] self-center">
+        <p class="mb-3 text-[0.82rem] font-extrabold uppercase tracking-normal text-[#28665e]">Landal-parken in Nederland</p>
+        <h1
+          id="home-title"
+          class="max-w-[14ch] text-5xl font-bold leading-[1.08] tracking-normal text-[#1b2f2c] md:text-7xl lg:text-8xl"
+        >
+          Vind je volgende weekendje weg
+        </h1>
+        <p class="mt-6 max-w-[44rem] text-lg text-[#455b56]">
           Vergelijk parken op regio, reisgezelschap, periode en voorzieningen. Weekendjeweg stuurt je daarna helder door naar Landal.
         </p>
         <NuxtLink
-          class="primary-action"
+          class="mt-6 inline-flex min-h-11 w-fit items-center justify-center rounded-md border-0 bg-[#c94936] px-4 py-3 font-bold text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
           to="/parken"
         >
           Bekijk parken
         </NuxtLink>
       </div>
       <div
-        class="route-preview"
+        class="grid min-h-88 content-end gap-3 rounded-lg border border-[#d8d2c2] bg-gradient-to-br from-[#153f3a] via-[#28665e] to-[#79b7a5] p-4"
         aria-hidden="true"
       >
-        <span class="route-preview__label">Veluwe</span>
-        <span class="route-preview__label">Kust</span>
-        <span class="route-preview__label">Limburg</span>
+        <span class="w-fit rounded-md bg-[#fdfaf2] px-3 py-2 font-extrabold text-[#153f3a]">Veluwe</span>
+        <span class="w-fit rounded-md bg-[#fdfaf2] px-3 py-2 font-extrabold text-[#153f3a]">Kust</span>
+        <span class="w-fit rounded-md bg-[#fdfaf2] px-3 py-2 font-extrabold text-[#153f3a]">Limburg</span>
       </div>
     </section>
 
     <section
-      class="content-band"
+      class="max-w-[72rem] px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="home-next-title"
     >
-      <div class="section-heading">
-        <p class="eyebrow">Eerste release</p>
-        <h2 id="home-next-title">Prijsinformatie zonder boekingsclaim</h2>
+      <div class="mb-4 grid gap-1">
+        <p class="text-[0.82rem] font-extrabold uppercase tracking-normal text-[#28665e]">Eerste release</p>
+        <h2
+          id="home-next-title"
+          class="text-3xl font-bold leading-tight tracking-normal text-[#1b2f2c] md:text-4xl"
+        >
+          Prijsinformatie zonder boekingsclaim
+        </h2>
       </div>
-      <p class="measure-text">
+      <p class="max-w-[44rem] text-lg text-[#455b56]">
         We tonen prijscontext voor gekozen data en reisgezelschap, maar maken geen beschikbaarheidsclaim. Boeken gebeurt altijd bij Landal.
       </p>
     </section>
 
     <section
-      class="content-band"
+      class="max-w-[72rem] px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="featured-parks-title"
     >
-      <div class="section-heading">
-        <p class="eyebrow">Voorbeeldselectie</p>
-        <h2 id="featured-parks-title">Populaire startpunten</h2>
+      <div class="mb-4 grid gap-1">
+        <p class="text-[0.82rem] font-extrabold uppercase tracking-normal text-[#28665e]">Voorbeeldselectie</p>
+        <h2
+          id="featured-parks-title"
+          class="text-3xl font-bold leading-tight tracking-normal text-[#1b2f2c] md:text-4xl"
+        >
+          Populaire startpunten
+        </h2>
       </div>
-      <div class="result-list">
+      <div class="grid gap-4">
         <ParkResultCard
           v-for="card in featuredCards"
           :key="card.park.id"

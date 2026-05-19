@@ -177,41 +177,47 @@ useHead(() => ({
 <template>
   <div>
     <section
-      class="page-intro"
+      class="px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="park-title"
     >
-      <p class="eyebrow">{{ regionName }}</p>
-      <h1 id="park-title">{{ parkName }}</h1>
-      <p class="measure-text">{{ parkDescription }}</p>
+      <p class="mb-3 text-[0.82rem] font-extrabold uppercase tracking-normal text-[#28665e]">{{ regionName }}</p>
+      <h1
+        id="park-title"
+        class="max-w-[14ch] text-5xl font-bold leading-[1.08] tracking-normal text-[#1b2f2c] md:text-7xl"
+      >
+        {{ parkName }}
+      </h1>
+      <p class="mt-6 max-w-[44rem] text-lg text-[#455b56]">{{ parkDescription }}</p>
     </section>
 
     <section
       v-if="hasPark"
-      class="detail-layout"
+      class="grid items-stretch gap-4 px-4 py-12 md:grid-cols-[minmax(12rem,0.85fr)_minmax(0,1.15fr)] md:px-16 md:py-16"
       aria-label="Parkinformatie"
     >
       <div
-        class="detail-visual"
+        class="min-h-64 rounded-t-lg bg-gradient-to-br from-[#c94936] via-[#f5c84c] to-[#79b7a5] md:min-h-full md:rounded-l-lg md:rounded-tr-none"
         aria-hidden="true"
       ></div>
-      <div class="detail-panel">
-        <h2>Prijscontext</h2>
-        <p class="price-line">{{ priceLabel }}</p>
+      <div class="grid content-center gap-3 rounded-lg border border-[#d8d2c2] bg-[#fffdf7] p-4">
+        <h2 class="text-3xl font-bold leading-tight tracking-normal text-[#1b2f2c] md:text-4xl">Prijscontext</h2>
+        <p class="font-extrabold text-[#28665e]">{{ priceLabel }}</p>
         <p>
           Voor {{ defaultArrivalDate }} tot {{ defaultDepartureDate }}, {{ defaultAdultCount }} volwassenen en {{ defaultChildCount }} kinderen. Weekendjeweg claimt geen beschikbaarheid.
         </p>
-        <h2>Voorzieningen</h2>
-        <ul class="detail-list">
+        <h2 class="text-3xl font-bold leading-tight tracking-normal text-[#1b2f2c] md:text-4xl">Voorzieningen</h2>
+        <ul class="flex flex-wrap gap-2">
           <li
             v-for="facility in facilities"
             :key="facility.id"
+            class="rounded-md bg-[#e7efe8] px-2 py-1 text-sm font-bold text-[#153f3a]"
           >
             {{ facility.name }}
           </li>
         </ul>
         <a
           :href="affiliateUrl"
-          class="primary-action"
+          class="inline-flex min-h-11 w-fit items-center justify-center rounded-md border-0 bg-[#c94936] px-4 py-3 font-bold text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
           rel="nofollow sponsored noopener"
           @click="handleAffiliateClick"
         >
@@ -222,13 +228,18 @@ useHead(() => ({
 
     <section
       v-if="hasPark === false"
-      class="content-band"
+      class="max-w-[72rem] px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="park-missing-title"
     >
-      <h2 id="park-missing-title">Park niet gevonden</h2>
-      <p class="measure-text">Ga terug naar het parkoverzicht om een park uit de mock-catalogus te kiezen.</p>
+      <h2
+        id="park-missing-title"
+        class="text-3xl font-bold leading-tight tracking-normal text-[#1b2f2c] md:text-4xl"
+      >
+        Park niet gevonden
+      </h2>
+      <p class="mt-4 max-w-[44rem] text-lg text-[#455b56]">Ga terug naar het parkoverzicht om een park uit de mock-catalogus te kiezen.</p>
       <NuxtLink
-        class="text-action"
+        class="mt-4 inline-flex min-h-11 w-fit items-center justify-center rounded-md font-bold text-[#153f3a] no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
         to="/parken"
       >
         Terug naar parken
