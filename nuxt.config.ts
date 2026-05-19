@@ -1,3 +1,5 @@
+import tailwindcss from '@tailwindcss/vite'
+
 const appBaseUrl = process.env.NUXT_APP_BASE_URL ?? '/'
 const nitroPreset = process.env.NITRO_PRESET ?? 'vercel'
 
@@ -54,5 +56,10 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: true,
+  },
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
   },
 })
