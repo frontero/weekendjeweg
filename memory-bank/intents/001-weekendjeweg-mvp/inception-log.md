@@ -65,3 +65,16 @@
 - Updated `memory-bank/story-index.md` to the Nuxt/Supabase/Landal story set.
 - Updated `project.yaml` to `awaiting_units_tasks_review`.
 - Construction remains paused until the checkpoint-4 units/tasks plan is approved or revised.
+
+## 2026-05-19T13:45:00Z
+
+- User approved checkpoint 4 by saying "akkoord".
+- Started construction with bolt `001-nuxt-foundation-and-cleanup`.
+- Replaced active Vue/Vite app foundation with Nuxt + TypeScript.
+- Added route skeletons for `/`, `/parken`, `/parken/[slug]`, and `/regio/[slug]`.
+- Added accessible shell baseline with skip link, landmarks, navigation, visible focus states, and reduced-motion CSS.
+- Removed stale Vue/Vite app files and Vue test setup.
+- Updated package scripts, TypeScript config, Playwright config, README, tech stack, coding standards, story index, unit status, and task progress.
+- Added construction record under `memory-bank/bolts/001-nuxt-foundation-and-cleanup/`.
+- Local install/build/tests were not run because work was performed direct-to-GitHub without local repository files.
+- Project status set to `bolt_001_completed`; next recommended bolt is `002-supabase-data-model`.
