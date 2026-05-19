@@ -1,7 +1,7 @@
 # Units: weekendjeweg MVP
 
-Status: checkpoint-4-units-tasks-review
-Updated: 2026-05-19T12:56:57Z
+Status: construction-in-progress
+Updated: 2026-05-19T13:45:00Z
 
 ## Source of Truth
 
@@ -12,13 +12,13 @@ These units are generated from:
 - `memory-bank/intents/001-weekendjeweg-mvp/design.md`
 - `memory-bank/intents/001-weekendjeweg-mvp/design-answers.md`
 
-They supersede the earlier Vue/Vite/favorites draft units. Construction is still paused until this checkpoint is reviewed and approved.
+They supersede the earlier Vue/Vite/favorites draft units.
 
 ## Unit Overview
 
 | Unit | Name | Purpose | Status |
 | --- | --- | --- | --- |
-| 001 | nuxt-foundation-and-cleanup | Remove stale Vue/Vite draft code and create the Nuxt + TypeScript foundation | planned |
+| 001 | nuxt-foundation-and-cleanup | Remove stale Vue/Vite draft code and create the Nuxt + TypeScript foundation | completed |
 | 002 | supabase-data-model | Define Supabase schema, types, seed/mock strategy, and repository access | planned |
 | 003 | landal-data-access | Discover API/feed access, enforce scraping compliance, and design the daily import path | partially blocked by data access |
 | 004 | park-search-and-detail | Build the visitor journey: home, park search, park detail, filters, and price-only display | planned with mock data allowed |
@@ -31,14 +31,14 @@ Purpose: create the production Nuxt foundation that matches the approved stack.
 
 Primary stories:
 
-- Remove stale Vue/Vite draft.
-- Scaffold Nuxt + TypeScript application foundation.
-- Add accessible shell, route skeletons, and baseline quality commands.
+- Remove stale Vue/Vite draft. Completed.
+- Scaffold Nuxt + TypeScript application foundation. Completed.
+- Add accessible shell, route skeletons, and baseline quality commands. Completed.
 
 Review notes:
 
-- This is the first construction unit after approval.
-- No functionality should be migrated from the stale Vue/Vite draft unless explicitly re-specified in the approved design.
+- This was completed in `memory-bank/bolts/001-nuxt-foundation-and-cleanup/bolt.md`.
+- Executable verification is delegated to GitHub Actions because work was performed direct-to-GitHub without local files.
 
 ## Unit 002: supabase-data-model
 
@@ -119,15 +119,13 @@ Review notes:
 
 ## Recommended Construction Order
 
-1. `001-nuxt-foundation-and-cleanup`
+1. `001-nuxt-foundation-and-cleanup` - completed
 2. `002-supabase-data-model`
 3. `004-park-search-and-detail` using mock data where needed
 4. `005-affiliate-consent-tracking`
 5. `003-landal-data-access` discovery/compliance first, real import only when permitted
 6. `006-production-seo-quality`
 
-## Review Gate
+## Next Step
 
-Stop here for checkpoint-4 review.
-
-Do not start construction until these units and the task plan are approved or revised.
+Start or review `002-supabase-data-model`.
