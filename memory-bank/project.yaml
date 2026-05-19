@@ -5,10 +5,10 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: construction_in_progress
+  status: awaiting_bolt_001_review
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: "001-application-foundation"
-  next_action: "Implement and review application foundation before starting the stay catalog bolt."
+  next_action: "Review Bolt 001 foundation and approve Bolt 002 stay catalog."
 
 inception:
   checkpoint_1: completed_with_assumptions
@@ -19,6 +19,7 @@ inception:
 construction:
   current_bolt: "001-application-foundation"
   started_at: "2026-05-19T11:00:00Z"
+  bolt_001_status: implemented_pending_review
 
 planned_bolts:
   - "001-application-foundation"
