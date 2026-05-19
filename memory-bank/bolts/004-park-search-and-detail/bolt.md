@@ -1,8 +1,9 @@
 # Bolt 004: Park Search and Detail
 
-Status: completed-pending-ci
+Status: completed-and-ci-verified
 Started: 2026-05-19T14:15:00Z
 Completed: 2026-05-19T14:15:00Z
+Verified: 2026-05-19T14:22:00Z
 
 ## Source Stories
 
@@ -19,24 +20,17 @@ Completed: 2026-05-19T14:15:00Z
 - Add price-only context copy without availability claims.
 - Add park detail pages backed by mock data and placeholder Landal CTA.
 
-## Implemented Files
-
-- `app/components/ParkResultCard.vue`
-- `app/pages/index.vue`
-- `app/pages/parken/index.vue`
-- `app/pages/parken/[slug].vue`
-- `app/pages/regio/[slug].vue`
-- `app/assets/styles/main.css`
-- `shared/types/parkSearch.ts`
-- `shared/domain/parkPresentation.ts`
-- `shared/domain/catalogRepository.ts`
-- `tests/parkPresentation.test.ts`
-- `e2e/app-shell.spec.ts`
-
 ## Verification
 
-Pending GitHub Actions verification.
+GitHub Actions run https://github.com/frontero/weekendjeweg/actions/runs/26102998069 passed for commit `cba5e95aba352ab1eab92549c50f15aea0da3ea7`.
+
+Passed steps:
+
+- Install dependencies.
+- Typecheck.
+- Unit tests.
+- Build.
 
 ## Next Bolt
 
-`005-affiliate-consent-tracking` is recommended after this bolt is green.
+`005-affiliate-consent-tracking` is recommended after this bolt.

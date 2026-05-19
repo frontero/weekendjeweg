@@ -1,14 +1,14 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-in-progress
-Updated: 2026-05-19T14:15:00Z
+Updated: 2026-05-19T14:22:00Z
 
 ## Current Progress
 
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
 - Bolt 002 `supabase-data-model`: completed and CI verified.
-- Bolt 004 `park-search-and-detail`: completed pending CI.
-- Next recommended bolt after CI: `005-affiliate-consent-tracking`.
+- Bolt 004 `park-search-and-detail`: completed and CI verified.
+- Next recommended bolt: `005-affiliate-consent-tracking`.
 
 ## Blockers and Constraints
 
@@ -52,13 +52,13 @@ Updated: 2026-05-19T14:15:00Z
 
 | Task | Description | Status |
 | --- | --- | --- |
-| T017 | Build Dutch home page | completed-pending-ci |
-| T018 | Build `/parken` search page | completed-pending-ci |
-| T019 | Add filters for region, arrival/departure, adults, children, and facilities | completed-pending-ci |
-| T020 | Select and display matching price snapshots | completed-pending-ci |
-| T021 | Build `/parken/[slug]` detail page | completed-pending-ci |
-| T022 | Add `/regio/[slug]` placeholder route | completed-pending-ci |
-| T023 | Add accessible empty and loading states | completed-pending-ci |
+| T017 | Build Dutch home page | completed |
+| T018 | Build `/parken` search page | completed |
+| T019 | Add filters for region, arrival/departure, adults, children, and facilities | completed |
+| T020 | Select and display matching price snapshots | completed |
+| T021 | Build `/parken/[slug]` detail page | completed |
+| T022 | Add `/regio/[slug]` placeholder route | completed |
+| T023 | Add accessible empty and loading states | completed |
 
 ## Unit 005 Tasks: Affiliate, Consent, and Tracking
 
@@ -78,5 +78,5 @@ Updated: 2026-05-19T14:15:00Z
 | T030 | Add sitemap and robots behavior | planned |
 | T031 | Add accurate structured data where supported | planned |
 | T032 | Add unit/integration tests for core logic | data-model-tests-completed |
-| T033 | Add E2E happy paths | expanded-pending-ci |
+| T033 | Add E2E happy paths | expanded |
 | T034 | Run Lighthouse quality review | planned |

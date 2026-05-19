@@ -1,30 +1,28 @@
 # Test Report: Park Search and Detail
 
-Status: pending-ci
-Updated: 2026-05-19T14:15:00Z
+Status: verified-by-github-actions
+Updated: 2026-05-19T14:22:00Z
 
 ## Checks Added
 
 - `tests/parkPresentation.test.ts` validates park card view models and price-only copy.
 - `e2e/app-shell.spec.ts` now covers search to detail navigation.
 
-## Expected CI Checks
+## GitHub Actions Verification
+
+Latest verified run:
+
+- Run: https://github.com/frontero/weekendjeweg/actions/runs/26102998069
+- Commit: `cba5e95aba352ab1eab92549c50f15aea0da3ea7`
+- Status: success
+
+Passed steps:
 
 - Install dependencies.
 - Typecheck.
 - Unit tests.
 - Build.
 
-## Manual Review
-
-Reviewed for:
-
-- Accessible filter labels and result count.
-- Dynamic facility filters.
-- No availability claim in price UI.
-- Route-backed park details.
-- Region route support without rich SEO claims.
-
 ## Result
 
-Pending GitHub Actions verification.
+Bolt 004 is verified green by GitHub Actions.

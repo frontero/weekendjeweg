@@ -98,3 +98,16 @@
 - GitHub Actions run `26102041215` passed for commit `7b389b232af6a5657424fa5d728f0ddb150df0e2`.
 - Verified steps: install dependencies, typecheck, unit tests, and build.
 - Project status set to `bolt_002_completed_and_ci_verified`.
+
+## 2026-05-19T14:22:00Z
+
+- User asked to continue with the next step.
+- Started construction with bolt `004-park-search-and-detail` because `003-landal-data-access` remains partially blocked by real data access and scraping compliance.
+- Added mock-data-backed home, park search, park detail, and region routes.
+- Added reusable `ParkResultCard` component.
+- Added dynamic region and facility filters, date/person controls, result count, empty state, and reset controls.
+- Added price-only copy with explicit no-availability wording.
+- Added park presentation helpers and tests.
+- GitHub Actions run `26102998069` passed for commit `cba5e95aba352ab1eab92549c50f15aea0da3ea7`.
+- Verified steps: install dependencies, typecheck, unit tests, and build.
+- Project status set to `bolt_004_completed_and_ci_verified`.
