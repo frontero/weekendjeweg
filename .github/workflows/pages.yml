@@ -1,4 +1,4 @@
-name: Pages Preview
+name: Lighthouse Preview
 
 on:
   workflow_dispatch:
@@ -17,15 +17,13 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages-preview
+  group: lighthouse-preview
   cancel-in-progress: true
 
 jobs:
-  build:
+  lighthouse:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,64 +34,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Install dependencies
         run: npm install
 
-      - name: Generate static site
+      - name: Generate static preview
         run: npm run generate
         env:
           NITRO_PRESET: static
-          NUXT_APP_BASE_URL: /weekendjeweg/
-          NUXT_PUBLIC_SITE_URL: https://frontero.github.io/weekendjeweg
+          NUXT_APP_BASE_URL: /
+          NUXT_PUBLIC_SITE_URL: http://127.0.0.1:4173
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .output/public
+      - name: Serve static preview
+        run: npx --yes serve@latest .output/public --listen 4173 > serve.log 2>&1 &
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  lighthouse:
-    needs: deploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Wait for Pages
-        run: node scripts/wait-for-url.mjs "${{ needs.deploy.outputs.page_url }}"
+      - name: Wait for preview
+        run: node scripts/wait-for-url.mjs http://127.0.0.1:4173
 
       - name: Lighthouse home
-        run: npx --yes lighthouse@latest "${{ needs.deploy.outputs.page_url }}" --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-home.json --quiet
+        run: npx --yes lighthouse@latest http://127.0.0.1:4173 --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-home.json --quiet
 
       - name: Lighthouse parks
-        run: |
-          BASE_URL="${{ needs.deploy.outputs.page_url }}"
-          npx --yes lighthouse@latest "${BASE_URL%/}/parken" --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-parken.json --quiet
+        run: npx --yes lighthouse@latest http://127.0.0.1:4173/parken --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=lighthouse-parken.json --quiet
 
       - name: Check Lighthouse scores
         run: node scripts/check-lighthouse.mjs lighthouse-home.json lighthouse-parken.json
@@ -103,4 +65,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-reports
-          path: lighthouse-*.json
+          path: |
+            lighthouse-*.json
+            serve.log
