@@ -1,25 +1,27 @@
 project:
   name: weekendjeweg
   project_type: full-stack-web
-  project_type_status: confirmed_for_mvp_draft
+  project_type_status: draft_awaiting_sdd_review
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
-  current_phase: construction
-  status: awaiting_bolt_001_review
+  current_phase: inception
+  status: awaiting_sdd_spec_review
   active_intent: "001-weekendjeweg-mvp"
-  active_bolt: "001-application-foundation"
-  next_action: "Review Bolt 001 foundation and approve Bolt 002 stay catalog."
+  active_bolt: null
+  next_action: "Review requirements, system context, design, units, and tasks before construction resumes."
 
 inception:
   checkpoint_1: completed_with_assumptions
   checkpoint_2: completed_as_draft
-  checkpoint_3: approved_by_user_begin_maar
-  checkpoint_4: approved_for_construction
+  checkpoint_3: awaiting_explicit_sdd_review
+  checkpoint_4: blocked_until_sdd_approval
 
 construction:
-  current_bolt: "001-application-foundation"
-  started_at: "2026-05-19T11:00:00Z"
-  bolt_001_status: implemented_pending_review
+  status: paused
+  reason: "Construction started before explicit spec-driven development review."
+  draft_bolt: "001-application-foundation"
+  draft_bolt_status: draft_not_approved
+  paused_at: "2026-05-19T11:25:00Z"
 
 planned_bolts:
   - "001-application-foundation"
@@ -27,7 +29,11 @@ planned_bolts:
   - "003-discovery-experience"
   - "004-favorites-and-outbound"
 
+spec_review:
+  status: awaiting_user_review
+  checkpoint: "memory-bank/intents/001-weekendjeweg-mvp/spec-review.md"
+
 assumptions:
   - "Weekendjeweg is a Dutch consumer-facing weekend stay discovery app."
   - "The MVP uses static seed data and external booking links."
-  - "Construction started after the user said begin maar."
+  - "Existing foundation code is a pre-approval draft until SDD review is complete."
