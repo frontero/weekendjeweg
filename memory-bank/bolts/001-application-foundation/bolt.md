@@ -1,7 +1,8 @@
 # Bolt 001: application-foundation
 
-Status: planned
+Status: in-progress
 Created: 2026-05-19T10:45:00Z
+Started: 2026-05-19T11:00:00Z
 Intent: `001-weekendjeweg-mvp`
 Unit: `001-application-foundation`
 Bolt type: simple-construction
@@ -30,6 +31,12 @@ Create the technical and UX foundation for the Weekendjeweg MVP.
 - Keyboard focus is visible in app shell.
 - Initial tests can run.
 - Coding standards are followed.
+
+## Implementation Notes
+
+- Construction started after user approval.
+- Work is GitHub-only through connector commits.
+- No local files are written by Codex.
 
 ## Human Checkpoint
 
