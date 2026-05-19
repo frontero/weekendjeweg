@@ -28,3 +28,12 @@
 - Added explicit `design.md`, `tasks.md`, and `spec-review.md` artifacts.
 - Project status returned to Inception/spec review.
 - Next step: user review and approval or revision of the specs before construction resumes.
+
+## 2026-05-19T11:40:00Z
+
+- Ran guided question flow one question at a time in chat.
+- Recorded answers in `clarifying-answers.md`.
+- Regenerated `requirements.md` from user answers.
+- Marked earlier `design.md` and `tasks.md` as stale until requirements are approved.
+- Project status set to `awaiting_requirements_review`.
+- Stopped at requirements review as requested.
