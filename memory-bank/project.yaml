@@ -5,11 +5,11 @@ project:
   flow: aidlc
   initialized_at: "2026-05-19T10:15:23Z"
   current_phase: construction
-  status: tailwind_utility_refactor_verified
+  status: tradetracker_feed_client_verified
   active_intent: "001-weekendjeweg-mvp"
   active_bolt: null
-  last_completed_bolt: "tailwind-utility-refactor"
-  next_action: "Continue with real TradeTracker feed client after publisher/site/campaign approval and credentials are available."
+  last_completed_bolt: "003-landal-data-access-tradetracker-feed-client"
+  next_action: "Configure TradeTracker publisher/site/campaign credentials, then continue with feed-to-catalog normalization and Supabase import-run persistence."
 
 inception:
   checkpoint_1: completed_guided_questions
@@ -19,14 +19,14 @@ inception:
 
 construction:
   status: quality_verified_mock_mvp_with_data_access_blocker
-  reason: "Tailwind CSS v4.3.0 is integrated and existing custom CSS selectors are replaced by Tailwind utility classes; core MVP bolts remain verified, but real Landal imports require TradeTracker credentials/campaign approval or written scraping permission."
-  last_completed_bolt: "tailwind-utility-refactor"
-  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26114273281"
-  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26114273186"
-  last_verified_commit: "bb81dae2b5693762d9957e82332ef5d0e4fef22e"
-  next_recommended_bolt: "003-landal-data-access-tradetracker-feed-client"
-  completed_at: "2026-05-19T17:38:43Z"
-  verified_at: "2026-05-19T17:38:43Z"
+  reason: "TradeTracker SOAP feed client, XML parser, protected import orchestration, Tailwind CSS v4.3.0, and core MVP bolts are verified; real Landal imports still require TradeTracker credentials/campaign approval, and real scraping requires written permission."
+  last_completed_bolt: "003-landal-data-access-tradetracker-feed-client"
+  last_verified_run: "https://github.com/frontero/weekendjeweg/actions/runs/26120007958"
+  last_lighthouse_run: "https://github.com/frontero/weekendjeweg/actions/runs/26120008031"
+  last_verified_commit: "65a73d5155ef8631e50c8490ccca417aeecc5046"
+  next_recommended_bolt: "003-landal-feed-normalization-and-import-persistence"
+  completed_at: "2026-05-19T19:27:01Z"
+  verified_at: "2026-05-19T19:27:01Z"
 
 planned_bolts:
   - "001-nuxt-foundation-and-cleanup"
@@ -50,5 +50,6 @@ spec_review:
 assumptions:
   - "Weekendjeweg is a Dutch Landal affiliate site."
   - "The production MVP uses Nuxt + TypeScript, Tailwind CSS v4, Supabase, and Vercel."
-  - "Mock data supports frontend construction while Landal data access is unresolved."
+  - "Mock data supports frontend construction while Landal data access credentials are unresolved."
+  - "TradeTracker feed calls require approved publisher/site/campaign credentials."
   - "Real scraping cannot run before written permission and compliance approval."

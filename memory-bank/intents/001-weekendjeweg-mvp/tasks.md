@@ -1,21 +1,22 @@
 # Tasks: weekendjeweg MVP
 
 Status: construction-quality-verified-with-data-access-blocker
-Updated: 2026-05-19T15:23:30Z
+Updated: 2026-05-19T19:27:01Z
 
 ## Current Progress
 
 - Bolt 001 `nuxt-foundation-and-cleanup`: completed and CI verified.
 - Bolt 002 `supabase-data-model`: completed and CI verified.
-- Bolt 003 `landal-data-access`: discovery completed, compliance gate tightened, protected importer skeleton verified, real import blocked pending TradeTracker credentials/campaign approval.
+- Bolt 003 `landal-data-access`: discovery completed, compliance gate tightened, protected importer skeleton verified, and TradeTracker SOAP feed client verified with fixture-based tests. Real live import remains blocked pending TradeTracker credentials/campaign approval.
 - Bolt 004 `park-search-and-detail`: completed and CI verified.
 - Bolt 005 `affiliate-consent-tracking`: completed and CI verified.
 - Bolt 006 `production-seo-quality`: CI verified and Lighthouse verified.
-- Next recommended step: implement the real TradeTracker feed client after credentials and campaign approval are available.
+- Next recommended step: map parsed TradeTracker feed products into catalog/price upserts and persist import-run status after a real or representative approved feed sample is available.
 
 ## Blockers and Constraints
 
 - Real Landal data access requires TradeTracker publisher/site/campaign approval and credentials.
+- The TradeTracker SOAP client is implemented, but live calls cannot be verified without credentials.
 - Scraping fallback may be implemented with fixtures, but no real scraper run is allowed before written permission and compliance approval.
 - Landal public terms currently prohibit commercial site use unless written permission is obtained.
 - If API/feed access and compliant scraping are both impossible, real import work is blocked until data access is arranged.
@@ -47,10 +48,10 @@ Updated: 2026-05-19T15:23:30Z
 | --- | --- | --- |
 | T011 | Research official API/feed options | completed |
 | T012 | Implement scraping compliance review model and gate | completed-real-run-blocked |
-| T013 | Add protected daily import endpoint | completed-skeleton |
-| T014 | Add importer orchestration | skeleton-completed-real-feed-blocked |
-| T015 | Normalize imported parks, regions, facilities, and price snapshots | blocked-waiting-tradetracker-credentials |
-| T016 | Record import run status | response-body-skeleton-completed-persistence-planned |
+| T013 | Add protected daily import endpoint | completed |
+| T014 | Add importer orchestration | completed-tradetracker-feed-client-verified |
+| T015 | Normalize imported parks, regions, facilities, and price snapshots | parser-fixture-completed-catalog-upsert-next |
+| T016 | Record import run status | response-body-completed-persistence-next |
 
 ## Unit 004 Tasks: Park Search and Detail
 

@@ -1,9 +1,9 @@
-# Bolt 003: Landal Data Access Discovery and Import Skeleton
+# Bolt 003: Landal Data Access Discovery and Import Pipeline
 
-Status: importer-skeleton-verified-real-import-blocked
+Status: tradetracker-feed-client-verified-real-live-import-blocked
 Started: 2026-05-19T15:08:00Z
-Completed: 2026-05-19T15:23:30Z
-Verified: 2026-05-19T15:23:30Z
+Updated: 2026-05-19T19:27:01Z
+Verified: 2026-05-19T19:27:01Z
 
 ## Source Stories
 
@@ -19,17 +19,23 @@ Verified: 2026-05-19T15:23:30Z
 - Recorded that Landal terms prohibit non-personal/commercial site use unless written permission is obtained.
 - Checked `https://www.landal.nl/robots.txt` and `https://www.landal.com/robots.txt` for crawler directives.
 - Tightened the scraping compliance gate with an explicit `termsPermitCommercialUse` requirement.
-- Added a protected `POST /api/import/landal` skeleton endpoint.
-- Added TradeTracker import planning logic that returns blocked runs until credentials are configured.
+- Added a protected `POST /api/import/landal` endpoint for Vercel Cron style calls.
 - Added runtime config placeholders for TradeTracker credentials and the import cron secret.
-- Added unit tests for import authorization and blocked-run planning.
+- Added a TradeTracker SOAP feed client using the public `http://ws.tradetracker.com/soap/affiliate?wsdl` contract.
+- Added XML parsing for `getFeedProducts` responses with typed product records and price-only fields.
+- Changed the importer from skeleton-only planning to actual authenticated feed fetch orchestration when credentials are configured.
+- Added unit tests for import authorization, missing credentials, SOAP authentication, feed parsing, successful import summaries, and failed authentication responses.
 
 ## Verification
 
-GitHub Actions CI run https://github.com/frontero/weekendjeweg/actions/runs/26106913937 passed for commit `bea3e92cf7e5e4ba9f503a7dc031da7ee3a784f9`.
+GitHub Actions CI run https://github.com/frontero/weekendjeweg/actions/runs/26120007958 passed for commit `65a73d5155ef8631e50c8490ccca417aeecc5046`.
 
-GitHub Actions Lighthouse Preview run https://github.com/frontero/weekendjeweg/actions/runs/26106913888 passed for commit `bea3e92cf7e5e4ba9f503a7dc031da7ee3a784f9`.
+GitHub Actions Lighthouse Preview run https://github.com/frontero/weekendjeweg/actions/runs/26120008031 passed for commit `65a73d5155ef8631e50c8490ccca417aeecc5046`.
 
 ## Result
 
-Unit 003 has a verified discovery record, a stricter scraping gate, and a safe protected import skeleton. Real TradeTracker import remains blocked until publisher/site/campaign approval and credentials exist. Real Landal scraping remains blocked unless written commercial-use permission is recorded.
+Unit 003 now has a verified discovery record, stricter scraping gate, protected import endpoint, and TradeTracker feed client. Real live import remains blocked until approved TradeTracker publisher/site/campaign credentials exist. Real Landal scraping remains blocked unless written commercial-use permission is recorded.
+
+## Next Step
+
+Continue with feed-to-catalog normalization and Supabase import-run persistence once a real or representative approved TradeTracker feed sample is available.

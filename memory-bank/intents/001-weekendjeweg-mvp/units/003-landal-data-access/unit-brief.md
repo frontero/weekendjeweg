@@ -1,7 +1,7 @@
 # Unit 003: Landal Data Access
 
-Status: importer-skeleton-verified-real-import-blocked
-Updated: 2026-05-19T15:23:30Z
+Status: tradetracker-feed-client-verified-real-live-import-blocked
+Updated: 2026-05-19T19:27:01Z
 
 ## Purpose
 
@@ -16,10 +16,11 @@ Create a compliant path for daily Landal Netherlands park and price data, using 
 ## Acceptance Criteria
 
 - Official/API/feed availability is researched and recorded before scraper activation. Completed in `memory-bank/bolts/003-landal-data-access/discovery-report.md`.
-- Scraping compliance checks exist for robots.txt, terms, affiliate/network rules where available, and rate limits. The gate now requires explicit terms permission for commercial use.
+- Scraping compliance checks exist for robots.txt, terms, affiliate/network rules where available, and rate limits. The gate requires explicit terms permission for commercial use.
 - Real scraper execution is blocked until a compliance review is approved.
-- Vercel Cron can call a protected Nuxt server endpoint for daily import. Skeleton completed via `POST /api/import/landal`.
-- Import runs record status, failures, and imported record counts. Current skeleton returns blocked-run response bodies; Supabase persistence remains a later implementation step.
+- Vercel Cron can call a protected Nuxt server endpoint for daily import. Implemented via `POST /api/import/landal`.
+- TradeTracker SOAP feed fetching is implemented for configured credentials, using `authenticate` and `getFeedProducts` from the public WSDL.
+- Import runs return status, failures, and imported record counts. Current response bodies are implemented; Supabase persistence remains the next implementation step.
 - If API/feed and compliant scraping are impossible, real import work is blocked until data access is arranged.
 
 ## Out of Scope
@@ -30,10 +31,11 @@ Create a compliant path for daily Landal Netherlands park and price data, using 
 
 ## Risks
 
-- Landal may not provide a public API/feed outside TradeTracker publisher access.
+- Landal may not provide a usable feed before TradeTracker publisher/site/campaign approval.
+- Live TradeTracker import cannot be verified without credentials.
 - Scraping appears prohibited for commercial use unless written permission is obtained.
 - Frontend must be able to continue with mock data if this unit blocks.
 
 ## Next Step
 
-Implement the real TradeTracker feed client after `TRADETRACKER_CUSTOMER_ID`, `TRADETRACKER_ACCESS_KEY`, `TRADETRACKER_AFFILIATE_SITE_ID`, `TRADETRACKER_LANDAL_CAMPAIGN_ID`, and campaign approval are available.
+Map parsed TradeTracker feed products into catalog and price-snapshot upserts, then persist import-run status in Supabase after a real or representative approved feed sample is available.
