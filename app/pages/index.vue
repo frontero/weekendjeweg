@@ -15,7 +15,7 @@ const homePriceSearch: ParkPriceSearch = {
   adultCount: 2,
   childCount: 0,
 }
-const heroImageUrl = 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=80'
+const heroImageUrl = 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=45'
 
 // Computed
 const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
@@ -37,6 +37,10 @@ useHead(() => ({
     },
   ],
   link: [
+    {
+      rel: 'preconnect',
+      href: 'https://images.unsplash.com',
+    },
     {
       rel: 'canonical',
       href: canonicalUrl.value,
@@ -61,6 +65,11 @@ useHead(() => ({
         :src="heroImageUrl"
         alt="Bosrijk vakantiegevoel voor een weekendje weg"
         class="absolute inset-0 -z-20 h-full w-full object-cover"
+        decoding="async"
+        fetchpriority="high"
+        height="900"
+        sizes="100vw"
+        width="1600"
       />
       <div class="absolute inset-0 -z-10 bg-gradient-to-r from-[#153f3a]/95 via-[#153f3a]/72 to-[#153f3a]/18"></div>
       <div class="grid max-w-[72rem] content-center gap-7 text-white">
