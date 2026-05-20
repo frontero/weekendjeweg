@@ -467,7 +467,7 @@ useHead(() => ({
     >
       <div class="grid gap-6 lg:grid-cols-[minmax(15rem,18rem)_minmax(0,1fr)] lg:items-start">
         <aside
-          class="grid gap-4 rounded-lg bg-[#fffdf7] p-4 shadow-[0_18px_40px_rgba(21,63,58,0.12)] lg:sticky lg:top-6"
+          class="relative z-40 grid gap-4 rounded-lg bg-[#fffdf7] p-4 shadow-[0_18px_40px_rgba(21,63,58,0.12)] lg:sticky lg:top-6"
           aria-label="Accommodaties filteren"
         >
           <div class="grid gap-1">
