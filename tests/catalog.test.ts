@@ -54,6 +54,27 @@ test('selects price snapshot by date and travel party', () => {
   assert.equal(snapshot?.currency, 'EUR')
 })
 
+test('contains a single scraped Landal De Vers price snapshot', () => {
+  const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-de-vers')
+
+  if (park === null) {
+    throw new Error('Expected scraped De Vers park')
+  }
+
+  const snapshot: PriceSnapshotRecord | null = selectPriceSnapshot(mockCatalog, {
+    parkId: park.id,
+    arrivalDate: '2026-06-05',
+    departureDate: '2026-06-08',
+    adultCount: 2,
+    childCount: 0,
+  })
+
+  assert.equal(park.landalParkCode, 'VES')
+  assert.equal(park.locationName, 'Overloon')
+  assert.equal(snapshot?.priceAmount, 416)
+  assert.equal(snapshot?.priceLabel, 'Landal prijsvoorbeeld')
+})
+
 test('keeps affiliate template separate from final network approval', () => {
   const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-miggelenberg')
 

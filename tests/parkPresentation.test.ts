@@ -19,7 +19,7 @@ const defaultPriceSearch: ParkPriceSearch = {
 test('creates park card view models from the mock catalog', () => {
   const cards: ParkCardViewModel[] = createParkCardViewModels(mockCatalog, {}, defaultPriceSearch)
 
-  assert.equal(cards.length, 3)
+  assert.equal(cards.length, 4)
   assert.equal(cards[0]?.detailPath.startsWith('/parken/'), true)
   assert.equal(cards[0]?.affiliateUrl.startsWith('https://tc.tradetracker.net/'), true)
   assert.equal((cards[0]?.affiliateDestinationUrlKey ?? '').length > 0, true)
@@ -39,6 +39,22 @@ test('formats matching price snapshot without availability wording', () => {
 
   assert.equal(priceLabel.startsWith('Prijsvoorbeeld: vanaf'), true)
   assert.equal(priceLabel.includes('399'), true)
+  assert.equal(priceLabel.includes('beschikbaar'), false)
+})
+
+test('formats scraped De Vers price snapshot for the default trip', () => {
+  const cards: ParkCardViewModel[] = createParkCardViewModels(
+    mockCatalog,
+    {
+      regionSlug: 'noord-brabant',
+    },
+    defaultPriceSearch,
+  )
+  const priceLabel: string = cards[0]?.priceLabel ?? ''
+
+  assert.equal(cards[0]?.park.slug, 'landal-de-vers')
+  assert.equal(priceLabel.startsWith('Landal prijsvoorbeeld: vanaf'), true)
+  assert.equal(priceLabel.includes('416'), true)
   assert.equal(priceLabel.includes('beschikbaar'), false)
 })
 
