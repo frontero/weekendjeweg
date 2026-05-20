@@ -12,8 +12,10 @@ import {
   Home,
   MapPin,
   PawPrint,
+  Quote,
   ShieldCheck,
   Sparkles,
+  Star,
   Trees,
   Users,
   Utensils,
@@ -21,6 +23,11 @@ import {
 } from 'lucide-vue-next'
 import { computed } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
+import {
+  getParkGalleryImagesForSlug,
+  listParkFacilityStoriesForSlug,
+  listParkTestimonialsForSlug,
+} from '~~/shared/data/parkDetailContent'
 import {
   createAccommodationCardViewModels,
   createParkAccommodationOverviewPath,
@@ -30,27 +37,26 @@ import {
   getAffiliateTemplateForPark,
   getParkBySlug,
   listAccommodationsForPark,
-  listFacilitiesForPark,
   selectPriceSnapshot,
 } from '~~/shared/domain/catalogRepository'
 import {
   createParkDetailPath,
-  createParkMetaDescription,
   formatPriceSnapshot,
   getParkVisualAltText,
   getParkVisualImageUrl,
   getRegionNameForPark,
 } from '~~/shared/domain/parkPresentation'
-import { createCanonicalUrl, createParkBreadcrumbStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
+import {
+  createCanonicalUrl,
+  createParkBreadcrumbStructuredData,
+  createParkWebPageStructuredData,
+  serialiseStructuredData,
+} from '~~/shared/domain/seo'
 import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
 import type { AccommodationCardViewModel, AccommodationImageSlide } from '~~/shared/types/accommodation'
 import type { AffiliateUrlResult } from '~~/shared/types/affiliate'
-import type { AccommodationRecord, AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
-
-interface ParkGalleryImage {
-  url: string
-  altText: string
-}
+import type { AccommodationRecord, AffiliateLinkTemplateRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
+import type { ParkFacilityStory, ParkGalleryImage, ParkTestimonial, StructuredDataScript } from '~~/shared/types/parkDetail'
 
 // Definitions
 const route = useRoute()
@@ -73,25 +79,6 @@ const euroFormatter = new Intl.NumberFormat('nl-NL', {
   maximumFractionDigits: 0,
   style: 'currency',
 })
-
-const deVersGalleryImages: ParkGalleryImage[] = [
-  {
-    url: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/4859064-3x2?t=cw800',
-    altText: 'Bosrijk vakantiepark De Vers in Overloon',
-  },
-  {
-    url: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/7457006-3x2?t=w430',
-    altText: 'Buitenruimte op Landal De Vers',
-  },
-  {
-    url: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/7456688-3x2?t=w430',
-    altText: 'Groene omgeving rond Landal De Vers',
-  },
-  {
-    url: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/7888140-3x2?t=w430',
-    altText: 'Accommodatie op Landal De Vers',
-  },
-]
 
 // Computed
 const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
@@ -147,21 +134,19 @@ const parkImageAltText = computed<string>(() => {
   return getParkVisualAltText(park.value, regionName.value)
 })
 
+const fallbackGalleryImage = computed<ParkGalleryImage>(() => {
+  return {
+    url: parkImageUrl.value,
+    altText: parkImageAltText.value,
+  }
+})
+
 const parkGalleryImages = computed<ParkGalleryImage[]>(() => {
   if (park.value === null) {
     return []
   }
 
-  if (park.value.slug === 'landal-de-vers') {
-    return deVersGalleryImages
-  }
-
-  return [
-    {
-      url: parkImageUrl.value,
-      altText: parkImageAltText.value,
-    },
-  ]
+  return getParkGalleryImagesForSlug(park.value.slug, fallbackGalleryImage.value)
 })
 
 const primaryGalleryImage = computed<ParkGalleryImage>(() => {
@@ -179,13 +164,35 @@ const primaryGalleryImage = computed<ParkGalleryImage>(() => {
 
 const secondaryGalleryImages = computed<ParkGalleryImage[]>(() => parkGalleryImages.value.slice(1, 4))
 
-const facilities = computed<FacilityRecord[]>(() => {
+const featureImage = computed<ParkGalleryImage>(() => {
+  const image: ParkGalleryImage | undefined = secondaryGalleryImages.value[0]
+
+  if (image === undefined) {
+    return primaryGalleryImage.value
+  }
+
+  return image
+})
+
+const facilityStories = computed<ParkFacilityStory[]>(() => {
   if (park.value === null) {
     return []
   }
 
-  return listFacilitiesForPark(mockCatalog, park.value.id)
+  return listParkFacilityStoriesForSlug(park.value.slug)
 })
+
+const hasFacilityStories = computed<boolean>(() => facilityStories.value.length > 0)
+
+const testimonials = computed<ParkTestimonial[]>(() => {
+  if (park.value === null) {
+    return []
+  }
+
+  return listParkTestimonialsForSlug(park.value.slug)
+})
+
+const hasTestimonials = computed<boolean>(() => testimonials.value.length > 0)
 
 const accommodations = computed<AccommodationRecord[]>(() => {
   if (park.value === null) {
@@ -290,20 +297,44 @@ const canonicalUrl = computed<string>(() => {
   return createCanonicalUrl(siteOrigin.value, createParkDetailPath(park.value))
 })
 
-const metaDescription = computed<string>(() => {
+const seoTitle = computed<string>(() => {
+  if (park.value === null) {
+    return 'Park niet gevonden | Weekendjeweg'
+  }
+
+  return `${park.value.name} in ${park.value.locationName} | prijzen, huisjes en tips`
+})
+
+const seoDescription = computed<string>(() => {
   if (park.value === null) {
     return 'Park niet gevonden in de Weekendjeweg catalogus.'
   }
 
-  return createParkMetaDescription(park.value, regionName.value)
+  return `Bekijk ${park.value.name} in ${park.value.locationName}: accommodaties, faciliteiten, sfeerbeelden en prijsvoorbeeld ${compactPriceLabel.value}. Vergelijk rustig en klik door naar Landal.`
 })
 
-const structuredDataJson = computed<string | null>(() => {
+const structuredDataScripts = computed<StructuredDataScript[]>(() => {
   if (park.value === null) {
-    return null
+    return []
   }
 
-  return serialiseStructuredData(createParkBreadcrumbStructuredData(siteOrigin.value, park.value))
+  return [
+    {
+      type: 'application/ld+json',
+      innerHTML: serialiseStructuredData(createParkBreadcrumbStructuredData(siteOrigin.value, park.value)),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: serialiseStructuredData(createParkWebPageStructuredData({
+        canonicalUrl: canonicalUrl.value,
+        description: seoDescription.value,
+        imageAltText: primaryGalleryImage.value.altText,
+        imageUrl: primaryGalleryImage.value.url,
+        park: park.value,
+        title: seoTitle.value,
+      })),
+    },
+  ]
 })
 
 // Functions
@@ -340,11 +371,59 @@ const handleAffiliateClick = (): void => {
 }
 
 useHead(() => ({
-  title: `${parkName.value} | Weekendjeweg`,
+  title: seoTitle.value,
   meta: [
     {
       name: 'description',
-      content: metaDescription.value,
+      content: seoDescription.value,
+    },
+    {
+      property: 'og:title',
+      content: seoTitle.value,
+    },
+    {
+      property: 'og:description',
+      content: seoDescription.value,
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:url',
+      content: canonicalUrl.value,
+    },
+    {
+      property: 'og:image',
+      content: primaryGalleryImage.value.url,
+    },
+    {
+      property: 'og:image:alt',
+      content: primaryGalleryImage.value.altText,
+    },
+    {
+      property: 'og:locale',
+      content: 'nl_NL',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:title',
+      content: seoTitle.value,
+    },
+    {
+      name: 'twitter:description',
+      content: seoDescription.value,
+    },
+    {
+      name: 'twitter:image',
+      content: primaryGalleryImage.value.url,
+    },
+    {
+      name: 'twitter:image:alt',
+      content: primaryGalleryImage.value.altText,
     },
   ],
   link: [
@@ -353,14 +432,7 @@ useHead(() => ({
       href: canonicalUrl.value,
     },
   ],
-  script: structuredDataJson.value === null
-    ? []
-    : [
-        {
-          type: 'application/ld+json',
-          innerHTML: structuredDataJson.value,
-        },
-      ],
+  script: structuredDataScripts.value,
 }))
 </script>
 
@@ -471,10 +543,24 @@ useHead(() => ({
         Waarom dit park
       </a>
       <a
+        v-if="hasFacilityStories"
+        class="inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-black text-[#153f3a] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
+        href="#faciliteiten"
+      >
+        Faciliteiten
+      </a>
+      <a
         class="inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-black text-[#153f3a] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
         href="#accommodaties"
       >
         Accommodaties
+      </a>
+      <a
+        v-if="hasTestimonials"
+        class="inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-black text-[#153f3a] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
+        href="#reviews"
+      >
+        Reviews
       </a>
       <a
         class="inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-black text-[#153f3a] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
@@ -543,8 +629,8 @@ useHead(() => ({
 
         <div class="grid gap-5 rounded-lg bg-[#153f3a] p-5 text-white md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:p-6">
           <img
-            :alt="secondaryGalleryImages[0]?.altText ?? primaryGalleryImage.altText"
-            :src="secondaryGalleryImages[0]?.url ?? primaryGalleryImage.url"
+            :alt="featureImage.altText"
+            :src="featureImage.url"
             class="h-64 w-full rounded-lg object-cover md:h-full"
             loading="lazy"
           />
@@ -558,6 +644,47 @@ useHead(() => ({
             </p>
             <h2 class="text-3xl font-black leading-tight tracking-normal md:text-4xl">Je hoeft niet groots te plannen om veel te doen</h2>
             <p class="text-lg leading-relaxed text-[#fdfaf2]">Denk aan fietsen, wandelen, iets drinken op het park en genoeg ruimte voor kinderen om hun eigen gang te gaan. Precies het soort weekend dat weinig gedoe vraagt.</p>
+          </div>
+        </div>
+
+        <div
+          v-if="hasFacilityStories"
+          id="faciliteiten"
+          class="grid gap-5"
+        >
+          <div class="grid gap-2">
+            <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#c94936]">
+              <Camera
+                :size="17"
+                aria-hidden="true"
+              />
+              Sfeer en faciliteiten
+            </p>
+            <h2 class="max-w-[18ch] text-4xl font-black leading-tight tracking-normal text-[#1b2f2c] md:text-5xl">
+              Een weekend dat vanzelf gevuld raakt
+            </h2>
+            <p class="max-w-[52rem] text-lg leading-relaxed text-[#455b56]">
+              Voor SEO en voor bezoekers werkt dit beter: concrete faciliteiten, echte sfeerbeelden en korte teksten die laten zien waarom dit park bij een weekendje weg past.
+            </p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <article
+              v-for="story in facilityStories"
+              :key="story.title"
+              class="overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.10)]"
+            >
+              <img
+                :alt="story.imageAltText"
+                :src="story.imageUrl"
+                class="h-56 w-full object-cover"
+                loading="lazy"
+              />
+              <div class="grid gap-2 p-5">
+                <p class="text-sm font-black uppercase tracking-normal text-[#c94936]">{{ story.eyebrow }}</p>
+                <h3 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">{{ story.title }}</h3>
+                <p class="leading-relaxed text-[#455b56]">{{ story.description }}</p>
+              </div>
+            </article>
           </div>
         </div>
 
@@ -674,6 +801,51 @@ useHead(() => ({
             />
             <h3 class="text-xl font-black leading-tight tracking-normal text-[#1b2f2c]">Eerlijk vergelijken</h3>
             <p class="text-[#455b56]">Wij tonen prijsvoorbeelden. De boeking en actuele prijs controleer je bij Landal.</p>
+          </div>
+        </div>
+
+        <div
+          v-if="hasTestimonials"
+          id="reviews"
+          class="grid gap-5 rounded-lg bg-[#f5c84c] p-5 md:p-6"
+        >
+          <div class="grid gap-2">
+            <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#153f3a]">
+              <Quote
+                :size="17"
+                aria-hidden="true"
+              />
+              Sfeerreviews
+            </p>
+            <h2 class="max-w-[18ch] text-4xl font-black leading-tight tracking-normal text-[#153f3a] md:text-5xl">Zo kan een weekend hier voelen</h2>
+            <p class="max-w-[52rem] font-semibold leading-relaxed text-[#2f4d48]">Voorbeeldreviews voor de demo; geen geverifieerde bezoekersreviews en daarom niet als review-schema gemarkeerd.</p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <figure
+              v-for="testimonial in testimonials"
+              :key="testimonial.author"
+              class="grid gap-4 rounded-lg bg-[#fffdf7] p-5 shadow-[0_18px_40px_rgba(21,63,58,0.14)]"
+            >
+              <div
+                class="flex gap-1 text-[#c94936]"
+                aria-label="Vijf sterren"
+              >
+                <Star
+                  v-for="starIndex in 5"
+                  :key="starIndex"
+                  :size="18"
+                  class="fill-current"
+                  aria-hidden="true"
+                />
+              </div>
+              <blockquote class="text-lg font-semibold leading-relaxed text-[#1b2f2c]">
+                {{ testimonial.quote }}
+              </blockquote>
+              <figcaption class="grid gap-1 text-sm text-[#455b56]">
+                <span class="font-black text-[#153f3a]">{{ testimonial.author }}</span>
+                <span>{{ testimonial.context }}</span>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </div>
