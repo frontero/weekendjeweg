@@ -6,8 +6,34 @@ const fallbackLandalUrl = 'https://www.landal.nl/'
 const defaultTrackingParameters: Required<AffiliateTrackingParameters> = {
   source: 'weekendjeweg',
   medium: 'affiliate',
-  campaign: 'landal-placeholder',
+  campaign: 'landal-tradetracker',
   content: 'landal',
+}
+
+const createUrl = (rawUrl: string): URL => {
+  if (rawUrl.length === 0) {
+    return new URL(fallbackLandalUrl)
+  }
+
+  return new URL(rawUrl)
+}
+
+const isLandalHost = (hostname: string): boolean => {
+  if (hostname === 'www.landal.nl') {
+    return true
+  }
+
+  return hostname.endsWith('.landal.nl') === true
+}
+
+const resolveDestinationPath = (park: ParkRecord): string => {
+  const sourceUrl: URL = createUrl(park.sourceUrl)
+
+  if (isLandalHost(sourceUrl.hostname) === false) {
+    return park.sourceUrl
+  }
+
+  return `${sourceUrl.pathname}${sourceUrl.search}${sourceUrl.hash}`
 }
 
 const resolveBaseUrl = (park: ParkRecord, template: AffiliateLinkTemplateRecord | null): string => {
@@ -28,14 +54,6 @@ const createDestinationUrlKey = (park: ParkRecord, template: AffiliateLinkTempla
   }
 
   return `${park.slug}:${template.status}:${template.id}`
-}
-
-const createUrl = (rawUrl: string): URL => {
-  if (rawUrl.length === 0) {
-    return new URL(fallbackLandalUrl)
-  }
-
-  return new URL(rawUrl)
 }
 
 const addQueryParameter = (url: URL, key: string, value: string | undefined): void => {
@@ -92,6 +110,7 @@ export const buildAffiliateUrl = (input: BuildAffiliateUrlInput): AffiliateUrlRe
   const url: URL = createUrl(baseUrl)
   const variables: Record<string, string> = {
     campaign: input.trackingParameters?.campaign ?? defaultTrackingParameters.campaign,
+    landalPath: resolveDestinationPath(input.park),
     parkCode: input.park.landalParkCode ?? input.park.slug,
     parkSlug: input.park.slug,
     source: input.trackingParameters?.source ?? defaultTrackingParameters.source,

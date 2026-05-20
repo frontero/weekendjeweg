@@ -1,9 +1,11 @@
+import { buildAffiliateUrl } from './affiliateLinks'
 import {
   getAffiliateTemplateForPark,
   listFacilitiesForPark,
   listParks,
   selectPriceSnapshot,
 } from './catalogRepository'
+import type { AffiliateUrlResult } from '../types/affiliate'
 import type { AffiliateLinkTemplateRecord, CatalogDataSet, ParkRecord, PriceSnapshotRecord } from '../types/database'
 import type { ParkCardViewModel, ParkPriceSearch } from '../types/parkSearch'
 import type { ParkSearchFilters } from './catalogRepository'
@@ -55,14 +57,20 @@ export const createPriceContext = (priceSearch: ParkPriceSearch): string => {
   return `${priceSearch.arrivalDate} tot ${priceSearch.departureDate}, ${priceSearch.adultCount} volwassenen en ${priceSearch.childCount} kinderen`
 }
 
-const getAffiliateUrl = (catalog: CatalogDataSet, park: ParkRecord): string => {
+const createCardAffiliateLink = (catalog: CatalogDataSet, park: ParkRecord): AffiliateUrlResult => {
   const template: AffiliateLinkTemplateRecord | null = getAffiliateTemplateForPark(catalog, park.id)
 
-  if (template === null) {
-    return park.sourceUrl
-  }
-
-  return template.baseUrl
+  return buildAffiliateUrl({
+    park,
+    template,
+    pagePath: createParkDetailPath(park),
+    trackingParameters: {
+      source: 'park-card',
+      medium: 'affiliate',
+      campaign: 'landal-tradetracker',
+      content: park.slug,
+    },
+  })
 }
 
 const getVisualKey = (park: ParkRecord): string => {
@@ -103,6 +111,7 @@ export const createParkCardViewModel = (
     ...priceSearch,
   })
   const regionName: string = getRegionNameForPark(catalog, park)
+  const affiliateLink: AffiliateUrlResult = createCardAffiliateLink(catalog, park)
 
   return {
     park,
@@ -112,7 +121,8 @@ export const createParkCardViewModel = (
     priceLabel: formatPriceSnapshot(priceSnapshot),
     priceContext: createPriceContext(priceSearch),
     detailPath: createParkDetailPath(park),
-    affiliateUrl: getAffiliateUrl(catalog, park),
+    affiliateUrl: affiliateLink.url,
+    affiliateDestinationUrlKey: affiliateLink.destinationUrlKey,
     visualClassName: getVisualClassName(park),
     visualImageUrl: getParkVisualImageUrl(park),
     visualAltText: getParkVisualAltText(park, regionName),

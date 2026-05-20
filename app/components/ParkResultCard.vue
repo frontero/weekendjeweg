@@ -4,6 +4,9 @@ import type { ParkResultCardProps } from '~~/shared/types/parkSearch'
 
 // Definitions
 const props = defineProps<ParkResultCardProps>()
+const route = useRoute()
+const { consentState } = useConsentState()
+const { trackOutboundClick } = useOutboundClickTracking()
 
 // Computed
 const facilityNames = computed<string>(() => {
@@ -13,6 +16,25 @@ const facilityNames = computed<string>(() => {
 const facilityListLabel = computed<string>(() => {
   return `Voorzieningen van ${props.card.park.name}: ${facilityNames.value}`
 })
+
+const priceAffiliateLabel = computed<string>(() => {
+  return `Bekijk actuele prijs voor ${props.card.park.name} via Landal`
+})
+
+// Functions
+const handleAffiliateClick = (): void => {
+  trackOutboundClick({
+    parkId: props.card.park.id,
+    destinationUrlKey: props.card.affiliateDestinationUrlKey,
+    pagePath: route.path,
+    consentState: consentState.value,
+    utmContext: {
+      source: 'park-card',
+      campaign: 'landal-tradetracker',
+      park: props.card.park.slug,
+    },
+  })
+}
 </script>
 
 <template>
@@ -50,10 +72,16 @@ const facilityListLabel = computed<string>(() => {
           {{ facility.name }}
         </li>
       </ul>
-      <div class="grid gap-1 rounded-lg bg-[#f7f4ec] p-4">
+      <a
+        :href="props.card.affiliateUrl"
+        :aria-label="priceAffiliateLabel"
+        class="grid gap-1 rounded-lg bg-[#f7f4ec] p-4 no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+        rel="nofollow sponsored noopener"
+        @click="handleAffiliateClick"
+      >
         <p class="text-2xl font-black text-[#153f3a]">{{ props.card.priceLabel }}</p>
-        <p class="text-sm font-semibold text-[#5b6a66]">{{ props.card.priceContext }}. Geen beschikbaarheidsclaim.</p>
-      </div>
+        <p class="text-sm font-semibold text-[#5b6a66]">{{ props.card.priceContext }}. Klik door voor de actuele prijs bij Landal.</p>
+      </a>
       <NuxtLink
         :to="props.card.detailPath"
         class="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"

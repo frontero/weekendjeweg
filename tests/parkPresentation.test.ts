@@ -21,6 +21,8 @@ test('creates park card view models from the mock catalog', () => {
 
   assert.equal(cards.length, 3)
   assert.equal(cards[0]?.detailPath.startsWith('/parken/'), true)
+  assert.equal(cards[0]?.affiliateUrl.startsWith('https://tc.tradetracker.net/'), true)
+  assert.equal((cards[0]?.affiliateDestinationUrlKey ?? '').length > 0, true)
   assert.equal(cards[0]?.visualImageUrl.startsWith('https://images.unsplash.com/'), true)
   assert.match(cards[0]?.visualAltText ?? '', /Sfeerbeeld/)
 })
@@ -34,7 +36,7 @@ test('formats matching price snapshot without availability wording', () => {
     defaultPriceSearch,
   )
 
-  assert.equal(cards[0]?.priceLabel, 'Prijsvoorbeeld: vanaf € 399')
+  assert.equal(cards[0]?.priceLabel, 'Prijsvoorbeeld: vanaf \u20ac\u00a0399')
   assert.equal(cards[0]?.priceLabel.includes('beschikbaar'), false)
 })
 

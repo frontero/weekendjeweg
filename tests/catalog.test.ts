@@ -54,7 +54,7 @@ test('selects price snapshot by date and travel party', () => {
   assert.equal(snapshot?.currency, 'EUR')
 })
 
-test('keeps affiliate template separate from final network configuration', () => {
+test('keeps affiliate template separate from final network approval', () => {
   const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-miggelenberg')
 
   if (park === null) {
@@ -64,7 +64,8 @@ test('keeps affiliate template separate from final network configuration', () =>
   const template = getAffiliateTemplateForPark(mockCatalog, park.id)
 
   assert.equal(template?.status, 'placeholder')
-  assert.equal(template?.trackingTemplate, null)
+  assert.equal(template?.baseUrl.startsWith('https://tc.tradetracker.net/'), true)
+  assert.equal(template?.trackingTemplate, 'r=weekendjeweg-{parkSlug}&u={landalPath}')
 })
 
 test('creates anonymous functional click without user or cookie identifiers', () => {

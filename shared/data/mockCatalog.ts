@@ -10,6 +10,8 @@ import type {
 
 const importedAt = '2026-05-19T12:00:00.000Z'
 const createdAt = '2026-05-19T12:00:00.000Z'
+const tradeTrackerLandalBaseUrl = 'https://tc.tradetracker.net/?c=20132&m=12&a=302167'
+const tradeTrackerLandalTrackingTemplate = 'r=weekendjeweg-{parkSlug}&u={landalPath}'
 
 export const mockRegions: RegionRecord[] = [
   {
@@ -188,8 +190,8 @@ export const mockAffiliateLinkTemplates: AffiliateLinkTemplateRecord[] = [
   {
     id: '12121212-1212-4121-8121-121212121212',
     parkId: '44444444-4444-4444-8444-444444444444',
-    baseUrl: 'https://www.landal.nl/parken/miggelenberg',
-    trackingTemplate: null,
+    baseUrl: tradeTrackerLandalBaseUrl,
+    trackingTemplate: tradeTrackerLandalTrackingTemplate,
     status: 'placeholder',
     createdAt,
     updatedAt: createdAt,
@@ -197,8 +199,8 @@ export const mockAffiliateLinkTemplates: AffiliateLinkTemplateRecord[] = [
   {
     id: '13131313-1313-4131-8131-131313131313',
     parkId: '55555555-5555-4555-8555-555555555555',
-    baseUrl: 'https://www.landal.nl/parken/strand-resort-ouddorp-duin',
-    trackingTemplate: null,
+    baseUrl: tradeTrackerLandalBaseUrl,
+    trackingTemplate: tradeTrackerLandalTrackingTemplate,
     status: 'placeholder',
     createdAt,
     updatedAt: createdAt,
@@ -206,8 +208,8 @@ export const mockAffiliateLinkTemplates: AffiliateLinkTemplateRecord[] = [
   {
     id: '14141414-1414-4141-8141-141414141414',
     parkId: '66666666-6666-4666-8666-666666666666',
-    baseUrl: 'https://www.landal.nl/parken/hoog-vaals',
-    trackingTemplate: null,
+    baseUrl: tradeTrackerLandalBaseUrl,
+    trackingTemplate: tradeTrackerLandalTrackingTemplate,
     status: 'placeholder',
     createdAt,
     updatedAt: createdAt,

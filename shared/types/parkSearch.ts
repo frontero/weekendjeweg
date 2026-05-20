@@ -16,6 +16,7 @@ export interface ParkCardViewModel {
   priceContext: string
   detailPath: string
   affiliateUrl: string
+  affiliateDestinationUrlKey: string
   visualClassName: string
   visualImageUrl: string
   visualAltText: string

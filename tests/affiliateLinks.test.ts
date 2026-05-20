@@ -11,7 +11,7 @@ import {
 } from '../shared/domain/clickTracking'
 import type { AffiliateLinkTemplateRecord, OutboundClickInsert, ParkRecord, TrackingScope } from '../shared/types/database'
 
-test('builds placeholder Landal affiliate URL with reusable Weekendjeweg parameters', () => {
+test('builds TradeTracker deeplink with a Landal destination path', () => {
   const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-miggelenberg')
 
   if (park === null) {
@@ -26,15 +26,20 @@ test('builds placeholder Landal affiliate URL with reusable Weekendjeweg paramet
     trackingParameters: {
       source: 'park-detail',
       medium: 'affiliate',
-      campaign: 'landal-placeholder',
+      campaign: 'landal-tradetracker',
       content: park.slug,
     },
   })
   const url: URL = new URL(result.url)
 
-  assert.equal(url.hostname, 'www.landal.nl')
+  assert.equal(url.hostname, 'tc.tradetracker.net')
+  assert.equal(url.searchParams.get('c'), '20132')
+  assert.equal(url.searchParams.get('m'), '12')
+  assert.equal(url.searchParams.get('a'), '302167')
+  assert.equal(url.searchParams.get('r'), `weekendjeweg-${park.slug}`)
+  assert.equal(url.searchParams.get('u'), '/parken/miggelenberg')
   assert.equal(url.searchParams.get('wjw_source'), 'park-detail')
-  assert.equal(url.searchParams.get('wjw_campaign'), 'landal-placeholder')
+  assert.equal(url.searchParams.get('wjw_campaign'), 'landal-tradetracker')
   assert.equal(url.searchParams.get('wjw_content'), park.slug)
   assert.equal(result.status, 'placeholder')
   assert.match(result.destinationUrlKey, /placeholder/)
