@@ -6,6 +6,7 @@ import { listParks } from '../shared/domain/catalogRepository'
 import {
   createParkBreadcrumbStructuredData,
   createParkItemListStructuredData,
+  createParkWebPageStructuredData,
   createSitemapEntries,
   createWebsiteStructuredData,
   renderRobotsTxt,
@@ -56,4 +57,23 @@ test('creates conservative website and breadcrumb structured data', () => {
   assert.equal(websiteJson.includes('Weekendjeweg'), true)
   assert.equal(breadcrumbJson.includes(park.name), true)
   assert.equal(breadcrumbJson.includes('BreadcrumbList'), true)
+})
+
+test('creates park web page structured data without review or offer claims', () => {
+  const park: ParkRecord = listParks(mockCatalog)[0] as ParkRecord
+  const structuredDataJson: string = serialiseStructuredData(createParkWebPageStructuredData({
+    canonicalUrl: `${origin}/parken/${park.slug}`,
+    description: 'Parkpagina met faciliteiten en prijscontext.',
+    imageAltText: `Sfeerbeeld voor ${park.name}`,
+    imageUrl: 'https://example.test/park.jpg',
+    park,
+    title: `${park.name} in ${park.locationName}`,
+  }))
+
+  assert.equal(structuredDataJson.includes('WebPage'), true)
+  assert.equal(structuredDataJson.includes('TouristDestination'), true)
+  assert.equal(structuredDataJson.includes('primaryImageOfPage'), true)
+  assert.equal(structuredDataJson.includes(park.locationName), true)
+  assert.equal(structuredDataJson.includes('Review'), false)
+  assert.equal(structuredDataJson.includes('Offer'), false)
 })
