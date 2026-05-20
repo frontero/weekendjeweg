@@ -5,24 +5,25 @@ test('shows the Weekendjeweg Nuxt shell and core navigation', async ({ page }) =
 
   await expect(page.getByRole('link', { name: 'Weekendjeweg' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Parken' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Vind je volgende weekendje weg' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Toegankelijkheid' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Weekendjeweg' })).toBeVisible()
 })
 
 test('opens the park search route', async ({ page }) => {
   await page.goto('/parken')
 
-  await expect(page.getByRole('heading', { name: 'Vergelijk Landal-parken' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Vergelijk je volgende park' })).toBeVisible()
   await expect(page.getByLabel('Regio')).toBeVisible()
-  await expect(page.getByText('3 parken gevonden')).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Bekijk Landal Miggelenberg' })).toBeVisible()
+  await expect(page.getByText('4 parken gevonden')).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Bekijk park Landal De Vers' })).toBeVisible()
 })
 
 test('opens a park detail route from search', async ({ page }) => {
   await page.goto('/parken')
-  await page.getByRole('link', { name: 'Bekijk Landal Miggelenberg' }).click()
+  await page.getByRole('link', { name: 'Bekijk park Landal De Vers' }).click()
 
-  await expect(page.getByRole('heading', { name: 'Landal Miggelenberg' })).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Bekijk bij Landal' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Landal De Vers' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Bekijk accommodaties' })).toBeVisible()
 })
 
 test('keeps analytics behind an explicit consent choice', async ({ page }) => {
@@ -39,6 +40,7 @@ test('exposes production SEO support routes', async ({ page }) => {
 
   expect(sitemapResponse?.ok()).toBe(true)
   expect(sitemapText).toContain('/parken/landal-miggelenberg')
+  expect(sitemapText).toContain('/toegankelijkheid')
 
   const robotsResponse = await page.goto('/robots.txt')
   const robotsText: string = await page.textContent('body') ?? ''
