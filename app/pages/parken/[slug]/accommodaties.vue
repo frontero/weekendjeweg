@@ -207,159 +207,167 @@ useHead(() => ({
 
     <section
       v-if="shouldShowAccommodationList"
-      class="grid gap-5 px-4 py-10 md:px-16 md:py-14"
+      class="px-4 py-10 md:px-16 md:py-14"
       aria-label="Accommodatielijst"
     >
-      <div
-        class="grid gap-4 rounded-lg bg-[#fffdf7] p-4 shadow-[0_18px_40px_rgba(21,63,58,0.12)] md:grid-cols-[repeat(4,minmax(0,1fr))_auto] md:items-end"
-        aria-label="Accommodaties filteren"
-      >
-        <div class="grid gap-2">
-          <label
-            class="text-sm font-black uppercase text-[#28665e]"
-            for="person-count-filter"
-          >
-            Personen
-          </label>
-          <select
-            v-model="personCountFilter"
-            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-            id="person-count-filter"
-          >
-            <option
-              v-for="option in personCountOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
-        <div class="grid gap-2">
-          <label
-            class="text-sm font-black uppercase text-[#28665e]"
-            for="nights-filter"
-          >
-            Nachten
-          </label>
-          <select
-            v-model="numberOfNightsFilter"
-            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-            id="nights-filter"
-          >
-            <option
-              v-for="option in numberOfNightsOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
-        <div class="grid gap-2">
-          <label
-            class="text-sm font-black uppercase text-[#28665e]"
-            for="max-price-filter"
-          >
-            Max prijs
-          </label>
-          <select
-            v-model="maxPriceAmountFilter"
-            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-            id="max-price-filter"
-          >
-            <option
-              v-for="option in maxPriceAmountOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
-        <div class="grid gap-2">
-          <label
-            class="text-sm font-black uppercase text-[#28665e]"
-            for="sort-mode-filter"
-          >
-            Sorteren
-          </label>
-          <select
-            v-model="sortMode"
-            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-            id="sort-mode-filter"
-          >
-            <option
-              v-for="option in sortOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
-        <button
-          v-if="hasActiveFilters"
-          class="inline-flex min-h-12 w-fit items-center justify-center rounded-md border border-[#153f3a] bg-white px-4 py-3 font-black text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
-          type="button"
-          @click="resetAccommodationFilters"
+      <div class="grid gap-6 lg:grid-cols-[minmax(15rem,18rem)_minmax(0,1fr)] lg:items-start">
+        <aside
+          class="grid gap-4 rounded-lg bg-[#fffdf7] p-4 shadow-[0_18px_40px_rgba(21,63,58,0.12)] lg:sticky lg:top-6"
+          aria-label="Accommodaties filteren"
         >
-          Wis filters
-        </button>
-      </div>
-
-      <p class="font-black text-[#1b2f2c]">{{ filteredAccommodationCountLabel }}</p>
-
-      <article
-        v-for="card in filteredAccommodationCards"
-        :key="card.accommodation.id"
-        class="grid overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.12)] md:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)_minmax(12rem,16rem)]"
-      >
-        <div class="min-h-56 bg-[#e7efe8] md:min-h-full">
-          <img
-            v-if="card.accommodation.imageUrl !== null"
-            :alt="card.imageAltText"
-            :src="card.accommodation.imageUrl"
-            class="h-full min-h-56 w-full object-cover md:min-h-full"
-            loading="lazy"
-          />
-        </div>
-        <div class="grid gap-3 p-5">
           <div class="grid gap-1">
-            <p class="text-sm font-black uppercase text-[#c94936]">{{ card.accommodation.code }}</p>
-            <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c] md:text-3xl">{{ card.accommodation.name }}</h2>
-            <p class="font-semibold text-[#455b56]">{{ card.specificationLabel }}</p>
+            <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Filter accommodaties</h2>
+            <p class="font-semibold text-[#455b56]">{{ filteredAccommodationCountLabel }}</p>
           </div>
-          <p class="text-[#455b56]">{{ card.stayContext }}</p>
-          <p class="text-sm font-semibold text-[#5b6a66]">{{ card.accommodation.priceDisclaimer }}</p>
-        </div>
-        <div class="grid content-center gap-3 bg-[#f7f4ec] p-5">
-          <p class="text-sm font-black uppercase text-[#28665e]">Prijsvoorbeeld</p>
-          <p class="text-3xl font-black text-[#153f3a]">{{ card.priceLabel }}</p>
-          <a
-            :href="card.affiliateUrl"
-            class="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
-            rel="nofollow sponsored noopener"
-            @click="handleAccommodationClick(card)"
+          <div class="grid gap-4">
+            <div class="grid gap-2">
+              <label
+                class="text-sm font-black uppercase text-[#28665e]"
+                for="person-count-filter"
+              >
+                Personen
+              </label>
+              <select
+                v-model="personCountFilter"
+                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                id="person-count-filter"
+              >
+                <option
+                  v-for="option in personCountOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+            <div class="grid gap-2">
+              <label
+                class="text-sm font-black uppercase text-[#28665e]"
+                for="nights-filter"
+              >
+                Nachten
+              </label>
+              <select
+                v-model="numberOfNightsFilter"
+                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                id="nights-filter"
+              >
+                <option
+                  v-for="option in numberOfNightsOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+            <div class="grid gap-2">
+              <label
+                class="text-sm font-black uppercase text-[#28665e]"
+                for="max-price-filter"
+              >
+                Max prijs
+              </label>
+              <select
+                v-model="maxPriceAmountFilter"
+                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                id="max-price-filter"
+              >
+                <option
+                  v-for="option in maxPriceAmountOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+            <div class="grid gap-2">
+              <label
+                class="text-sm font-black uppercase text-[#28665e]"
+                for="sort-mode-filter"
+              >
+                Sorteren
+              </label>
+              <select
+                v-model="sortMode"
+                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                id="sort-mode-filter"
+              >
+                <option
+                  v-for="option in sortOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <button
+            v-if="hasActiveFilters"
+            class="inline-flex min-h-12 w-fit items-center justify-center rounded-md border border-[#153f3a] bg-white px-4 py-3 font-black text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+            type="button"
+            @click="resetAccommodationFilters"
           >
-            Bekijk bij Landal
-          </a>
-        </div>
-      </article>
+            Wis filters
+          </button>
+        </aside>
 
-      <div
-        v-if="shouldShowNoFilterResults"
-        class="rounded-lg bg-[#fffdf7] p-5 shadow-[0_18px_40px_rgba(21,63,58,0.12)]"
-      >
-        <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Geen accommodaties gevonden</h2>
-        <p class="mt-2 text-[#455b56]">Verbreed je filters om weer prijsvoorbeelden te zien.</p>
-        <button
-          class="mt-4 inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#153f3a] px-4 py-3 font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
-          type="button"
-          @click="resetAccommodationFilters"
-        >
-          Wis filters
-        </button>
+        <div class="grid gap-5">
+          <article
+            v-for="card in filteredAccommodationCards"
+            :key="card.accommodation.id"
+            class="grid overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.12)] md:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)_minmax(12rem,16rem)]"
+          >
+            <div class="min-h-56 bg-[#e7efe8] md:min-h-full">
+              <img
+                v-if="card.accommodation.imageUrl !== null"
+                :alt="card.imageAltText"
+                :src="card.accommodation.imageUrl"
+                class="h-full min-h-56 w-full object-cover md:min-h-full"
+                loading="lazy"
+              />
+            </div>
+            <div class="grid gap-3 p-5">
+              <div class="grid gap-1">
+                <p class="text-sm font-black uppercase text-[#c94936]">{{ card.accommodation.code }}</p>
+                <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c] md:text-3xl">{{ card.accommodation.name }}</h2>
+                <p class="font-semibold text-[#455b56]">{{ card.specificationLabel }}</p>
+              </div>
+              <p class="text-[#455b56]">{{ card.stayContext }}</p>
+              <p class="text-sm font-semibold text-[#5b6a66]">{{ card.accommodation.priceDisclaimer }}</p>
+            </div>
+            <div class="grid content-center gap-3 bg-[#f7f4ec] p-5">
+              <p class="text-sm font-black uppercase text-[#28665e]">Prijsvoorbeeld</p>
+              <p class="text-3xl font-black text-[#153f3a]">{{ card.priceLabel }}</p>
+              <a
+                :href="card.affiliateUrl"
+                class="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+                rel="nofollow sponsored noopener"
+                @click="handleAccommodationClick(card)"
+              >
+                Bekijk bij Landal
+              </a>
+            </div>
+          </article>
+
+          <div
+            v-if="shouldShowNoFilterResults"
+            class="rounded-lg bg-[#fffdf7] p-5 shadow-[0_18px_40px_rgba(21,63,58,0.12)]"
+          >
+            <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Geen accommodaties gevonden</h2>
+            <p class="mt-2 text-[#455b56]">Verbreed je filters om weer prijsvoorbeelden te zien.</p>
+            <button
+              class="mt-4 inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#153f3a] px-4 py-3 font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+              type="button"
+              @click="resetAccommodationFilters"
+            >
+              Wis filters
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
