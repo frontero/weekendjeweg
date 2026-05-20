@@ -156,9 +156,16 @@ onMounted(() => {})
 
 ## Accessibility
 
+- Accessibility is a hard EAA 2025 requirement for every user-facing change.
+- Follow `memory-bank/standards/accessibility.md` before changing UI.
+- EN 301 549 and WCAG 2.1 Level AA are the minimum baseline.
+- WCAG 2.2 Level AA is the development baseline for new and modified components.
+- Run `npm run test:accessibility` before marking UI work complete.
 - Keep accessibility in scope for every UI change.
 - Use semantic markup and ARIA only where it improves actual assistive technology behavior.
-- Ensure keyboard navigation, focus management, labels, and visible state are covered.
+- Ensure keyboard navigation, focus management, labels, accessible names, contrast, and visible state are covered.
+- Repeated links or buttons must have unique accessible names that include their visible label text.
+- Do not add accessibility overlay widgets as a substitute for accessible implementation.
 
 ## Vue Root Element
 
