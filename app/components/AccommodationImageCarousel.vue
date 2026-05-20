@@ -15,6 +15,9 @@ const activeSlideIndex = ref<number>(0)
 const hasSlides = computed<boolean>(() => props.slides.length > 0)
 const hasMultipleSlides = computed<boolean>(() => props.slides.length > 1)
 const lastSlideIndex = computed<number>(() => props.slides.length - 1)
+const carouselLabel = computed<string>(() => {
+  return `Fotocarousel voor ${props.fallbackAltText}`
+})
 
 const activeSlide = computed<AccommodationImageSlide | null>(() => {
   if (hasSlides.value === false) {
@@ -129,8 +132,8 @@ watch(
 <template>
   <div>
     <div
+      :aria-label="carouselLabel"
       class="relative h-full min-h-56 overflow-hidden bg-[#e7efe8] md:min-h-full"
-      aria-label="Fotocarousel accommodatie"
       role="group"
     >
       <img
