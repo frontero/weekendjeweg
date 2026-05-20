@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import {
+  ArrowLeft,
+  Bath,
+  BedDouble,
+  CalendarDays,
+  ChevronRight,
+  Euro,
+  Filter,
+  Home,
+  Maximize2,
+  SlidersHorizontal,
+  Users,
+} from 'lucide-vue-next'
 import { computed, ref } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
 import {
@@ -186,12 +199,22 @@ useHead(() => ({
     >
       <NuxtLink
         :to="parkDetailPath"
-        class="w-fit rounded-md bg-[#f5c84c] px-3 py-2 text-sm font-black text-[#153f3a] no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-white focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-white"
+        class="inline-flex min-h-11 w-fit items-center gap-2 rounded-md bg-[#f5c84c] px-3 py-2 text-sm font-black text-[#153f3a] no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-white focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-white"
       >
+        <ArrowLeft
+          :size="18"
+          aria-hidden="true"
+        />
         Terug naar park
       </NuxtLink>
       <div class="grid max-w-[58rem] gap-3">
-        <p class="text-sm font-black uppercase tracking-normal text-[#f5c84c]">Accommodaties</p>
+        <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#f5c84c]">
+          <Home
+            :size="18"
+            aria-hidden="true"
+          />
+          Accommodaties
+        </p>
         <h1
           id="accommodations-title"
           class="text-4xl font-black leading-tight tracking-normal md:text-6xl"
@@ -201,7 +224,13 @@ useHead(() => ({
         <p class="text-lg font-semibold text-[#fdfaf2] md:text-xl">
           {{ accommodationCountLabel }}. Prijzen zijn momentopnames en worden definitief bij Landal.
         </p>
-        <p class="text-sm font-semibold text-[#dcebe7]">Laatst opgehaald: {{ sourceCapturedAtLabel }}</p>
+        <p class="inline-flex items-center gap-2 text-sm font-semibold text-[#dcebe7]">
+          <CalendarDays
+            :size="17"
+            aria-hidden="true"
+          />
+          Laatst opgehaald: {{ sourceCapturedAtLabel }}
+        </p>
       </div>
     </section>
 
@@ -216,15 +245,31 @@ useHead(() => ({
           aria-label="Accommodaties filteren"
         >
           <div class="grid gap-1">
-            <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Filter accommodaties</h2>
-            <p class="font-semibold text-[#455b56]">{{ filteredAccommodationCountLabel }}</p>
+            <h2 class="inline-flex items-center gap-2 text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">
+              <SlidersHorizontal
+                :size="24"
+                aria-hidden="true"
+              />
+              Filter accommodaties
+            </h2>
+            <p class="inline-flex items-center gap-2 font-semibold text-[#455b56]">
+              <Filter
+                :size="17"
+                aria-hidden="true"
+              />
+              {{ filteredAccommodationCountLabel }}
+            </p>
           </div>
           <div class="grid gap-4">
             <div class="grid gap-2">
               <label
-                class="text-sm font-black uppercase text-[#28665e]"
+                class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
                 for="person-count-filter"
               >
+                <Users
+                  :size="17"
+                  aria-hidden="true"
+                />
                 Personen
               </label>
               <select
@@ -243,9 +288,13 @@ useHead(() => ({
             </div>
             <div class="grid gap-2">
               <label
-                class="text-sm font-black uppercase text-[#28665e]"
+                class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
                 for="nights-filter"
               >
+                <CalendarDays
+                  :size="17"
+                  aria-hidden="true"
+                />
                 Nachten
               </label>
               <select
@@ -264,9 +313,13 @@ useHead(() => ({
             </div>
             <div class="grid gap-2">
               <label
-                class="text-sm font-black uppercase text-[#28665e]"
+                class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
                 for="max-price-filter"
               >
+                <Euro
+                  :size="17"
+                  aria-hidden="true"
+                />
                 Max prijs
               </label>
               <select
@@ -285,9 +338,13 @@ useHead(() => ({
             </div>
             <div class="grid gap-2">
               <label
-                class="text-sm font-black uppercase text-[#28665e]"
+                class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
                 for="sort-mode-filter"
               >
+                <SlidersHorizontal
+                  :size="17"
+                  aria-hidden="true"
+                />
                 Sorteren
               </label>
               <select
@@ -307,10 +364,14 @@ useHead(() => ({
           </div>
           <button
             v-if="hasActiveFilters"
-            class="inline-flex min-h-12 w-fit items-center justify-center rounded-md border border-[#153f3a] bg-white px-4 py-3 font-black text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+            class="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-md border border-[#153f3a] bg-white px-4 py-3 font-black text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
             type="button"
             @click="resetAccommodationFilters"
           >
+            <Filter
+              :size="17"
+              aria-hidden="true"
+            />
             Wis filters
           </button>
         </aside>
@@ -330,25 +391,97 @@ useHead(() => ({
                 loading="lazy"
               />
             </div>
-            <div class="grid gap-3 p-5">
+            <div class="grid gap-4 p-5">
               <div class="grid gap-1">
                 <p class="text-sm font-black uppercase text-[#c94936]">{{ card.accommodation.code }}</p>
                 <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c] md:text-3xl">{{ card.accommodation.name }}</h2>
-                <p class="font-semibold text-[#455b56]">{{ card.specificationLabel }}</p>
               </div>
-              <p class="text-[#455b56]">{{ card.stayContext }}</p>
+              <dl class="grid gap-2 text-sm font-semibold text-[#455b56] sm:grid-cols-2">
+                <div
+                  v-if="card.accommodation.personCount !== null"
+                  class="inline-flex items-center gap-2"
+                >
+                  <Users
+                    :size="17"
+                    aria-hidden="true"
+                  />
+                  <dt class="sr-only">Personen</dt>
+                  <dd>{{ card.accommodation.personCount }} personen</dd>
+                </div>
+                <div
+                  v-if="card.accommodation.areaText !== null"
+                  class="inline-flex items-center gap-2"
+                >
+                  <Maximize2
+                    :size="17"
+                    aria-hidden="true"
+                  />
+                  <dt class="sr-only">Oppervlakte</dt>
+                  <dd>{{ card.accommodation.areaText }}</dd>
+                </div>
+                <div
+                  v-if="card.accommodation.bedroomCount !== null"
+                  class="inline-flex items-center gap-2"
+                >
+                  <BedDouble
+                    :size="17"
+                    aria-hidden="true"
+                  />
+                  <dt class="sr-only">Slaapkamers</dt>
+                  <dd>{{ card.accommodation.bedroomCount }} slaapkamers</dd>
+                </div>
+                <div
+                  v-if="card.accommodation.bathroomCount !== null"
+                  class="inline-flex items-center gap-2"
+                >
+                  <Bath
+                    :size="17"
+                    aria-hidden="true"
+                  />
+                  <dt class="sr-only">Badkamers</dt>
+                  <dd>{{ card.accommodation.bathroomCount }} badkamers</dd>
+                </div>
+                <div
+                  v-if="card.accommodation.construction !== null"
+                  class="inline-flex items-center gap-2"
+                >
+                  <Home
+                    :size="17"
+                    aria-hidden="true"
+                  />
+                  <dt class="sr-only">Ligging</dt>
+                  <dd>{{ card.accommodation.construction }}</dd>
+                </div>
+              </dl>
+              <p class="inline-flex items-center gap-2 text-[#455b56]">
+                <CalendarDays
+                  :size="18"
+                  aria-hidden="true"
+                />
+                {{ card.stayContext }}
+              </p>
               <p class="text-sm font-semibold text-[#5b6a66]">{{ card.accommodation.priceDisclaimer }}</p>
             </div>
             <div class="grid content-center gap-3 bg-[#f7f4ec] p-5">
-              <p class="text-sm font-black uppercase text-[#28665e]">Prijsvoorbeeld</p>
+              <p class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]">
+                <Euro
+                  :size="17"
+                  aria-hidden="true"
+                />
+                Prijsvoorbeeld
+              </p>
               <p class="text-3xl font-black text-[#153f3a]">{{ card.priceLabel }}</p>
               <a
                 :href="card.affiliateUrl"
-                class="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+                class="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
                 rel="nofollow sponsored noopener"
                 @click="handleAccommodationClick(card)"
               >
                 Bekijk bij Landal
+                <ChevronRight
+                  :size="18"
+                  aria-hidden="true"
+                />
               </a>
             </div>
           </article>
@@ -360,10 +493,14 @@ useHead(() => ({
             <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Geen accommodaties gevonden</h2>
             <p class="mt-2 text-[#455b56]">Verbreed je filters om weer prijsvoorbeelden te zien.</p>
             <button
-              class="mt-4 inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#153f3a] px-4 py-3 font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+              class="mt-4 inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-md bg-[#153f3a] px-4 py-3 font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
               type="button"
               @click="resetAccommodationFilters"
             >
+              <Filter
+                :size="17"
+                aria-hidden="true"
+              />
               Wis filters
             </button>
           </div>
