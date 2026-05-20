@@ -33,5 +33,8 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
 
-      - name: Build
-        run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Accessibility tests
+        run: npm run test:accessibility
