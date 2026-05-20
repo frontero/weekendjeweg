@@ -21,6 +21,10 @@ const priceAffiliateLabel = computed<string>(() => {
   return `Bekijk actuele prijs voor ${props.card.park.name} via Landal`
 })
 
+const parkDetailLabel = computed<string>(() => {
+  return `Bekijk park ${props.card.park.name}`
+})
+
 // Functions
 const handleAffiliateClick = (): void => {
   trackOutboundClick({
@@ -83,6 +87,7 @@ const handleAffiliateClick = (): void => {
         <p class="text-sm font-semibold text-[#5b6a66]">{{ props.card.priceContext }}. Klik door voor de actuele prijs bij Landal.</p>
       </a>
       <NuxtLink
+        :aria-label="parkDetailLabel"
         :to="props.card.detailPath"
         class="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
       >
