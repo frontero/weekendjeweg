@@ -21,8 +21,6 @@ import { mockCatalog } from '~~/shared/data/mockCatalog'
 import {
   accommodationSortOptions,
   createMaxPriceOptions,
-  createNightOptions,
-  createPersonCountOptions,
   defaultAccommodationFilterState,
   filterAccommodationCards,
 } from '~~/shared/domain/accommodationFilters'
@@ -79,12 +77,11 @@ const { trackOutboundClick } = useOutboundClickTracking()
 const defaultAdultCountInput = '2'
 const defaultChildCountInput = '0'
 const minimumTravelDate = '2026-05-20'
+const millisecondsPerDay = 1000 * 60 * 60 * 24
 const arrivalDateInput = ref<string>('')
 const departureDateInput = ref<string>('')
 const adultCountInput = ref<string>(defaultAdultCountInput)
 const childCountInput = ref<string>(defaultChildCountInput)
-const personCountFilter = ref<string>(defaultAccommodationFilterState.personCount)
-const numberOfNightsFilter = ref<string>(defaultAccommodationFilterState.numberOfNights)
 const maxPriceAmountFilter = ref<string>(defaultAccommodationFilterState.maxPriceAmount)
 const sortMode = ref<AccommodationSortMode>(defaultAccommodationFilterState.sortMode)
 
@@ -132,6 +129,7 @@ const hasInvalidDateRange = computed<boolean>(() => {
 
 const adultCountValue = computed<number>(() => parseTravellerCount(adultCountInput.value, Number(defaultAdultCountInput)))
 const childCountValue = computed<number>(() => parseTravellerCount(childCountInput.value, Number(defaultChildCountInput)))
+const travellerCountValue = computed<number>(() => adultCountValue.value + childCountValue.value)
 
 const selectedDateSearch = computed<AccommodationSearchSelection | null>(() => {
   if (arrivalDateInput.value.length === 0 || departureDateInput.value.length === 0) {
@@ -154,6 +152,31 @@ const selectedDateSearch = computed<AccommodationSearchSelection | null>(() => {
   }
 })
 
+const selectedNumberOfNights = computed<number | null>(() => {
+  if (selectedDateSearch.value === null) {
+    return null
+  }
+
+  const arrivalTime: number = Date.parse(`${selectedDateSearch.value.arrivalDate}T00:00:00.000Z`)
+  const departureTime: number = Date.parse(`${selectedDateSearch.value.departureDate}T00:00:00.000Z`)
+  const dayDifference: number = Math.round((departureTime - arrivalTime) / millisecondsPerDay)
+
+  if (Number.isFinite(dayDifference) === false || dayDifference < 1) {
+    return null
+  }
+
+  return dayDifference
+})
+
+const derivedPersonCountFilter = computed<string>(() => String(travellerCountValue.value))
+const derivedNumberOfNightsFilter = computed<string>(() => {
+  if (selectedNumberOfNights.value === null) {
+    return defaultAccommodationFilterState.numberOfNights
+  }
+
+  return String(selectedNumberOfNights.value)
+})
+
 const hasSelectedDateSearch = computed<boolean>(() => selectedDateSearch.value !== null)
 
 const dateSearchSummary = computed<string>(() => {
@@ -161,7 +184,7 @@ const dateSearchSummary = computed<string>(() => {
     return 'Kies je aankomst- en vertrekdatum.'
   }
 
-  const travellerCount: number = selectedDateSearch.value.adultCount + selectedDateSearch.value.childCount
+  const travellerCount: number = travellerCountValue.value
 
   if (travellerCount === 1) {
     return `${selectedDateSearch.value.arrivalDate} tot ${selectedDateSearch.value.departureDate}, 1 reiziger`
@@ -180,8 +203,8 @@ const accommodationCards = computed<AccommodationCardViewModel[]>(() => {
 
 const accommodationFilters = computed<AccommodationFilterState>(() => {
   return {
-    personCount: personCountFilter.value,
-    numberOfNights: numberOfNightsFilter.value,
+    personCount: derivedPersonCountFilter.value,
+    numberOfNights: derivedNumberOfNightsFilter.value,
     maxPriceAmount: maxPriceAmountFilter.value,
     sortMode: sortMode.value,
   }
@@ -191,8 +214,6 @@ const filteredAccommodationCards = computed<AccommodationCardViewModel[]>(() => 
   return filterAccommodationCards(accommodationCards.value, accommodationFilters.value)
 })
 
-const personCountOptions = computed<AccommodationFilterOption[]>(() => createPersonCountOptions(accommodationCards.value))
-const numberOfNightsOptions = computed<AccommodationFilterOption[]>(() => createNightOptions(accommodationCards.value))
 const maxPriceAmountOptions = computed<AccommodationFilterOption[]>(() => createMaxPriceOptions(accommodationCards.value))
 const sortOptions = computed<AccommodationFilterOption[]>(() => accommodationSortOptions)
 const hasAccommodations = computed<boolean>(() => accommodationCards.value.length > 0)
@@ -203,9 +224,7 @@ const shouldShowEmptyState = computed<boolean>(() => hasPark.value === true && h
 const shouldShowMissingPark = computed<boolean>(() => hasPark.value === false)
 
 const hasActiveFilters = computed<boolean>(() => {
-  return personCountFilter.value !== defaultAccommodationFilterState.personCount
-    || numberOfNightsFilter.value !== defaultAccommodationFilterState.numberOfNights
-    || maxPriceAmountFilter.value !== defaultAccommodationFilterState.maxPriceAmount
+  return maxPriceAmountFilter.value !== defaultAccommodationFilterState.maxPriceAmount
     || sortMode.value !== defaultAccommodationFilterState.sortMode
 })
 
@@ -349,10 +368,13 @@ const clearDateSearch = (): void => {
 }
 
 const resetAccommodationFilters = (): void => {
-  personCountFilter.value = defaultAccommodationFilterState.personCount
-  numberOfNightsFilter.value = defaultAccommodationFilterState.numberOfNights
   maxPriceAmountFilter.value = defaultAccommodationFilterState.maxPriceAmount
   sortMode.value = defaultAccommodationFilterState.sortMode
+}
+
+const resetAccommodationSelection = (): void => {
+  resetAccommodationFilters()
+  clearDateSearch()
 }
 
 const createAccommodationClickContext = (
@@ -638,56 +660,6 @@ useHead(() => ({
             <div class="grid gap-2">
               <label
                 class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
-                for="person-count-filter"
-              >
-                <Users
-                  :size="17"
-                  aria-hidden="true"
-                />
-                Personen
-              </label>
-              <select
-                v-model="personCountFilter"
-                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-                id="person-count-filter"
-              >
-                <option
-                  v-for="option in personCountOptions"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.label }}
-                </option>
-              </select>
-            </div>
-            <div class="grid gap-2">
-              <label
-                class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
-                for="nights-filter"
-              >
-                <CalendarDays
-                  :size="17"
-                  aria-hidden="true"
-                />
-                Nachten
-              </label>
-              <select
-                v-model="numberOfNightsFilter"
-                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-                id="nights-filter"
-              >
-                <option
-                  v-for="option in numberOfNightsOptions"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.label }}
-                </option>
-              </select>
-            </div>
-            <div class="grid gap-2">
-              <label
-                class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]"
                 for="max-price-filter"
               >
                 <Euro
@@ -861,17 +833,17 @@ useHead(() => ({
             class="rounded-lg bg-[#fffdf7] p-5 shadow-[0_18px_40px_rgba(21,63,58,0.12)]"
           >
             <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Geen accommodaties gevonden</h2>
-            <p class="mt-2 text-[#455b56]">Verbreed je filters om weer prijsvoorbeelden te zien.</p>
+            <p class="mt-2 text-[#455b56]">Verbreed je reisdata, reizigers of filters om weer prijsvoorbeelden te zien.</p>
             <button
               class="mt-4 inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-md bg-[#153f3a] px-4 py-3 font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
               type="button"
-              @click="resetAccommodationFilters"
+              @click="resetAccommodationSelection"
             >
               <Filter
                 :size="17"
                 aria-hidden="true"
               />
-              Wis filters
+              Wis data en filters
             </button>
           </div>
         </div>
