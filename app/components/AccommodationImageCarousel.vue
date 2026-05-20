@@ -67,7 +67,7 @@ const getSlideIndicatorClass = (slideIndex: number): string => {
     return 'w-7 bg-white'
   }
 
-  return 'w-2.5 bg-white/60 hover:bg-white'
+  return 'w-6 bg-white/60 hover:bg-white'
 }
 
 const getSlideButtonLabel = (slideIndex: number): string => {
@@ -184,13 +184,13 @@ watch(
         v-if="hasMultipleSlides === true"
         class="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3"
       >
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-2">
           <button
             v-for="(slide, slideIndex) in slides"
             :key="slide.url"
             :aria-label="getSlideButtonLabel(slideIndex)"
             :class="getSlideIndicatorClass(slideIndex)"
-            class="h-2.5 rounded-full shadow-[0_4px_10px_rgba(21,63,58,0.24)] transition-all focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-white"
+            class="h-6 rounded-full shadow-[0_4px_10px_rgba(21,63,58,0.24)] transition-all focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-white"
             type="button"
             @click="setActiveSlide(slideIndex)"
           >
