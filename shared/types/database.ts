@@ -55,6 +55,7 @@ export interface AccommodationRecord {
   bedroomCount: number | null
   bathroomCount: number | null
   imageUrl: string | null
+  imageUrls: string[]
   sourceUrl: string
   arrivalDate: ISODate | null
   departureDate: ISODate | null

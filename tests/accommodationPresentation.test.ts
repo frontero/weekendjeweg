@@ -7,7 +7,7 @@ import {
   createParkAccommodationOverviewPath,
 } from '../shared/domain/accommodationPresentation'
 import { getParkBySlug } from '../shared/domain/catalogRepository'
-import type { AccommodationCardViewModel } from '../shared/types/accommodation'
+import type { AccommodationCardViewModel, AccommodationImageSlide } from '../shared/types/accommodation'
 import type { ParkRecord } from '../shared/types/database'
 
 test('creates De Vers accommodation cards with price and affiliate deeplink data', () => {
@@ -25,6 +25,12 @@ test('creates De Vers accommodation cards with price and affiliate deeplink data
     throw new Error('Expected scraped accommodation card')
   }
 
+  const firstSlide: AccommodationImageSlide | undefined = firstCard.imageSlides[0]
+
+  if (firstSlide === undefined) {
+    throw new Error('Expected accommodation image slide')
+  }
+
   const affiliateUrl: URL = new URL(firstCard.affiliateUrl)
 
   assert.equal(pagePath, '/parken/landal-de-vers/accommodaties')
@@ -35,6 +41,9 @@ test('creates De Vers accommodation cards with price and affiliate deeplink data
   assert.equal(firstCard.stayContext.includes('2026-05-26'), true)
   assert.equal(firstCard.specificationLabel.includes('48'), true)
   assert.equal(firstCard.imageAltText.includes('Landal De Vers'), true)
+  assert.equal(firstCard.imageSlides.length, 5)
+  assert.equal(firstSlide.url, 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/5626750-3x2?t=w960')
+  assert.equal(firstSlide.altText.includes('foto 1'), true)
   assert.equal(affiliateUrl.hostname, 'tc.tradetracker.net')
   assert.equal(affiliateUrl.searchParams.get('u'), '/parken/de-vers/accommodaties/2l')
   assert.equal(affiliateUrl.searchParams.get('wjw_source'), 'accommodation-overview')

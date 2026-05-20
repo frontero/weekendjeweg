@@ -1,6 +1,6 @@
 import { buildAffiliateUrl } from './affiliateLinks'
 import { getAffiliateTemplateForPark, listAccommodationsForPark } from './catalogRepository'
-import type { AccommodationCardViewModel } from '../types/accommodation'
+import type { AccommodationCardViewModel, AccommodationImageSlide } from '../types/accommodation'
 import type { AccommodationRecord, AffiliateLinkTemplateRecord, CatalogDataSet, ParkRecord } from '../types/database'
 import type { AffiliateUrlResult } from '../types/affiliate'
 
@@ -49,6 +49,47 @@ const createImageAltText = (park: ParkRecord, accommodation: AccommodationRecord
   return `${accommodation.name} ${accommodation.code} op ${park.name}`
 }
 
+const deduplicateImageUrls = (imageUrls: string[]): string[] => {
+  const uniqueImageUrls: string[] = []
+
+  imageUrls.forEach((imageUrl: string): void => {
+    if (uniqueImageUrls.includes(imageUrl) === true) {
+      return
+    }
+
+    uniqueImageUrls.push(imageUrl)
+  })
+
+  return uniqueImageUrls
+}
+
+const getAccommodationImageUrls = (accommodation: AccommodationRecord): string[] => {
+  if (accommodation.imageUrls.length > 0) {
+    return deduplicateImageUrls(accommodation.imageUrls)
+  }
+
+  if (accommodation.imageUrl === null) {
+    return []
+  }
+
+  return [accommodation.imageUrl]
+}
+
+const createAccommodationImageSlides = (
+  park: ParkRecord,
+  accommodation: AccommodationRecord,
+): AccommodationImageSlide[] => {
+  const imageAltText: string = createImageAltText(park, accommodation)
+  const imageUrls: string[] = getAccommodationImageUrls(accommodation)
+
+  return imageUrls.map((imageUrl: string, index: number): AccommodationImageSlide => {
+    return {
+      url: imageUrl,
+      altText: `${imageAltText} - foto ${index + 1}`,
+    }
+  })
+}
+
 const createAccommodationAffiliateLink = (
   park: ParkRecord,
   template: AffiliateLinkTemplateRecord | null,
@@ -78,12 +119,14 @@ export const createAccommodationCardViewModels = (
 
   return listAccommodationsForPark(catalog, park.id).map((accommodation: AccommodationRecord): AccommodationCardViewModel => {
     const affiliateLink: AffiliateUrlResult = createAccommodationAffiliateLink(park, template, accommodation, pagePath)
+    const imageAltText: string = createImageAltText(park, accommodation)
 
     return {
       accommodation,
       affiliateUrl: affiliateLink.url,
       affiliateDestinationUrlKey: affiliateLink.destinationUrlKey,
-      imageAltText: createImageAltText(park, accommodation),
+      imageAltText,
+      imageSlides: createAccommodationImageSlides(park, accommodation),
       priceLabel: formatAccommodationPrice(accommodation),
       stayContext: createAccommodationStayContext(accommodation),
       specificationLabel: createSpecificationLabel(accommodation),

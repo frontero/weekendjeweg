@@ -382,15 +382,10 @@ useHead(() => ({
             :key="card.accommodation.id"
             class="grid overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.12)] md:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)_minmax(12rem,16rem)]"
           >
-            <div class="min-h-56 bg-[#e7efe8] md:min-h-full">
-              <img
-                v-if="card.accommodation.imageUrl !== null"
-                :alt="card.imageAltText"
-                :src="card.accommodation.imageUrl"
-                class="h-full min-h-56 w-full object-cover md:min-h-full"
-                loading="lazy"
-              />
-            </div>
+            <AccommodationImageCarousel
+              :fallback-alt-text="card.imageAltText"
+              :slides="card.imageSlides"
+            />
             <div class="grid gap-4 p-5">
               <div class="grid gap-1">
                 <p class="text-sm font-black uppercase text-[#c94936]">{{ card.accommodation.code }}</p>
