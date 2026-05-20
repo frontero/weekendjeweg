@@ -12,6 +12,15 @@ export interface SitemapEntry {
   priority: string
 }
 
+export interface ParkWebPageStructuredDataInput {
+  canonicalUrl: string
+  description: string
+  imageAltText: string
+  imageUrl: string
+  park: ParkRecord
+  title: string
+}
+
 const defaultLastModifiedDate = '2026-05-19'
 
 const stripTrailingSlash = (value: string): string => {
@@ -148,6 +157,41 @@ export const createParkBreadcrumbStructuredData = (origin: string, park: ParkRec
         item: createCanonicalUrl(origin, createParkDetailPath(park)),
       },
     ],
+  }
+}
+
+const createParkPrimaryImageStructuredData = (input: ParkWebPageStructuredDataInput): StructuredDataNode => {
+  return {
+    '@type': 'ImageObject',
+    url: input.imageUrl,
+    caption: input.imageAltText,
+  }
+}
+
+const createParkAboutStructuredData = (input: ParkWebPageStructuredDataInput): StructuredDataNode => {
+  return {
+    '@type': 'TouristDestination',
+    name: input.park.name,
+    description: input.description,
+    url: input.canonicalUrl,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: input.park.locationName,
+      addressCountry: input.park.countryCode,
+    },
+  }
+}
+
+export const createParkWebPageStructuredData = (input: ParkWebPageStructuredDataInput): StructuredDataNode => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: input.title,
+    description: input.description,
+    url: input.canonicalUrl,
+    inLanguage: 'nl-NL',
+    primaryImageOfPage: createParkPrimaryImageStructuredData(input),
+    about: createParkAboutStructuredData(input),
   }
 }
 
