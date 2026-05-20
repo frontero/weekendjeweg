@@ -37,6 +37,7 @@ export default defineNuxtConfig({
         '/parken/landal-strand-resort-ouddorp-duin',
         '/parken/landal-hoog-vaals',
         '/regio/nederland',
+        '/toegankelijkheid',
         '/sitemap.xml',
         '/robots.txt',
       ],
