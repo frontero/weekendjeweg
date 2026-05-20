@@ -9,10 +9,12 @@ import {
   Filter,
   Home,
   Maximize2,
+  Search,
   SlidersHorizontal,
   Users,
+  X,
 } from 'lucide-vue-next'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
 import {
   accommodationSortOptions,
@@ -31,16 +33,69 @@ import type {
   AccommodationCardViewModel,
   AccommodationFilterOption,
   AccommodationFilterState,
+  AccommodationSearchSelection,
   AccommodationSortMode,
 } from '~~/shared/types/accommodation'
 import type { ParkRecord } from '~~/shared/types/database'
+import type { LocationQueryValue } from 'vue-router'
+
+function getRouteQueryTextValue(value: LocationQueryValue | LocationQueryValue[] | undefined): string {
+  if (Array.isArray(value) === true) {
+    const firstValue: LocationQueryValue | undefined = value[0]
+
+    if (firstValue === null || firstValue === undefined) {
+      return ''
+    }
+
+    return firstValue
+  }
+
+  if (value === null || value === undefined) {
+    return ''
+  }
+
+  return value
+}
+
+function getRouteQueryCountValue(value: LocationQueryValue | LocationQueryValue[] | undefined, fallbackValue: string): string {
+  const routeQueryValue: string = getRouteQueryTextValue(value)
+
+  if (routeQueryValue.length === 0) {
+    return fallbackValue
+  }
+
+  return routeQueryValue
+}
 
 // Definitions
 const route = useRoute()
+const router = useRouter()
 const requestUrl = useRequestURL()
 const runtimeConfig = useRuntimeConfig()
 const { consentState } = useConsentState()
 const { trackOutboundClick } = useOutboundClickTracking()
+const defaultAdultCountInput = '2'
+const defaultChildCountInput = '0'
+const adultCountOptions: AccommodationFilterOption[] = [
+  { value: '1', label: '1 volwassene' },
+  { value: '2', label: '2 volwassenen' },
+  { value: '3', label: '3 volwassenen' },
+  { value: '4', label: '4 volwassenen' },
+  { value: '5', label: '5 volwassenen' },
+  { value: '6', label: '6 volwassenen' },
+  { value: '8', label: '8 volwassenen' },
+]
+const childCountOptions: AccommodationFilterOption[] = [
+  { value: '0', label: 'Geen kinderen' },
+  { value: '1', label: '1 kind' },
+  { value: '2', label: '2 kinderen' },
+  { value: '3', label: '3 kinderen' },
+  { value: '4', label: '4 kinderen' },
+]
+const arrivalDateInput = ref<string>('')
+const departureDateInput = ref<string>('')
+const adultCountInput = ref<string>(defaultAdultCountInput)
+const childCountInput = ref<string>(defaultChildCountInput)
 const personCountFilter = ref<string>(defaultAccommodationFilterState.personCount)
 const numberOfNightsFilter = ref<string>(defaultAccommodationFilterState.numberOfNights)
 const maxPriceAmountFilter = ref<string>(defaultAccommodationFilterState.maxPriceAmount)
@@ -68,12 +123,68 @@ const parkDetailPath = computed<string>(() => {
   return createParkDetailPath(park.value)
 })
 
+const hasInvalidDateRange = computed<boolean>(() => {
+  if (arrivalDateInput.value.length === 0) {
+    return false
+  }
+
+  if (departureDateInput.value.length === 0) {
+    return false
+  }
+
+  return departureDateInput.value <= arrivalDateInput.value
+})
+
+const selectedDateSearch = computed<AccommodationSearchSelection | null>(() => {
+  const adultCount: number = Number(adultCountInput.value)
+  const childCount: number = Number(childCountInput.value)
+
+  if (arrivalDateInput.value.length === 0 || departureDateInput.value.length === 0) {
+    return null
+  }
+
+  if (hasInvalidDateRange.value === true) {
+    return null
+  }
+
+  if (Number.isFinite(adultCount) === false || Number.isFinite(childCount) === false) {
+    return null
+  }
+
+  if (adultCount < 1 || childCount < 0) {
+    return null
+  }
+
+  return {
+    arrivalDate: arrivalDateInput.value,
+    departureDate: departureDateInput.value,
+    adultCount,
+    childCount,
+  }
+})
+
+const hasSelectedDateSearch = computed<boolean>(() => selectedDateSearch.value !== null)
+
+const dateSearchSummary = computed<string>(() => {
+  if (selectedDateSearch.value === null) {
+    return 'Kies je aankomst- en vertrekdatum.'
+  }
+
+  const travellerCount: number = selectedDateSearch.value.adultCount + selectedDateSearch.value.childCount
+
+  if (travellerCount === 1) {
+    return `${selectedDateSearch.value.arrivalDate} tot ${selectedDateSearch.value.departureDate}, 1 reiziger`
+  }
+
+  return `${selectedDateSearch.value.arrivalDate} tot ${selectedDateSearch.value.departureDate}, ${travellerCount} reizigers`
+})
+
 const accommodationCards = computed<AccommodationCardViewModel[]>(() => {
   if (park.value === null) {
     return []
   }
 
-  return createAccommodationCardViewModels(mockCatalog, park.value, route.path)
+  return createAccommodationCardViewModels(mockCatalog, park.value, route.path, selectedDateSearch.value)
 })
 
 const accommodationFilters = computed<AccommodationFilterState>(() => {
@@ -105,6 +216,13 @@ const hasActiveFilters = computed<boolean>(() => {
     || numberOfNightsFilter.value !== defaultAccommodationFilterState.numberOfNights
     || maxPriceAmountFilter.value !== defaultAccommodationFilterState.maxPriceAmount
     || sortMode.value !== defaultAccommodationFilterState.sortMode
+})
+
+const hasActiveDateSearch = computed<boolean>(() => {
+  return arrivalDateInput.value.length > 0
+    || departureDateInput.value.length > 0
+    || adultCountInput.value !== defaultAdultCountInput
+    || childCountInput.value !== defaultChildCountInput
 })
 
 const accommodationCountLabel = computed<string>(() => {
@@ -148,11 +266,91 @@ const metaDescription = computed<string>(() => {
 })
 
 // Functions
+const syncDateInputsFromRoute = (): void => {
+  arrivalDateInput.value = getRouteQueryTextValue(route.query.arrival)
+  departureDateInput.value = getRouteQueryTextValue(route.query.departure)
+  adultCountInput.value = getRouteQueryCountValue(route.query.adults, defaultAdultCountInput)
+  childCountInput.value = getRouteQueryCountValue(route.query.children, defaultChildCountInput)
+}
+
+const shouldPersistTravellerCounts = (): boolean => {
+  if (arrivalDateInput.value.length > 0 || departureDateInput.value.length > 0) {
+    return true
+  }
+
+  if (adultCountInput.value !== defaultAdultCountInput || childCountInput.value !== defaultChildCountInput) {
+    return true
+  }
+
+  return false
+}
+
+const getDateSearchQuery = (): Record<string, string> => {
+  const query: Record<string, string> = {}
+
+  if (arrivalDateInput.value.length > 0) {
+    query.arrival = arrivalDateInput.value
+  }
+
+  if (departureDateInput.value.length > 0) {
+    query.departure = departureDateInput.value
+  }
+
+  if (shouldPersistTravellerCounts() === true) {
+    query.adults = adultCountInput.value
+    query.children = childCountInput.value
+  }
+
+  return query
+}
+
+const applyDateSearch = (): void => {
+  void router.replace({
+    path: route.path,
+    query: getDateSearchQuery(),
+  })
+}
+
+const clearDateSearch = (): void => {
+  arrivalDateInput.value = ''
+  departureDateInput.value = ''
+  adultCountInput.value = defaultAdultCountInput
+  childCountInput.value = defaultChildCountInput
+
+  void router.replace({
+    path: route.path,
+    query: {},
+  })
+}
+
 const resetAccommodationFilters = (): void => {
   personCountFilter.value = defaultAccommodationFilterState.personCount
   numberOfNightsFilter.value = defaultAccommodationFilterState.numberOfNights
   maxPriceAmountFilter.value = defaultAccommodationFilterState.maxPriceAmount
   sortMode.value = defaultAccommodationFilterState.sortMode
+}
+
+const createAccommodationClickContext = (
+  parkRecord: ParkRecord,
+  card: AccommodationCardViewModel,
+): Record<string, string> => {
+  const trackingContext: Record<string, string> = {
+    source: 'accommodation-overview',
+    campaign: 'landal-tradetracker',
+    park: parkRecord.slug,
+    accommodation: card.accommodation.code,
+  }
+
+  if (selectedDateSearch.value === null) {
+    return trackingContext
+  }
+
+  trackingContext.arrivalDate = selectedDateSearch.value.arrivalDate
+  trackingContext.departureDate = selectedDateSearch.value.departureDate
+  trackingContext.adultCount = String(selectedDateSearch.value.adultCount)
+  trackingContext.childCount = String(selectedDateSearch.value.childCount)
+
+  return trackingContext
 }
 
 const handleAccommodationClick = (card: AccommodationCardViewModel): void => {
@@ -165,14 +363,17 @@ const handleAccommodationClick = (card: AccommodationCardViewModel): void => {
     destinationUrlKey: card.affiliateDestinationUrlKey,
     pagePath: route.path,
     consentState: consentState.value,
-    utmContext: {
-      source: 'accommodation-overview',
-      campaign: 'landal-tradetracker',
-      park: park.value.slug,
-      accommodation: card.accommodation.code,
-    },
+    utmContext: createAccommodationClickContext(park.value, card),
   })
 }
+
+watch(
+  () => route.query,
+  (): void => {
+    syncDateInputsFromRoute()
+  },
+  { immediate: true },
+)
 
 useHead(() => ({
   title: `Accommodaties ${parkName.value} | Weekendjeweg`,
@@ -250,7 +451,7 @@ useHead(() => ({
                 :size="24"
                 aria-hidden="true"
               />
-              Filter accommodaties
+              Zoek je verblijf
             </h2>
             <p class="inline-flex items-center gap-2 font-semibold text-[#455b56]">
               <Filter
@@ -260,6 +461,131 @@ useHead(() => ({
               {{ filteredAccommodationCountLabel }}
             </p>
           </div>
+
+          <form
+            class="grid gap-3 rounded-md border border-[#d8e4df] bg-white p-3"
+            @submit.prevent="applyDateSearch"
+          >
+            <h3 class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]">
+              <CalendarDays
+                :size="17"
+                aria-hidden="true"
+              />
+              Reisdata
+            </h3>
+            <div class="grid gap-2">
+              <label
+                class="text-sm font-bold text-[#1b2f2c]"
+                for="arrival-date-filter"
+              >
+                Aankomst
+              </label>
+              <input
+                v-model="arrivalDateInput"
+                :aria-invalid="hasInvalidDateRange"
+                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                id="arrival-date-filter"
+                type="date"
+              >
+            </div>
+            <div class="grid gap-2">
+              <label
+                class="text-sm font-bold text-[#1b2f2c]"
+                for="departure-date-filter"
+              >
+                Vertrek
+              </label>
+              <input
+                v-model="departureDateInput"
+                :aria-invalid="hasInvalidDateRange"
+                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                id="departure-date-filter"
+                type="date"
+              >
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="grid gap-2">
+                <label
+                  class="text-sm font-bold text-[#1b2f2c]"
+                  for="adult-count-filter"
+                >
+                  Volwassenen
+                </label>
+                <select
+                  v-model="adultCountInput"
+                  class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                  id="adult-count-filter"
+                >
+                  <option
+                    v-for="option in adultCountOptions"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+              </div>
+              <div class="grid gap-2">
+                <label
+                  class="text-sm font-bold text-[#1b2f2c]"
+                  for="child-count-filter"
+                >
+                  Kinderen
+                </label>
+                <select
+                  v-model="childCountInput"
+                  class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+                  id="child-count-filter"
+                >
+                  <option
+                    v-for="option in childCountOptions"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <p
+              v-if="hasInvalidDateRange"
+              class="rounded-md bg-[#fde9e4] px-3 py-2 text-sm font-bold text-[#9b2f20]"
+            >
+              Vertrekdatum moet na aankomstdatum liggen.
+            </p>
+            <p
+              v-if="hasSelectedDateSearch"
+              class="rounded-md bg-[#edf7f4] px-3 py-2 text-sm font-bold text-[#28665e]"
+            >
+              {{ dateSearchSummary }}
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                :disabled="hasInvalidDateRange"
+                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#153f3a] px-3 py-2 text-sm font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c] disabled:cursor-not-allowed disabled:bg-[#8aa09b]"
+                type="submit"
+              >
+                <Search
+                  :size="16"
+                  aria-hidden="true"
+                />
+                Pas toe
+              </button>
+              <button
+                v-if="hasActiveDateSearch"
+                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#153f3a] bg-white px-3 py-2 text-sm font-black text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+                type="button"
+                @click="clearDateSearch"
+              >
+                <X
+                  :size="16"
+                  aria-hidden="true"
+                />
+                Wis data
+              </button>
+            </div>
+          </form>
+
           <div class="grid gap-4">
             <div class="grid gap-2">
               <label
@@ -463,9 +789,10 @@ useHead(() => ({
                   :size="17"
                   aria-hidden="true"
                 />
-                Prijsvoorbeeld
+                Prijs
               </p>
               <p class="text-3xl font-black text-[#153f3a]">{{ card.priceLabel }}</p>
+              <p class="text-sm font-semibold text-[#5b6a66]">{{ card.priceFootnote }}</p>
               <a
                 :href="card.affiliateUrl"
                 class="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-md bg-[#c94936] px-4 py-3 font-black text-white no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"

@@ -7,24 +7,43 @@ import {
   createParkAccommodationOverviewPath,
 } from '../shared/domain/accommodationPresentation'
 import { getParkBySlug } from '../shared/domain/catalogRepository'
-import type { AccommodationCardViewModel, AccommodationImageSlide } from '../shared/types/accommodation'
+import type {
+  AccommodationCardViewModel,
+  AccommodationImageSlide,
+  AccommodationSearchSelection,
+} from '../shared/types/accommodation'
 import type { ParkRecord } from '../shared/types/database'
 
-test('creates De Vers accommodation cards with price and affiliate deeplink data', () => {
+const getDeVersPark = (): ParkRecord => {
   const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-de-vers')
 
   if (park === null) {
     throw new Error('Expected scraped De Vers park')
   }
 
+  return park
+}
+
+const getFirstAccommodationCard = (
+  searchSelection: AccommodationSearchSelection | null = null,
+): AccommodationCardViewModel => {
+  const park: ParkRecord = getDeVersPark()
   const pagePath: string = createParkAccommodationOverviewPath(park)
-  const cards: AccommodationCardViewModel[] = createAccommodationCardViewModels(mockCatalog, park, pagePath)
+  const cards: AccommodationCardViewModel[] = createAccommodationCardViewModels(mockCatalog, park, pagePath, searchSelection)
   const firstCard: AccommodationCardViewModel | undefined = cards[0]
 
   if (firstCard === undefined) {
     throw new Error('Expected scraped accommodation card')
   }
 
+  return firstCard
+}
+
+test('creates De Vers accommodation cards with price and affiliate deeplink data', () => {
+  const park: ParkRecord = getDeVersPark()
+  const pagePath: string = createParkAccommodationOverviewPath(park)
+  const cards: AccommodationCardViewModel[] = createAccommodationCardViewModels(mockCatalog, park, pagePath)
+  const firstCard: AccommodationCardViewModel = getFirstAccommodationCard()
   const firstSlide: AccommodationImageSlide | undefined = firstCard.imageSlides[0]
 
   if (firstSlide === undefined) {
@@ -38,6 +57,8 @@ test('creates De Vers accommodation cards with price and affiliate deeplink data
   assert.equal(firstCard.accommodation.code, '2L')
   assert.equal(firstCard.accommodation.name, '2-persoons bungalow')
   assert.equal(firstCard.priceLabel.includes('296'), true)
+  assert.equal(firstCard.priceFootnote.includes('Prijsvoorbeeld voor 2026-05-26'), true)
+  assert.equal(firstCard.priceStatus, 'default_price')
   assert.equal(firstCard.stayContext.includes('2026-05-26'), true)
   assert.equal(firstCard.specificationLabel.includes('48'), true)
   assert.equal(firstCard.imageAltText.includes('Landal De Vers'), true)
@@ -48,4 +69,46 @@ test('creates De Vers accommodation cards with price and affiliate deeplink data
   assert.equal(affiliateUrl.searchParams.get('u'), '/parken/de-vers/accommodaties/2l')
   assert.equal(affiliateUrl.searchParams.get('wjw_source'), 'accommodation-overview')
   assert.equal(affiliateUrl.searchParams.get('wjw_content'), 'landal-de-vers-2l')
+})
+
+test('keeps cached prices when selected dates match the scraped stay', () => {
+  const searchSelection: AccommodationSearchSelection = {
+    arrivalDate: '2026-05-26',
+    departureDate: '2026-05-29',
+    adultCount: 2,
+    childCount: 0,
+  }
+  const firstCard: AccommodationCardViewModel = getFirstAccommodationCard(searchSelection)
+  const affiliateUrl: URL = new URL(firstCard.affiliateUrl)
+  const landalPath: string | null = affiliateUrl.searchParams.get('u')
+
+  assert.equal(firstCard.priceLabel.includes('296'), true)
+  assert.equal(firstCard.priceFootnote, 'Prijsvoorbeeld opgehaald voor je gekozen data.')
+  assert.equal(firstCard.priceStatus, 'selected_date_match')
+  assert.equal(firstCard.stayContext, '2026-05-26 tot 2026-05-29, gekozen data')
+  assert.equal(landalPath?.includes('arrivalDate=2026-05-26'), true)
+  assert.equal(landalPath?.includes('departureDate=2026-05-29'), true)
+  assert.equal(landalPath?.includes('adults=2'), true)
+  assert.equal(landalPath?.includes('children=0'), true)
+})
+
+test('keeps accommodation cards clickable when selected dates need a live Landal price', () => {
+  const searchSelection: AccommodationSearchSelection = {
+    arrivalDate: '2026-06-12',
+    departureDate: '2026-06-15',
+    adultCount: 2,
+    childCount: 1,
+  }
+  const firstCard: AccommodationCardViewModel = getFirstAccommodationCard(searchSelection)
+  const affiliateUrl: URL = new URL(firstCard.affiliateUrl)
+  const landalPath: string | null = affiliateUrl.searchParams.get('u')
+
+  assert.equal(firstCard.priceLabel, 'Controleer prijs bij Landal')
+  assert.equal(firstCard.priceFootnote, 'Nog geen prijsvoorbeeld voor deze data; Landal toont de actuele prijs.')
+  assert.equal(firstCard.priceStatus, 'selected_date_missing')
+  assert.equal(firstCard.stayContext, '2026-06-12 tot 2026-06-15, gekozen data')
+  assert.equal(landalPath?.includes('arrivalDate=2026-06-12'), true)
+  assert.equal(landalPath?.includes('departureDate=2026-06-15'), true)
+  assert.equal(landalPath?.includes('adults=2'), true)
+  assert.equal(landalPath?.includes('children=1'), true)
 })
