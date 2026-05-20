@@ -7,6 +7,7 @@ import {
   CalendarDays,
   Camera,
   CheckCircle2,
+  ChevronLeft,
   ChevronRight,
   Euro,
   Home,
@@ -21,7 +22,7 @@ import {
   Utensils,
   Waves,
 } from 'lucide-vue-next'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
 import {
   getParkGalleryImagesForSlug,
@@ -74,6 +75,7 @@ const fallbackAffiliateLink: AffiliateUrlResult = {
   destinationUrlKey: 'landal:fallback',
   status: 'source_fallback',
 }
+const accommodationCarouselElement = ref<HTMLElement | null>(null)
 const euroFormatter = new Intl.NumberFormat('nl-NL', {
   currency: 'EUR',
   maximumFractionDigits: 0,
@@ -210,8 +212,9 @@ const accommodationCards = computed<AccommodationCardViewModel[]>(() => {
   return createAccommodationCardViewModels(mockCatalog, park.value, route.path)
 })
 
-const featuredAccommodationCards = computed<AccommodationCardViewModel[]>(() => accommodationCards.value.slice(0, 3))
+const accommodationCarouselCards = computed<AccommodationCardViewModel[]>(() => accommodationCards.value)
 const hasAccommodations = computed<boolean>(() => accommodations.value.length > 0)
+const hasMultipleAccommodationCards = computed<boolean>(() => accommodationCarouselCards.value.length > 1)
 
 const accommodationOverviewPath = computed<string>(() => {
   if (park.value === null) {
@@ -350,6 +353,23 @@ const getFeaturedAccommodationImageUrl = (card: AccommodationCardViewModel): str
   }
 
   return parkImageUrl.value
+}
+
+const scrollAccommodationCarousel = (scrollDirection: 'previous' | 'next'): void => {
+  const carouselElement: HTMLElement | null = accommodationCarouselElement.value
+
+  if (carouselElement === null) {
+    return
+  }
+
+  const scrollDistance: number = carouselElement.clientWidth * 0.85
+
+  if (scrollDirection === 'previous') {
+    carouselElement.scrollBy({ left: scrollDistance * -1, behavior: 'smooth' })
+    return
+  }
+
+  carouselElement.scrollBy({ left: scrollDistance, behavior: 'smooth' })
 }
 
 const handleAffiliateClick = (): void => {
@@ -716,61 +736,98 @@ useHead(() => ({
             </NuxtLink>
           </div>
 
-          <div class="grid gap-4 md:grid-cols-3">
-            <article
-              v-for="card in featuredAccommodationCards"
-              :key="card.accommodation.id"
-              class="overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.10)]"
+          <div class="grid gap-3">
+            <div
+              v-if="hasMultipleAccommodationCards"
+              class="flex justify-end gap-2"
+              aria-label="Accommodatiecarousel bedienen"
             >
-              <img
-                :alt="card.imageAltText"
-                :src="getFeaturedAccommodationImageUrl(card)"
-                class="h-44 w-full object-cover"
-                loading="lazy"
-              />
-              <div class="grid gap-3 p-4">
-                <div class="grid gap-1">
-                  <p class="text-sm font-black uppercase text-[#b33b2f]">{{ card.accommodation.code }}</p>
-                  <h3 class="text-xl font-black leading-tight tracking-normal text-[#1b2f2c]">{{ card.accommodation.name }}</h3>
+              <button
+                aria-label="Vorige accommodaties"
+                class="grid size-11 place-items-center rounded-md border border-[#b7c6bf] bg-white text-[#153f3a] shadow-[0_10px_24px_rgba(21,63,58,0.10)] hover:bg-[#e7efe8] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+                type="button"
+                @click="scrollAccommodationCarousel('previous')"
+              >
+                <ChevronLeft
+                  :size="20"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                aria-label="Volgende accommodaties"
+                class="grid size-11 place-items-center rounded-md border border-[#b7c6bf] bg-white text-[#153f3a] shadow-[0_10px_24px_rgba(21,63,58,0.10)] hover:bg-[#e7efe8] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+                type="button"
+                @click="scrollAccommodationCarousel('next')"
+              >
+                <ChevronRight
+                  :size="20"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+
+            <div
+              ref="accommodationCarouselElement"
+              class="-mx-4 flex snap-x gap-4 overflow-x-auto scroll-smooth px-4 pb-3 pt-1 [scrollbar-color:#28665e_#e7efe8] [scrollbar-width:thin] md:-mx-2 md:px-2"
+              role="region"
+              tabindex="0"
+              aria-label="Accommodaties carousel"
+            >
+              <article
+                v-for="card in accommodationCarouselCards"
+                :key="card.accommodation.id"
+                class="min-w-[17.5rem] snap-start overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.10)] sm:min-w-[20rem] lg:min-w-[21rem] xl:min-w-[22rem]"
+              >
+                <img
+                  :alt="card.imageAltText"
+                  :src="getFeaturedAccommodationImageUrl(card)"
+                  class="h-44 w-full object-cover"
+                  loading="lazy"
+                />
+                <div class="grid gap-3 p-4">
+                  <div class="grid gap-1">
+                    <p class="text-sm font-black uppercase text-[#b33b2f]">{{ card.accommodation.code }}</p>
+                    <h3 class="text-xl font-black leading-tight tracking-normal text-[#1b2f2c]">{{ card.accommodation.name }}</h3>
+                  </div>
+                  <dl class="grid gap-2 text-sm font-semibold text-[#455b56]">
+                    <div
+                      v-if="card.accommodation.personCount !== null"
+                      class="inline-flex items-center gap-2"
+                    >
+                      <Users
+                        :size="16"
+                        aria-hidden="true"
+                      />
+                      <dt class="sr-only">Personen</dt>
+                      <dd>{{ card.accommodation.personCount }} personen</dd>
+                    </div>
+                    <div
+                      v-if="card.accommodation.bedroomCount !== null"
+                      class="inline-flex items-center gap-2"
+                    >
+                      <BedDouble
+                        :size="16"
+                        aria-hidden="true"
+                      />
+                      <dt class="sr-only">Slaapkamers</dt>
+                      <dd>{{ card.accommodation.bedroomCount }} slaapkamers</dd>
+                    </div>
+                    <div
+                      v-if="card.accommodation.bathroomCount !== null"
+                      class="inline-flex items-center gap-2"
+                    >
+                      <Bath
+                        :size="16"
+                        aria-hidden="true"
+                      />
+                      <dt class="sr-only">Badkamers</dt>
+                      <dd>{{ card.accommodation.bathroomCount }} badkamers</dd>
+                    </div>
+                  </dl>
+                  <p class="text-2xl font-black text-[#153f3a]">{{ card.priceLabel }}</p>
                 </div>
-                <dl class="grid gap-2 text-sm font-semibold text-[#455b56]">
-                  <div
-                    v-if="card.accommodation.personCount !== null"
-                    class="inline-flex items-center gap-2"
-                  >
-                    <Users
-                      :size="16"
-                      aria-hidden="true"
-                    />
-                    <dt class="sr-only">Personen</dt>
-                    <dd>{{ card.accommodation.personCount }} personen</dd>
-                  </div>
-                  <div
-                    v-if="card.accommodation.bedroomCount !== null"
-                    class="inline-flex items-center gap-2"
-                  >
-                    <BedDouble
-                      :size="16"
-                      aria-hidden="true"
-                    />
-                    <dt class="sr-only">Slaapkamers</dt>
-                    <dd>{{ card.accommodation.bedroomCount }} slaapkamers</dd>
-                  </div>
-                  <div
-                    v-if="card.accommodation.bathroomCount !== null"
-                    class="inline-flex items-center gap-2"
-                  >
-                    <Bath
-                      :size="16"
-                      aria-hidden="true"
-                    />
-                    <dt class="sr-only">Badkamers</dt>
-                    <dd>{{ card.accommodation.bathroomCount }} badkamers</dd>
-                  </div>
-                </dl>
-                <p class="text-2xl font-black text-[#153f3a]">{{ card.priceLabel }}</p>
-              </div>
-            </article>
+              </article>
+            </div>
           </div>
         </div>
 
