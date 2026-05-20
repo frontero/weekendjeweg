@@ -20,4 +20,5 @@ export interface ParkTestimonial {
 export interface StructuredDataScript {
   type: 'application/ld+json'
   innerHTML: string
+  [dataAttribute: `data-${string}`]: string | number | boolean | undefined
 }
