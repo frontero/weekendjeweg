@@ -59,7 +59,7 @@ const handleAffiliateClick = (): void => {
     </div>
     <div class="grid content-center gap-4 p-5 md:p-6">
       <div class="grid gap-2">
-        <p class="text-sm font-black uppercase tracking-normal text-[#c94936]">Prijsvoorbeeld</p>
+        <p class="text-sm font-black uppercase tracking-normal text-[#b33b2f]">Prijsvoorbeeld</p>
         <h2 class="text-3xl font-black leading-tight tracking-normal text-[#1b2f2c] md:text-4xl">{{ props.card.park.name }}</h2>
         <p class="font-semibold text-[#455b56]">{{ props.card.park.locationName }}</p>
       </div>
