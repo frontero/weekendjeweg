@@ -153,7 +153,7 @@ useHead(() => ({
           <p class="mt-2 text-[#455b56]">Start met kust, Veluwe of Limburg en verfijn daarna op voorzieningen.</p>
         </div>
         <div class="rounded-lg bg-[#fffdf7] p-5 shadow-[0_1px_0_rgba(21,63,58,0.12)]">
-          <p class="text-3xl font-black text-[#c94936]">2</p>
+          <p class="text-3xl font-black text-[#b33b2f]">2</p>
           <h3 class="mt-2 text-xl font-black text-[#1b2f2c]">Vergelijk prijscontext</h3>
           <p class="mt-2 text-[#455b56]">We tonen alleen prijsvoorbeelden en geen beschikbaarheidsclaim.</p>
         </div>
