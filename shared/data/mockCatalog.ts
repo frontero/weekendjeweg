@@ -100,6 +100,16 @@ const deVersAccommodationImageUrlsByCode: Record<string, string[]> = {
   ],
 }
 
+const getDeVersAccommodationImageUrls = (accommodationCode: string): string[] => {
+  const imageUrls: string[] | undefined = deVersAccommodationImageUrlsByCode[accommodationCode]
+
+  if (imageUrls === undefined) {
+    return []
+  }
+
+  return imageUrls
+}
+
 export const mockRegions: RegionRecord[] = [
   {
     id: regionVeluweId,
@@ -243,7 +253,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 1,
     bathroomCount: 1,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/5626750-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['2L'],
+    imageUrls: getDeVersAccommodationImageUrls('2L'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/2l',
     arrivalDate: '2026-05-26',
     departureDate: '2026-05-29',
@@ -268,7 +278,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 2,
     bathroomCount: 1,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/4858340-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['4C3'],
+    imageUrls: getDeVersAccommodationImageUrls('4C3'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/4c3',
     arrivalDate: '2026-05-26',
     departureDate: '2026-05-29',
@@ -293,7 +303,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 2,
     bathroomCount: 1,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/5627261-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['4L'],
+    imageUrls: getDeVersAccommodationImageUrls('4L'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/4l',
     arrivalDate: '2026-05-26',
     departureDate: '2026-05-29',
@@ -318,7 +328,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 3,
     bathroomCount: 2,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/4858577-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['6C3'],
+    imageUrls: getDeVersAccommodationImageUrls('6C3'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/6c3',
     arrivalDate: '2026-05-26',
     departureDate: '2026-05-29',
@@ -343,7 +353,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 3,
     bathroomCount: 1,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/4858625-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['6C4'],
+    imageUrls: getDeVersAccommodationImageUrls('6C4'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/6c4',
     arrivalDate: '2026-06-08',
     departureDate: '2026-06-12',
@@ -368,7 +378,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 4,
     bathroomCount: 2,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/7888391-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['8L'],
+    imageUrls: getDeVersAccommodationImageUrls('8L'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/8l',
     arrivalDate: '2026-05-26',
     departureDate: '2026-05-29',
@@ -393,7 +403,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 1,
     bathroomCount: 1,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/5626268-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['2C'],
+    imageUrls: getDeVersAccommodationImageUrls('2C'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/2c',
     arrivalDate: '2026-06-26',
     departureDate: '2026-06-29',
@@ -418,7 +428,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 2,
     bathroomCount: 2,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/3863924-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['4C1'],
+    imageUrls: getDeVersAccommodationImageUrls('4C1'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/4c1',
     arrivalDate: '2026-07-03',
     departureDate: '2026-07-06',
@@ -443,7 +453,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 3,
     bathroomCount: 2,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/4858517-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['6C2'],
+    imageUrls: getDeVersAccommodationImageUrls('6C2'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/6c2',
     arrivalDate: '2026-05-29',
     departureDate: '2026-06-01',
@@ -468,7 +478,7 @@ export const mockAccommodations: AccommodationRecord[] = [
     bedroomCount: 3,
     bathroomCount: 2,
     imageUrl: 'https://mss-p-014-delivery.stylelabs.cloud/api/public/content/4858704-3x2?t=cw480',
-    imageUrls: deVersAccommodationImageUrlsByCode['6L'],
+    imageUrls: getDeVersAccommodationImageUrls('6L'),
     sourceUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/6l',
     arrivalDate: '2026-05-29',
     departureDate: '2026-06-01',
