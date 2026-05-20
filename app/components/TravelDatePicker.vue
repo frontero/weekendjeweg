@@ -24,6 +24,12 @@ const emit = defineEmits<{
 }>()
 const monthFormatter = new Intl.DateTimeFormat('nl-NL', { month: 'long', year: 'numeric' })
 const displayDateFormatter = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'short', weekday: 'short' })
+const fullDateFormatter = new Intl.DateTimeFormat('nl-NL', {
+  day: 'numeric',
+  month: 'long',
+  weekday: 'long',
+  year: 'numeric',
+})
 const dayNameLabels: string[] = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo']
 const componentRoot = ref<HTMLElement | null>(null)
 const isOpen = ref<boolean>(false)
@@ -180,6 +186,24 @@ function getDayButtonClass(day: CalendarDayViewModel): string {
   return 'text-[#1b2f2c] hover:bg-[#edf7f4]'
 }
 
+function getDayButtonLabel(day: CalendarDayViewModel): string {
+  const date: Date | null = createDateFromValue(day.dateValue)
+
+  if (date === null) {
+    return String(day.dayOfMonth)
+  }
+
+  if (day.isSelected === true) {
+    return `${fullDateFormatter.format(date)}, geselecteerd`
+  }
+
+  if (day.isDisabled === true) {
+    return `${fullDateFormatter.format(date)}, niet beschikbaar`
+  }
+
+  return fullDateFormatter.format(date)
+}
+
 function closeWhenClickingOutside(event: MouseEvent): void {
   const target: EventTarget | null = event.target
 
@@ -236,6 +260,7 @@ onBeforeUnmount((): void => {
       <button
         :aria-controls="calendarId"
         :aria-expanded="isOpen"
+        aria-haspopup="dialog"
         class="grid min-h-16 w-full grid-cols-[2.75rem_1fr] items-center gap-3 rounded-lg border border-[#a9beb7] bg-[#fffdf7] p-2 text-left shadow-[0_10px_24px_rgba(21,63,58,0.08)] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
         type="button"
         @click="togglePicker"
@@ -297,6 +322,7 @@ onBeforeUnmount((): void => {
             v-for="day in calendarDays"
             :key="day.dateValue"
             :aria-current="day.isToday === true ? 'date' : undefined"
+            :aria-label="getDayButtonLabel(day)"
             :aria-pressed="day.isSelected"
             :class="getDayButtonClass(day)"
             :disabled="day.isDisabled"
