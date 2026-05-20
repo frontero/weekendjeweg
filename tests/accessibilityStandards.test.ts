@@ -37,6 +37,22 @@ const getPositiveTabIndexMatches = (content: string): string[] => {
   return content.match(/tabindex=["'](?:[1-9]|[1-9][0-9]+)["']/g) ?? []
 }
 
+const getTagName = (tagMatchText: string): string | null => {
+  const tagMatch: RegExpMatchArray | null = tagMatchText.match(/^<([A-Za-z][\w-]*)/)
+
+  if (tagMatch === null) {
+    return null
+  }
+
+  const tagName: string | undefined = tagMatch[1]
+
+  if (tagName === undefined) {
+    return null
+  }
+
+  return tagName
+}
+
 const getNonNativeClickMatches = (content: string): string[] => {
   const clickMatches: RegExpMatchArray | null = content.match(/<([A-Za-z][\w-]*)\b[^>]*@click=/g)
 
@@ -47,7 +63,11 @@ const getNonNativeClickMatches = (content: string): string[] => {
   const allowedElements = new Set<string>(['button', 'a', 'NuxtLink'])
 
   return clickMatches.filter((match: string): boolean => {
-    const tagName: string = match.replace(/^<([A-Za-z][\w-]*).*$/, '$1')
+    const tagName: string | null = getTagName(match)
+
+    if (tagName === null) {
+      return true
+    }
 
     return allowedElements.has(tagName) === false
   })
