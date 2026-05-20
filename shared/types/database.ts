@@ -44,6 +44,31 @@ export interface ParkRecord {
   updatedAt: ISODateTime
 }
 
+export interface AccommodationRecord {
+  id: UUID
+  parkId: UUID
+  code: string
+  name: string
+  personCount: number | null
+  areaText: string | null
+  construction: string | null
+  bedroomCount: number | null
+  bathroomCount: number | null
+  imageUrl: string | null
+  sourceUrl: string
+  arrivalDate: ISODate | null
+  departureDate: ISODate | null
+  numberOfNights: number | null
+  currency: CurrencyCode
+  priceAmount: number | null
+  rentalPriceAmount: number | null
+  totalPriceInCents: number | null
+  priceDisclaimer: string | null
+  sourceCapturedAt: ISODateTime
+  expiresAt: ISODateTime | null
+  createdAt: ISODateTime
+}
+
 export interface ParkFacilityRecord {
   parkId: UUID
   facilityId: UUID
@@ -112,6 +137,7 @@ export interface CatalogDataSet {
   regions: RegionRecord[]
   facilities: FacilityRecord[]
   parks: ParkRecord[]
+  accommodations: AccommodationRecord[]
   parkFacilities: ParkFacilityRecord[]
   priceSnapshots: PriceSnapshotRecord[]
   affiliateLinkTemplates: AffiliateLinkTemplateRecord[]

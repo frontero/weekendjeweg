@@ -21,6 +21,7 @@ export interface BuildAffiliateUrlInput {
   park: ParkRecord
   template: AffiliateLinkTemplateRecord | null
   pagePath: string
+  destinationUrl?: string
   trackingParameters?: AffiliateTrackingParameters
 }
 

@@ -45,6 +45,35 @@ test('builds TradeTracker deeplink with a Landal destination path', () => {
   assert.match(result.destinationUrlKey, /placeholder/)
 })
 
+test('builds TradeTracker deeplink with an accommodation destination override', () => {
+  const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-de-vers')
+
+  if (park === null) {
+    throw new Error('Expected scraped De Vers park')
+  }
+
+  const template: AffiliateLinkTemplateRecord | null = getAffiliateTemplateForPark(mockCatalog, park.id)
+  const result = buildAffiliateUrl({
+    park,
+    template,
+    destinationUrl: 'https://www.landal.nl/parken/de-vers/accommodaties/2l',
+    pagePath: '/parken/landal-de-vers/accommodaties',
+    trackingParameters: {
+      source: 'accommodation-overview',
+      medium: 'affiliate',
+      campaign: 'landal-tradetracker',
+      content: 'landal-de-vers-2l',
+    },
+  })
+  const url: URL = new URL(result.url)
+
+  assert.equal(url.hostname, 'tc.tradetracker.net')
+  assert.equal(url.searchParams.get('u'), '/parken/de-vers/accommodaties/2l')
+  assert.equal(url.searchParams.get('wjw_source'), 'accommodation-overview')
+  assert.equal(url.searchParams.get('wjw_content'), 'landal-de-vers-2l')
+  assert.equal(result.destinationUrlKey.endsWith(':/parken/de-vers/accommodaties/2l'), true)
+})
+
 test('keeps rejected or unknown consent in anonymous functional scope', () => {
   const rejectedScope: TrackingScope = getTrackingScopeForConsent('rejected')
   const unknownScope: TrackingScope = getTrackingScopeForConsent('unknown')

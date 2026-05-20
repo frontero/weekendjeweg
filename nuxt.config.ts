@@ -32,6 +32,7 @@ export default defineNuxtConfig({
         '/',
         '/parken',
         '/parken/landal-de-vers',
+        '/parken/landal-de-vers/accommodaties',
         '/parken/landal-miggelenberg',
         '/parken/landal-strand-resort-ouddorp-duin',
         '/parken/landal-hoog-vaals',

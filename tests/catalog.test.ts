@@ -5,12 +5,13 @@ import { mockCatalog } from '../shared/data/mockCatalog'
 import {
   getAffiliateTemplateForPark,
   getParkBySlug,
+  listAccommodationsForPark,
   listFacilitiesForPark,
   listParks,
   selectPriceSnapshot,
 } from '../shared/domain/catalogRepository'
 import { assertAnonymousClickIsSafe, createAnonymousFunctionalClick } from '../shared/domain/clickTracking'
-import type { ParkRecord, PriceSnapshotRecord } from '../shared/types/database'
+import type { AccommodationRecord, ParkRecord, PriceSnapshotRecord } from '../shared/types/database'
 
 test('filters parks by region and facility slug', () => {
   const parks: ParkRecord[] = listParks(mockCatalog, {
@@ -73,6 +74,31 @@ test('contains a single scraped Landal De Vers price snapshot', () => {
   assert.equal(park.locationName, 'Overloon')
   assert.equal(snapshot?.priceAmount, 416)
   assert.equal(snapshot?.priceLabel, 'Landal prijsvoorbeeld')
+})
+
+test('lists scraped Landal De Vers accommodations by current price', () => {
+  const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-de-vers')
+
+  if (park === null) {
+    throw new Error('Expected scraped De Vers park')
+  }
+
+  const accommodations: AccommodationRecord[] = listAccommodationsForPark(mockCatalog, park.id)
+  const firstAccommodation: AccommodationRecord | undefined = accommodations[0]
+  const lastAccommodation: AccommodationRecord | undefined = accommodations[9]
+
+  if (firstAccommodation === undefined || lastAccommodation === undefined) {
+    throw new Error('Expected scraped accommodation fixtures')
+  }
+
+  assert.equal(accommodations.length, 10)
+  assert.equal(firstAccommodation.code, '2L')
+  assert.equal(firstAccommodation.name, '2-persoons bungalow')
+  assert.equal(firstAccommodation.priceAmount, 296)
+  assert.equal(firstAccommodation.arrivalDate, '2026-05-26')
+  assert.equal(firstAccommodation.numberOfNights, 3)
+  assert.equal(lastAccommodation.code, '6L')
+  assert.equal(lastAccommodation.priceAmount, 716)
 })
 
 test('keeps affiliate template separate from final network approval', () => {

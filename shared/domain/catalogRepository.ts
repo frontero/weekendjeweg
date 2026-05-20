@@ -1,4 +1,5 @@
 import type {
+  AccommodationRecord,
   AffiliateLinkTemplateRecord,
   CatalogDataSet,
   FacilityRecord,
@@ -25,6 +26,19 @@ export interface PriceSnapshotQuery {
 const sortByName = <RecordType extends { name: string }>(items: RecordType[]): RecordType[] => {
   return [...items].sort((leftItem: RecordType, rightItem: RecordType): number => {
     return leftItem.name.localeCompare(rightItem.name, 'nl')
+  })
+}
+
+const sortAccommodations = (items: AccommodationRecord[]): AccommodationRecord[] => {
+  return [...items].sort((leftItem: AccommodationRecord, rightItem: AccommodationRecord): number => {
+    const leftPrice: number = leftItem.totalPriceInCents ?? Number.MAX_SAFE_INTEGER
+    const rightPrice: number = rightItem.totalPriceInCents ?? Number.MAX_SAFE_INTEGER
+
+    if (leftPrice !== rightPrice) {
+      return leftPrice - rightPrice
+    }
+
+    return leftItem.code.localeCompare(rightItem.code, 'nl')
   })
 }
 
@@ -117,6 +131,12 @@ export const listFacilitiesForPark = (catalog: CatalogDataSet, parkId: UUID): Fa
 
   return sortByName(
     catalog.facilities.filter((facility: FacilityRecord): boolean => facilityIds.includes(facility.id) === true),
+  )
+}
+
+export const listAccommodationsForPark = (catalog: CatalogDataSet, parkId: UUID): AccommodationRecord[] => {
+  return sortAccommodations(
+    catalog.accommodations.filter((accommodation: AccommodationRecord): boolean => accommodation.parkId === parkId),
   )
 }
 

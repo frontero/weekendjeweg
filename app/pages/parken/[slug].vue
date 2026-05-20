@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
+import { createParkAccommodationOverviewPath } from '~~/shared/domain/accommodationPresentation'
 import { buildAffiliateUrl } from '~~/shared/domain/affiliateLinks'
 import {
   getAffiliateTemplateForPark,
   getParkBySlug,
+  listAccommodationsForPark,
   listFacilitiesForPark,
   selectPriceSnapshot,
 } from '~~/shared/domain/catalogRepository'
@@ -19,7 +21,7 @@ import {
 import { createCanonicalUrl, createParkBreadcrumbStructuredData, serialiseStructuredData } from '~~/shared/domain/seo'
 import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
 import type { AffiliateUrlResult } from '~~/shared/types/affiliate'
-import type { AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
+import type { AccommodationRecord, AffiliateLinkTemplateRecord, FacilityRecord, ParkRecord, PriceSnapshotRecord } from '~~/shared/types/database'
 
 // Definitions
 const route = useRoute()
@@ -90,6 +92,32 @@ const facilities = computed<FacilityRecord[]>(() => {
   }
 
   return listFacilitiesForPark(mockCatalog, park.value.id)
+})
+
+const accommodations = computed<AccommodationRecord[]>(() => {
+  if (park.value === null) {
+    return []
+  }
+
+  return listAccommodationsForPark(mockCatalog, park.value.id)
+})
+
+const hasAccommodations = computed<boolean>(() => accommodations.value.length > 0)
+
+const accommodationOverviewPath = computed<string>(() => {
+  if (park.value === null) {
+    return '/parken'
+  }
+
+  return createParkAccommodationOverviewPath(park.value)
+})
+
+const accommodationOverviewButtonText = computed<string>(() => {
+  if (accommodations.value.length === 1) {
+    return 'Bekijk 1 accommodatie'
+  }
+
+  return `Bekijk ${accommodations.value.length} accommodaties`
 })
 
 const priceSnapshot = computed<PriceSnapshotRecord | null>(() => {
@@ -261,6 +289,13 @@ useHead(() => ({
         >
           Bekijk bij Landal
         </a>
+        <NuxtLink
+          v-if="hasAccommodations"
+          :to="accommodationOverviewPath"
+          class="inline-flex min-h-12 w-fit items-center justify-center rounded-md border border-[#153f3a] px-4 py-3 font-black text-[#153f3a] no-underline hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+        >
+          {{ accommodationOverviewButtonText }}
+        </NuxtLink>
         <p class="text-sm font-semibold text-[#5b6a66]">Geen beschikbaarheidsclaim. Externe boeking via Landal.</p>
       </aside>
     </section>
