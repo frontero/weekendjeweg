@@ -122,7 +122,7 @@ useHead(() => ({
 <template>
   <div>
     <section
-      class="relative isolate overflow-hidden px-4 py-12 md:px-16 md:py-16"
+      class="relative isolate overflow-hidden bg-[#153f3a] px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="parks-title"
     >
       <div class="absolute inset-0 -z-10 bg-[#153f3a]"></div>
