@@ -13,7 +13,7 @@
       </div>
       <div class="flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between md:px-16">
         <NuxtLink
-          class="text-xl font-black no-underline"
+          class="w-fit rounded-md px-2 py-1 text-xl font-black no-underline focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
           to="/"
         >
           Weekendjeweg
@@ -24,16 +24,22 @@
           aria-label="Hoofdnavigatie"
         >
           <NuxtLink
-            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
+            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
             to="/parken"
           >
             Parken
           </NuxtLink>
           <NuxtLink
-            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8]"
+            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
             to="/regio/nederland"
           >
             Regio's
+          </NuxtLink>
+          <NuxtLink
+            class="inline-flex min-h-11 items-center justify-center rounded-md px-3 py-2 font-bold text-[#1b2f2c] no-underline hover:bg-[#e7efe8] focus-visible:bg-[#e7efe8] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+            to="/toegankelijkheid"
+          >
+            Toegankelijkheid
           </NuxtLink>
         </nav>
       </div>
