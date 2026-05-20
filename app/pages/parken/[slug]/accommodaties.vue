@@ -9,6 +9,8 @@ import {
   Filter,
   Home,
   Maximize2,
+  Minus,
+  Plus,
   Search,
   SlidersHorizontal,
   Users,
@@ -76,22 +78,7 @@ const { consentState } = useConsentState()
 const { trackOutboundClick } = useOutboundClickTracking()
 const defaultAdultCountInput = '2'
 const defaultChildCountInput = '0'
-const adultCountOptions: AccommodationFilterOption[] = [
-  { value: '1', label: '1 volwassene' },
-  { value: '2', label: '2 volwassenen' },
-  { value: '3', label: '3 volwassenen' },
-  { value: '4', label: '4 volwassenen' },
-  { value: '5', label: '5 volwassenen' },
-  { value: '6', label: '6 volwassenen' },
-  { value: '8', label: '8 volwassenen' },
-]
-const childCountOptions: AccommodationFilterOption[] = [
-  { value: '0', label: 'Geen kinderen' },
-  { value: '1', label: '1 kind' },
-  { value: '2', label: '2 kinderen' },
-  { value: '3', label: '3 kinderen' },
-  { value: '4', label: '4 kinderen' },
-]
+const minimumTravelDate = '2026-05-20'
 const arrivalDateInput = ref<string>('')
 const departureDateInput = ref<string>('')
 const adultCountInput = ref<string>(defaultAdultCountInput)
@@ -123,6 +110,14 @@ const parkDetailPath = computed<string>(() => {
   return createParkDetailPath(park.value)
 })
 
+const departureMinimumDate = computed<string>(() => {
+  if (arrivalDateInput.value.length === 0) {
+    return minimumTravelDate
+  }
+
+  return arrivalDateInput.value
+})
+
 const hasInvalidDateRange = computed<boolean>(() => {
   if (arrivalDateInput.value.length === 0) {
     return false
@@ -135,10 +130,10 @@ const hasInvalidDateRange = computed<boolean>(() => {
   return departureDateInput.value <= arrivalDateInput.value
 })
 
-const selectedDateSearch = computed<AccommodationSearchSelection | null>(() => {
-  const adultCount: number = Number(adultCountInput.value)
-  const childCount: number = Number(childCountInput.value)
+const adultCountValue = computed<number>(() => parseTravellerCount(adultCountInput.value, Number(defaultAdultCountInput)))
+const childCountValue = computed<number>(() => parseTravellerCount(childCountInput.value, Number(defaultChildCountInput)))
 
+const selectedDateSearch = computed<AccommodationSearchSelection | null>(() => {
   if (arrivalDateInput.value.length === 0 || departureDateInput.value.length === 0) {
     return null
   }
@@ -147,19 +142,15 @@ const selectedDateSearch = computed<AccommodationSearchSelection | null>(() => {
     return null
   }
 
-  if (Number.isFinite(adultCount) === false || Number.isFinite(childCount) === false) {
-    return null
-  }
-
-  if (adultCount < 1 || childCount < 0) {
+  if (adultCountValue.value < 1 || childCountValue.value < 0) {
     return null
   }
 
   return {
     arrivalDate: arrivalDateInput.value,
     departureDate: departureDateInput.value,
-    adultCount,
-    childCount,
+    adultCount: adultCountValue.value,
+    childCount: childCountValue.value,
   }
 })
 
@@ -266,6 +257,40 @@ const metaDescription = computed<string>(() => {
 })
 
 // Functions
+const parseTravellerCount = (value: string, fallbackValue: number): number => {
+  const parsedValue: number = Number(value)
+
+  if (Number.isFinite(parsedValue) === false) {
+    return fallbackValue
+  }
+
+  return parsedValue
+}
+
+const setAdultCount = (nextValue: number): void => {
+  adultCountInput.value = String(Math.min(8, Math.max(1, nextValue)))
+}
+
+const setChildCount = (nextValue: number): void => {
+  childCountInput.value = String(Math.min(4, Math.max(0, nextValue)))
+}
+
+const decreaseAdultCount = (): void => {
+  setAdultCount(adultCountValue.value - 1)
+}
+
+const increaseAdultCount = (): void => {
+  setAdultCount(adultCountValue.value + 1)
+}
+
+const decreaseChildCount = (): void => {
+  setChildCount(childCountValue.value - 1)
+}
+
+const increaseChildCount = (): void => {
+  setChildCount(childCountValue.value + 1)
+}
+
 const syncDateInputsFromRoute = (): void => {
   arrivalDateInput.value = getRouteQueryTextValue(route.query.arrival)
   departureDateInput.value = getRouteQueryTextValue(route.query.departure)
@@ -463,7 +488,7 @@ useHead(() => ({
           </div>
 
           <form
-            class="grid gap-3 rounded-md border border-[#d8e4df] bg-white p-3"
+            class="grid gap-3 rounded-lg border border-[#d8e4df] bg-white p-3"
             @submit.prevent="applyDateSearch"
           >
             <h3 class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#28665e]">
@@ -473,80 +498,103 @@ useHead(() => ({
               />
               Reisdata
             </h3>
-            <div class="grid gap-2">
-              <label
-                class="text-sm font-bold text-[#1b2f2c]"
-                for="arrival-date-filter"
-              >
-                Aankomst
-              </label>
-              <input
+            <div class="grid gap-3">
+              <TravelDatePicker
                 v-model="arrivalDateInput"
-                :aria-invalid="hasInvalidDateRange"
-                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-                id="arrival-date-filter"
-                type="date"
-              >
-            </div>
-            <div class="grid gap-2">
-              <label
-                class="text-sm font-bold text-[#1b2f2c]"
-                for="departure-date-filter"
-              >
-                Vertrek
-              </label>
-              <input
+                :min-date="minimumTravelDate"
+                label="Aankomst"
+              />
+              <TravelDatePicker
                 v-model="departureDateInput"
-                :aria-invalid="hasInvalidDateRange"
-                class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-                id="departure-date-filter"
-                type="date"
-              >
+                :min-date="departureMinimumDate"
+                label="Vertrek"
+              />
             </div>
-            <div class="grid grid-cols-2 gap-2">
+
+            <fieldset class="grid gap-3 rounded-lg bg-[#f7f4ec] p-3">
+              <legend class="sr-only">Reizigers</legend>
               <div class="grid gap-2">
-                <label
-                  class="text-sm font-bold text-[#1b2f2c]"
-                  for="adult-count-filter"
+                <span
+                  id="adult-count-label"
+                  class="text-sm font-black uppercase text-[#28665e]"
                 >
                   Volwassenen
-                </label>
-                <select
-                  v-model="adultCountInput"
-                  class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-                  id="adult-count-filter"
-                >
-                  <option
-                    v-for="option in adultCountOptions"
-                    :key="option.value"
-                    :value="option.value"
+                </span>
+                <div class="grid grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-2">
+                  <button
+                    :disabled="adultCountValue <= 1"
+                    aria-label="Minder volwassenen"
+                    class="grid size-11 place-items-center rounded-md border border-[#a9beb7] bg-white text-[#153f3a] hover:bg-[#edf7f4] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[2px] focus-visible:outline-[#f5c84c] disabled:cursor-not-allowed disabled:text-[#b8c3bf]"
+                    type="button"
+                    @click="decreaseAdultCount"
                   >
-                    {{ option.label }}
-                  </option>
-                </select>
+                    <Minus
+                      :size="17"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <output
+                    aria-labelledby="adult-count-label"
+                    class="grid min-h-11 place-items-center rounded-md bg-white px-3 text-lg font-black text-[#1b2f2c]"
+                  >
+                    {{ adultCountValue }}
+                  </output>
+                  <button
+                    :disabled="adultCountValue >= 8"
+                    aria-label="Meer volwassenen"
+                    class="grid size-11 place-items-center rounded-md border border-[#a9beb7] bg-white text-[#153f3a] hover:bg-[#edf7f4] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[2px] focus-visible:outline-[#f5c84c] disabled:cursor-not-allowed disabled:text-[#b8c3bf]"
+                    type="button"
+                    @click="increaseAdultCount"
+                  >
+                    <Plus
+                      :size="17"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
               </div>
               <div class="grid gap-2">
-                <label
-                  class="text-sm font-bold text-[#1b2f2c]"
-                  for="child-count-filter"
+                <span
+                  id="child-count-label"
+                  class="text-sm font-black uppercase text-[#28665e]"
                 >
                   Kinderen
-                </label>
-                <select
-                  v-model="childCountInput"
-                  class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
-                  id="child-count-filter"
-                >
-                  <option
-                    v-for="option in childCountOptions"
-                    :key="option.value"
-                    :value="option.value"
+                </span>
+                <div class="grid grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-2">
+                  <button
+                    :disabled="childCountValue <= 0"
+                    aria-label="Minder kinderen"
+                    class="grid size-11 place-items-center rounded-md border border-[#a9beb7] bg-white text-[#153f3a] hover:bg-[#edf7f4] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[2px] focus-visible:outline-[#f5c84c] disabled:cursor-not-allowed disabled:text-[#b8c3bf]"
+                    type="button"
+                    @click="decreaseChildCount"
                   >
-                    {{ option.label }}
-                  </option>
-                </select>
+                    <Minus
+                      :size="17"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <output
+                    aria-labelledby="child-count-label"
+                    class="grid min-h-11 place-items-center rounded-md bg-white px-3 text-lg font-black text-[#1b2f2c]"
+                  >
+                    {{ childCountValue }}
+                  </output>
+                  <button
+                    :disabled="childCountValue >= 4"
+                    aria-label="Meer kinderen"
+                    class="grid size-11 place-items-center rounded-md border border-[#a9beb7] bg-white text-[#153f3a] hover:bg-[#edf7f4] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[2px] focus-visible:outline-[#f5c84c] disabled:cursor-not-allowed disabled:text-[#b8c3bf]"
+                    type="button"
+                    @click="increaseChildCount"
+                  >
+                    <Plus
+                      :size="17"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
               </div>
-            </div>
+            </fieldset>
+
             <p
               v-if="hasInvalidDateRange"
               class="rounded-md bg-[#fde9e4] px-3 py-2 text-sm font-bold text-[#9b2f20]"
