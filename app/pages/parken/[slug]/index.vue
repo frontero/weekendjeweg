@@ -581,7 +581,7 @@ useHead(() => ({
           class="grid gap-5"
         >
           <div class="grid gap-2">
-            <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#c94936]">
+            <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#b33b2f]">
               <Sparkles
                 :size="17"
                 aria-hidden="true"
@@ -653,7 +653,7 @@ useHead(() => ({
           class="grid gap-5"
         >
           <div class="grid gap-2">
-            <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#c94936]">
+            <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#b33b2f]">
               <Camera
                 :size="17"
                 aria-hidden="true"
@@ -680,7 +680,7 @@ useHead(() => ({
                 loading="lazy"
               />
               <div class="grid gap-2 p-5">
-                <p class="text-sm font-black uppercase tracking-normal text-[#c94936]">{{ story.eyebrow }}</p>
+                <p class="text-sm font-black uppercase tracking-normal text-[#b33b2f]">{{ story.eyebrow }}</p>
                 <h3 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">{{ story.title }}</h3>
                 <p class="leading-relaxed text-[#455b56]">{{ story.description }}</p>
               </div>
@@ -694,7 +694,7 @@ useHead(() => ({
         >
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div class="grid gap-2">
-              <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#c94936]">
+              <p class="inline-flex items-center gap-2 text-sm font-black uppercase tracking-normal text-[#b33b2f]">
                 <Home
                   :size="17"
                   aria-hidden="true"
@@ -730,7 +730,7 @@ useHead(() => ({
               />
               <div class="grid gap-3 p-4">
                 <div class="grid gap-1">
-                  <p class="text-sm font-black uppercase text-[#c94936]">{{ card.accommodation.code }}</p>
+                  <p class="text-sm font-black uppercase text-[#b33b2f]">{{ card.accommodation.code }}</p>
                   <h3 class="text-xl font-black leading-tight tracking-normal text-[#1b2f2c]">{{ card.accommodation.name }}</h3>
                 </div>
                 <dl class="grid gap-2 text-sm font-semibold text-[#455b56]">
@@ -827,7 +827,8 @@ useHead(() => ({
               class="grid gap-4 rounded-lg bg-[#fffdf7] p-5 shadow-[0_18px_40px_rgba(21,63,58,0.14)]"
             >
               <div
-                class="flex gap-1 text-[#c94936]"
+                class="flex gap-1 text-[#b33b2f]"
+                role="img"
                 aria-label="Vijf sterren"
               >
                 <Star
@@ -855,7 +856,7 @@ useHead(() => ({
         class="grid gap-4 rounded-lg bg-[#fffdf7] p-5 shadow-[0_22px_50px_rgba(21,63,58,0.16)] lg:sticky lg:top-20"
       >
         <div class="grid gap-1">
-          <p class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#c94936]">
+          <p class="inline-flex items-center gap-2 text-sm font-black uppercase text-[#b33b2f]">
             <Euro
               :size="17"
               aria-hidden="true"
