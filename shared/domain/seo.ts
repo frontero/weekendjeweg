@@ -21,7 +21,7 @@ export interface ParkWebPageStructuredDataInput {
   title: string
 }
 
-const defaultLastModifiedDate = '2026-05-19'
+const defaultLastModifiedDate = '2026-05-20'
 
 const stripTrailingSlash = (value: string): string => {
   if (value.endsWith('/') === true) {
@@ -36,7 +36,7 @@ const escapeXml = (value: string): string => {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+    .replace(/\"/g, '&quot;')
     .replace(/'/g, '&apos;')
 }
 
@@ -72,6 +72,7 @@ export const createSitemapEntries = (catalog: CatalogDataSet, origin: string): S
   return [
     createSitemapEntry(origin, '/', 'weekly', '1.0'),
     createSitemapEntry(origin, '/parken', 'weekly', '0.9'),
+    createSitemapEntry(origin, '/toegankelijkheid', 'monthly', '0.5'),
     ...parkEntries,
   ]
 }
