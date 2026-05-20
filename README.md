@@ -18,6 +18,7 @@ This repository uses the specs.md AI-DLC flow:
 - Phase: Construction.
 - Approved stack: Nuxt + TypeScript, Supabase, Vercel.
 - Active product direction: Landal Netherlands affiliate site with price-only comparison and outbound Landal links.
+- Accessibility: EAA 2025 is a hard release requirement. EN 301 549 and WCAG 2.1 Level AA are the minimum baseline; WCAG 2.2 Level AA is the development baseline for new UI.
 - Current completed bolt: `001-nuxt-foundation-and-cleanup`.
 - Next planned bolt: `002-supabase-data-model`.
 
@@ -37,7 +38,10 @@ npm run typecheck
 npm run test:unit
 npm run build
 npm run test:e2e
+npm run test:accessibility
 ```
+
+For UI changes, `npm run test:accessibility` and a manual keyboard/focus check are required before release.
 
 ## Key Paths
 
@@ -45,6 +49,7 @@ npm run test:e2e
 - `.specsmd/aidlc/`: compact AI-DLC agent and schema definitions.
 - `memory-bank/project.yaml`: project state.
 - `memory-bank/standards/`: project standards for all future work.
+- `memory-bank/standards/accessibility.md`: mandatory EAA 2025 accessibility baseline.
 - `memory-bank/intents/`: Inception and planning artifacts.
 - `memory-bank/bolts/`: Construction execution records.
 - `memory-bank/operations/`: Operations context.
