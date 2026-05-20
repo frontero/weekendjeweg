@@ -14,6 +14,7 @@
     "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {
+    "@vuepic/vue-datepicker": "12.1.0",
     "fast-xml-parser": "5.8.0",
     "lucide-vue-next": "latest",
     "nuxt": "latest",
