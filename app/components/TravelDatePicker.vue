@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { VueDatePicker } from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { nl } from 'date-fns/locale/nl'
 import { CalendarDays } from 'lucide-vue-next'
 import { computed } from 'vue'
 import type {
@@ -11,6 +12,7 @@ import type {
   TimeConfig,
   UIConfig,
 } from '@vuepic/vue-datepicker'
+import type { Locale } from 'date-fns'
 
 // Definitions
 const props = withDefaults(defineProps<{
@@ -28,6 +30,7 @@ const displayDateFormatter = new Intl.DateTimeFormat('nl-NL', {
   month: 'short',
   weekday: 'short',
 })
+const datePickerLocale: Locale = nl
 const datePickerFormats: Partial<FormatsConfig> = {
   input: formatInputDate,
 }
@@ -112,13 +115,13 @@ function formatInputDate(date: Date): string {
         :floating="datePickerFloating"
         :formats="datePickerFormats"
         :input-attrs="datePickerInputAttributes"
+        :locale="datePickerLocale"
         :min-date="minDate"
         :prevent-min-max-navigation="true"
         :teleport="true"
         :time-config="datePickerTimeConfig"
         :transitions="true"
         :ui="datePickerUi"
-        locale="nl-NL"
         model-type="yyyy-MM-dd"
         placeholder="Kies datum"
         week-start="1"
