@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { mockCatalog } from '~~/shared/data/mockCatalog'
+import {
+  accommodationSortOptions,
+  createMaxPriceOptions,
+  createNightOptions,
+  createPersonCountOptions,
+  defaultAccommodationFilterState,
+  filterAccommodationCards,
+} from '~~/shared/domain/accommodationFilters'
 import { createAccommodationCardViewModels } from '~~/shared/domain/accommodationPresentation'
 import { getParkBySlug } from '~~/shared/domain/catalogRepository'
 import { createParkDetailPath } from '~~/shared/domain/parkPresentation'
 import { createCanonicalUrl } from '~~/shared/domain/seo'
 import { resolveSiteOrigin } from '~~/shared/domain/siteOrigin'
-import type { AccommodationCardViewModel } from '~~/shared/types/accommodation'
+import type {
+  AccommodationCardViewModel,
+  AccommodationFilterOption,
+  AccommodationFilterState,
+  AccommodationSortMode,
+} from '~~/shared/types/accommodation'
 import type { ParkRecord } from '~~/shared/types/database'
 
 // Definitions
@@ -15,6 +28,10 @@ const requestUrl = useRequestURL()
 const runtimeConfig = useRuntimeConfig()
 const { consentState } = useConsentState()
 const { trackOutboundClick } = useOutboundClickTracking()
+const personCountFilter = ref<string>(defaultAccommodationFilterState.personCount)
+const numberOfNightsFilter = ref<string>(defaultAccommodationFilterState.numberOfNights)
+const maxPriceAmountFilter = ref<string>(defaultAccommodationFilterState.maxPriceAmount)
+const sortMode = ref<AccommodationSortMode>(defaultAccommodationFilterState.sortMode)
 
 // Computed
 const siteOrigin = computed<string>(() => resolveSiteOrigin(runtimeConfig.public.siteUrl, requestUrl.origin))
@@ -46,10 +63,36 @@ const accommodationCards = computed<AccommodationCardViewModel[]>(() => {
   return createAccommodationCardViewModels(mockCatalog, park.value, route.path)
 })
 
+const accommodationFilters = computed<AccommodationFilterState>(() => {
+  return {
+    personCount: personCountFilter.value,
+    numberOfNights: numberOfNightsFilter.value,
+    maxPriceAmount: maxPriceAmountFilter.value,
+    sortMode: sortMode.value,
+  }
+})
+
+const filteredAccommodationCards = computed<AccommodationCardViewModel[]>(() => {
+  return filterAccommodationCards(accommodationCards.value, accommodationFilters.value)
+})
+
+const personCountOptions = computed<AccommodationFilterOption[]>(() => createPersonCountOptions(accommodationCards.value))
+const numberOfNightsOptions = computed<AccommodationFilterOption[]>(() => createNightOptions(accommodationCards.value))
+const maxPriceAmountOptions = computed<AccommodationFilterOption[]>(() => createMaxPriceOptions(accommodationCards.value))
+const sortOptions = computed<AccommodationFilterOption[]>(() => accommodationSortOptions)
 const hasAccommodations = computed<boolean>(() => accommodationCards.value.length > 0)
+const hasAccommodationMatches = computed<boolean>(() => filteredAccommodationCards.value.length > 0)
 const shouldShowAccommodationList = computed<boolean>(() => hasPark.value === true && hasAccommodations.value === true)
+const shouldShowNoFilterResults = computed<boolean>(() => shouldShowAccommodationList.value === true && hasAccommodationMatches.value === false)
 const shouldShowEmptyState = computed<boolean>(() => hasPark.value === true && hasAccommodations.value === false)
 const shouldShowMissingPark = computed<boolean>(() => hasPark.value === false)
+
+const hasActiveFilters = computed<boolean>(() => {
+  return personCountFilter.value !== defaultAccommodationFilterState.personCount
+    || numberOfNightsFilter.value !== defaultAccommodationFilterState.numberOfNights
+    || maxPriceAmountFilter.value !== defaultAccommodationFilterState.maxPriceAmount
+    || sortMode.value !== defaultAccommodationFilterState.sortMode
+})
 
 const accommodationCountLabel = computed<string>(() => {
   if (accommodationCards.value.length === 1) {
@@ -57,6 +100,18 @@ const accommodationCountLabel = computed<string>(() => {
   }
 
   return `${accommodationCards.value.length} accommodaties gevonden`
+})
+
+const filteredAccommodationCountLabel = computed<string>(() => {
+  if (filteredAccommodationCards.value.length === accommodationCards.value.length) {
+    return accommodationCountLabel.value
+  }
+
+  if (filteredAccommodationCards.value.length === 1) {
+    return `1 van ${accommodationCards.value.length} accommodaties zichtbaar`
+  }
+
+  return `${filteredAccommodationCards.value.length} van ${accommodationCards.value.length} accommodaties zichtbaar`
 })
 
 const sourceCapturedAtLabel = computed<string>(() => {
@@ -80,6 +135,13 @@ const metaDescription = computed<string>(() => {
 })
 
 // Functions
+const resetAccommodationFilters = (): void => {
+  personCountFilter.value = defaultAccommodationFilterState.personCount
+  numberOfNightsFilter.value = defaultAccommodationFilterState.numberOfNights
+  maxPriceAmountFilter.value = defaultAccommodationFilterState.maxPriceAmount
+  sortMode.value = defaultAccommodationFilterState.sortMode
+}
+
 const handleAccommodationClick = (card: AccommodationCardViewModel): void => {
   if (park.value === null) {
     return
@@ -148,8 +210,108 @@ useHead(() => ({
       class="grid gap-5 px-4 py-10 md:px-16 md:py-14"
       aria-label="Accommodatielijst"
     >
+      <div
+        class="grid gap-4 rounded-lg bg-[#fffdf7] p-4 shadow-[0_18px_40px_rgba(21,63,58,0.12)] md:grid-cols-[repeat(4,minmax(0,1fr))_auto] md:items-end"
+        aria-label="Accommodaties filteren"
+      >
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-black uppercase text-[#28665e]"
+            for="person-count-filter"
+          >
+            Personen
+          </label>
+          <select
+            v-model="personCountFilter"
+            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+            id="person-count-filter"
+          >
+            <option
+              v-for="option in personCountOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-black uppercase text-[#28665e]"
+            for="nights-filter"
+          >
+            Nachten
+          </label>
+          <select
+            v-model="numberOfNightsFilter"
+            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+            id="nights-filter"
+          >
+            <option
+              v-for="option in numberOfNightsOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-black uppercase text-[#28665e]"
+            for="max-price-filter"
+          >
+            Max prijs
+          </label>
+          <select
+            v-model="maxPriceAmountFilter"
+            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+            id="max-price-filter"
+          >
+            <option
+              v-for="option in maxPriceAmountOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-black uppercase text-[#28665e]"
+            for="sort-mode-filter"
+          >
+            Sorteren
+          </label>
+          <select
+            v-model="sortMode"
+            class="min-h-12 rounded-md border border-[#b7c6bf] bg-white px-3 py-2 font-semibold text-[#1b2f2c]"
+            id="sort-mode-filter"
+          >
+            <option
+              v-for="option in sortOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+        <button
+          v-if="hasActiveFilters"
+          class="inline-flex min-h-12 w-fit items-center justify-center rounded-md border border-[#153f3a] bg-white px-4 py-3 font-black text-[#153f3a] hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+          type="button"
+          @click="resetAccommodationFilters"
+        >
+          Wis filters
+        </button>
+      </div>
+
+      <p class="font-black text-[#1b2f2c]">{{ filteredAccommodationCountLabel }}</p>
+
       <article
-        v-for="card in accommodationCards"
+        v-for="card in filteredAccommodationCards"
         :key="card.accommodation.id"
         class="grid overflow-hidden rounded-lg bg-[#fffdf7] shadow-[0_18px_40px_rgba(21,63,58,0.12)] md:grid-cols-[minmax(12rem,18rem)_minmax(0,1fr)_minmax(12rem,16rem)]"
       >
@@ -184,6 +346,21 @@ useHead(() => ({
           </a>
         </div>
       </article>
+
+      <div
+        v-if="shouldShowNoFilterResults"
+        class="rounded-lg bg-[#fffdf7] p-5 shadow-[0_18px_40px_rgba(21,63,58,0.12)]"
+      >
+        <h2 class="text-2xl font-black leading-tight tracking-normal text-[#1b2f2c]">Geen accommodaties gevonden</h2>
+        <p class="mt-2 text-[#455b56]">Verbreed je filters om weer prijsvoorbeelden te zien.</p>
+        <button
+          class="mt-4 inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#153f3a] px-4 py-3 font-black text-white hover:outline hover:outline-[3px] hover:outline-offset-[3px] hover:outline-[#f5c84c] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#f5c84c]"
+          type="button"
+          @click="resetAccommodationFilters"
+        >
+          Wis filters
+        </button>
+      </div>
     </section>
 
     <section
