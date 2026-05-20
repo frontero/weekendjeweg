@@ -58,7 +58,7 @@ useHead(() => ({
 <template>
   <div>
     <section
-      class="relative isolate grid min-h-[76vh] overflow-hidden px-4 py-12 md:px-16 md:py-16"
+      class="relative isolate grid min-h-[76vh] overflow-hidden bg-[#153f3a] px-4 py-12 md:px-16 md:py-16"
       aria-labelledby="home-title"
     >
       <img
