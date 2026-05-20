@@ -23,6 +23,7 @@ test('creates sitemap entries for indexable MVP routes without rich region pages
 
   assert.equal(locations.includes(`${origin}/`), true)
   assert.equal(locations.includes(`${origin}/parken`), true)
+  assert.equal(locations.includes(`${origin}/toegankelijkheid`), true)
   assert.equal(locations.includes(`${origin}/regio/veluwe`), false)
   assert.equal(locations.includes(`${origin}/parken/landal-miggelenberg`), true)
 })
