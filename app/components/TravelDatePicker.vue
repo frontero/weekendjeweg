@@ -50,6 +50,14 @@ const calendarDays = computed<CalendarDayViewModel[]>(() => {
   return createCalendarDays(visibleMonth.value, props.modelValue, props.minDate)
 })
 
+const pickerStackClass = computed<string>(() => {
+  if (isOpen.value === true) {
+    return 'z-[120]'
+  }
+
+  return 'z-[30]'
+})
+
 // Functions
 function createDateFromValue(value: string): Date | null {
   if (value.length === 0) {
@@ -222,7 +230,8 @@ onBeforeUnmount((): void => {
   <div>
     <div
       ref="componentRoot"
-      class="relative z-[80]"
+      :class="pickerStackClass"
+      class="relative"
     >
       <button
         :aria-controls="calendarId"
