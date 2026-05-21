@@ -34,13 +34,53 @@ test('creates useful accommodation filter options from scraped De Vers cards', (
 
   assert.deepEqual(
     personOptions.map((option: AccommodationFilterOption): string => option.label),
-    ['Alle gezelschappen', '2+ personen', '4+ personen', '6+ personen', '8+ personen'],
+    [
+      'Alle gezelschappen',
+      '2+ personen',
+      '4+ personen',
+      '6+ personen',
+      '8+ personen',
+      '10+ personen',
+      '12+ personen',
+      '16+ personen',
+    ],
   )
   assert.deepEqual(
     nightOptions.map((option: AccommodationFilterOption): string => option.label),
     ['Alle verblijfsduren', '3 nachten', '4 nachten'],
   )
   assert.equal(priceOptions.some((option: AccommodationFilterOption): boolean => option.label === 'Tot € 600'), true)
+})
+
+test('includes the public De Vers accommodation types', () => {
+  const cards: AccommodationCardViewModel[] = createDeVersCards()
+  const accommodationCodes: string[] = cards
+    .map((card: AccommodationCardViewModel): string => card.accommodation.code)
+    .sort((leftCode: string, rightCode: string): number => leftCode.localeCompare(rightCode, 'nl'))
+
+  assert.deepEqual(accommodationCodes, [
+    '10L',
+    '12C',
+    '16C',
+    '2C',
+    '2L',
+    '4B',
+    '4C1',
+    '4C2',
+    '4C3',
+    '4CT',
+    '4L',
+    '6C1',
+    '6C2',
+    '6C3',
+    '6C4',
+    '6CK',
+    '6L',
+    '8C1',
+    '8C2',
+    '8C3',
+    '8L',
+  ])
 })
 
 test('filters accommodation cards by group size and max price', () => {
