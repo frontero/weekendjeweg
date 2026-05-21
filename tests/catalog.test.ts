@@ -76,7 +76,7 @@ test('contains a single scraped Landal De Vers price snapshot', () => {
   assert.equal(snapshot?.priceLabel, 'Landal prijsvoorbeeld')
 })
 
-test('lists scraped Landal De Vers accommodations by current price', () => {
+test('lists Landal De Vers accommodations by current price and public type coverage', () => {
   const park: ParkRecord | null = getParkBySlug(mockCatalog, 'landal-de-vers')
 
   if (park === null) {
@@ -85,20 +85,20 @@ test('lists scraped Landal De Vers accommodations by current price', () => {
 
   const accommodations: AccommodationRecord[] = listAccommodationsForPark(mockCatalog, park.id)
   const firstAccommodation: AccommodationRecord | undefined = accommodations[0]
-  const lastAccommodation: AccommodationRecord | undefined = accommodations[9]
+  const lastPricedAccommodation: AccommodationRecord | undefined = accommodations[9]
 
-  if (firstAccommodation === undefined || lastAccommodation === undefined) {
+  if (firstAccommodation === undefined || lastPricedAccommodation === undefined) {
     throw new Error('Expected scraped accommodation fixtures')
   }
 
-  assert.equal(accommodations.length, 10)
+  assert.equal(accommodations.length, 21)
   assert.equal(firstAccommodation.code, '2L')
   assert.equal(firstAccommodation.name, '2-persoons bungalow')
   assert.equal(firstAccommodation.priceAmount, 296)
   assert.equal(firstAccommodation.arrivalDate, '2026-05-26')
   assert.equal(firstAccommodation.numberOfNights, 3)
-  assert.equal(lastAccommodation.code, '6L')
-  assert.equal(lastAccommodation.priceAmount, 716)
+  assert.equal(lastPricedAccommodation.code, '6L')
+  assert.equal(lastPricedAccommodation.priceAmount, 716)
 })
 
 test('keeps affiliate template separate from final network approval', () => {
