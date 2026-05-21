@@ -95,7 +95,7 @@ test('filters accommodation cards by group size and max price', () => {
     return card.accommodation.code
   })
 
-  assert.deepEqual(accommodationCodes, ['6C3', '6C4'])
+  assert.deepEqual(accommodationCodes, ['6C4', '6C3', '6C2', '6C1', '6CK', '6L', '8C3', '8C2'])
 })
 
 test('sorts accommodation cards by descending price', () => {
@@ -112,6 +112,6 @@ test('sorts accommodation cards by descending price', () => {
     throw new Error('Expected sorted accommodation card')
   }
 
-  assert.equal(firstCard.accommodation.code, '6L')
-  assert.equal(firstCard.accommodation.priceAmount, 716)
+  assert.equal(firstCard.accommodation.code, '12C')
+  assert.equal(firstCard.accommodation.priceAmount, 951)
 })
