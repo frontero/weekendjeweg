@@ -1,3 +1,4 @@
+import { deVersAdditionalAccommodations } from '../data/deVersAdditionalAccommodations'
 import type {
   AccommodationRecord,
   AffiliateLinkTemplateRecord,
@@ -40,6 +41,30 @@ const sortAccommodations = (items: AccommodationRecord[]): AccommodationRecord[]
 
     return leftItem.code.localeCompare(rightItem.code, 'nl')
   })
+}
+
+const getAccommodationKey = (accommodation: AccommodationRecord): string => {
+  return `${accommodation.parkId}:${accommodation.code}`
+}
+
+const listCatalogAccommodations = (catalog: CatalogDataSet): AccommodationRecord[] => {
+  const accommodationByKey: Map<string, AccommodationRecord> = new Map()
+
+  catalog.accommodations.forEach((accommodation: AccommodationRecord): void => {
+    accommodationByKey.set(getAccommodationKey(accommodation), accommodation)
+  })
+
+  deVersAdditionalAccommodations.forEach((accommodation: AccommodationRecord): void => {
+    const accommodationKey: string = getAccommodationKey(accommodation)
+
+    if (accommodationByKey.has(accommodationKey) === true) {
+      return
+    }
+
+    accommodationByKey.set(accommodationKey, accommodation)
+  })
+
+  return [...accommodationByKey.values()]
 }
 
 const getRegionIdBySlug = (catalog: CatalogDataSet, regionSlug: string): UUID | null => {
@@ -136,7 +161,7 @@ export const listFacilitiesForPark = (catalog: CatalogDataSet, parkId: UUID): Fa
 
 export const listAccommodationsForPark = (catalog: CatalogDataSet, parkId: UUID): AccommodationRecord[] => {
   return sortAccommodations(
-    catalog.accommodations.filter((accommodation: AccommodationRecord): boolean => accommodation.parkId === parkId),
+    listCatalogAccommodations(catalog).filter((accommodation: AccommodationRecord): boolean => accommodation.parkId === parkId),
   )
 }
 
