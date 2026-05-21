@@ -183,6 +183,31 @@ const compareByPriceAscending = (leftCard: AccommodationCardViewModel, rightCard
   return compareByCode(leftCard, rightCard)
 }
 
+const compareByPriceDescending = (leftCard: AccommodationCardViewModel, rightCard: AccommodationCardViewModel): number => {
+  const leftPrice: number | null = leftCard.accommodation.priceAmount
+  const rightPrice: number | null = rightCard.accommodation.priceAmount
+
+  if (leftPrice === null && rightPrice === null) {
+    return compareByCode(leftCard, rightCard)
+  }
+
+  if (leftPrice === null) {
+    return 1
+  }
+
+  if (rightPrice === null) {
+    return -1
+  }
+
+  const priceDifference: number = rightPrice - leftPrice
+
+  if (priceDifference !== 0) {
+    return priceDifference
+  }
+
+  return compareByCode(leftCard, rightCard)
+}
+
 const compareByCapacityAscending = (leftCard: AccommodationCardViewModel, rightCard: AccommodationCardViewModel): number => {
   const capacityDifference: number = getSortableCapacity(leftCard) - getSortableCapacity(rightCard)
 
@@ -198,9 +223,7 @@ export const sortAccommodationCards = (
   sortMode: AccommodationSortMode,
 ): AccommodationCardViewModel[] => {
   if (sortMode === 'price-desc') {
-    return [...cards].sort((leftCard: AccommodationCardViewModel, rightCard: AccommodationCardViewModel): number => {
-      return compareByPriceAscending(rightCard, leftCard)
-    })
+    return [...cards].sort(compareByPriceDescending)
   }
 
   if (sortMode === 'capacity-asc') {
