@@ -53,7 +53,7 @@ test('creates De Vers accommodation cards with price and affiliate deeplink data
   const affiliateUrl: URL = new URL(firstCard.affiliateUrl)
 
   assert.equal(pagePath, '/parken/landal-de-vers/accommodaties')
-  assert.equal(cards.length, 10)
+  assert.equal(cards.length, 21)
   assert.equal(firstCard.accommodation.code, '2L')
   assert.equal(firstCard.accommodation.name, '2-persoons bungalow')
   assert.equal(firstCard.priceLabel.includes('296'), true)
