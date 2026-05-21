@@ -1,4 +1,5 @@
 import { deVersAdditionalAccommodations } from '../data/deVersAdditionalAccommodations'
+import { deVersCurrentPricesByCode } from '../data/deVersCurrentPrices'
 import type {
   AccommodationRecord,
   AffiliateLinkTemplateRecord,
@@ -47,6 +48,19 @@ const getAccommodationKey = (accommodation: AccommodationRecord): string => {
   return `${accommodation.parkId}:${accommodation.code}`
 }
 
+const applyCurrentDeVersPrice = (accommodation: AccommodationRecord): AccommodationRecord => {
+  const currentPrice = deVersCurrentPricesByCode[accommodation.code]
+
+  if (currentPrice === undefined) {
+    return accommodation
+  }
+
+  return {
+    ...accommodation,
+    ...currentPrice,
+  }
+}
+
 const listCatalogAccommodations = (catalog: CatalogDataSet): AccommodationRecord[] => {
   const accommodationByKey: Map<string, AccommodationRecord> = new Map()
 
@@ -64,7 +78,9 @@ const listCatalogAccommodations = (catalog: CatalogDataSet): AccommodationRecord
     accommodationByKey.set(accommodationKey, accommodation)
   })
 
-  return [...accommodationByKey.values()]
+  return [...accommodationByKey.values()].map((accommodation: AccommodationRecord): AccommodationRecord => {
+    return applyCurrentDeVersPrice(accommodation)
+  })
 }
 
 const getRegionIdBySlug = (catalog: CatalogDataSet, regionSlug: string): UUID | null => {
