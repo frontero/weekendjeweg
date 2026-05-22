@@ -10,6 +10,13 @@ export interface AccommodationSearchSelection {
   childCount: number
 }
 
+export interface BookableStayDate {
+  arrivalDate: string
+  departureDate: string
+  accommodationCount: number
+  lowestPriceAmount: number
+}
+
 export interface AccommodationImageSlide {
   url: string
   altText: string

@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-
-interface CalendarDayViewModel {
-  dateValue: string
-  dayOfMonth: number
-  isDisabled: boolean
-  isOutsideMonth: boolean
-  isSelected: boolean
-  isToday: boolean
-}
+import {
+  deVersBookableArrivalDates,
+  deVersBookableDepartureDates,
+} from '~~/shared/data/deVersBookableDates'
+import type { CalendarDayViewModel } from '~/types/travelDatePicker'
 
 // Definitions
 const props = withDefaults(defineProps<{
   modelValue: string
   label: string
+  allowedDates?: string[]
   minDate?: string
 }>(), {
   minDate: '',
@@ -22,6 +19,8 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
+const route = useRoute()
+const deVersAccommodationPath = '/parken/landal-de-vers/accommodaties'
 const monthFormatter = new Intl.DateTimeFormat('nl-NL', { month: 'long', year: 'numeric' })
 const displayDateFormatter = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'short', weekday: 'short' })
 const fullDateFormatter = new Intl.DateTimeFormat('nl-NL', {
@@ -52,8 +51,34 @@ const calendarId = computed<string>(() => {
   return `travel-date-calendar-${props.label.toLowerCase()}`
 })
 
+const defaultAllowedDates = computed<string[]>(() => {
+  if (route.path.includes(deVersAccommodationPath) === false) {
+    return []
+  }
+
+  if (props.label.toLowerCase() === 'aankomst') {
+    return deVersBookableArrivalDates
+  }
+
+  if (props.label.toLowerCase() === 'vertrek') {
+    return deVersBookableDepartureDates
+  }
+
+  return []
+})
+
+const allowedDateValues = computed<Set<string> | null>(() => {
+  const explicitAllowedDates: string[] = props.allowedDates ?? []
+
+  if (explicitAllowedDates.length > 0) {
+    return createAllowedDateValues(explicitAllowedDates)
+  }
+
+  return createAllowedDateValues(defaultAllowedDates.value)
+})
+
 const calendarDays = computed<CalendarDayViewModel[]>(() => {
-  return createCalendarDays(visibleMonth.value, props.modelValue, props.minDate)
+  return createCalendarDays(visibleMonth.value, props.modelValue, props.minDate, allowedDateValues.value)
 })
 
 const pickerStackClass = computed<string>(() => {
@@ -117,7 +142,20 @@ function getMondayStartOffset(date: Date): number {
   return dayIndex - 1
 }
 
-function createCalendarDays(monthDate: Date, selectedValue: string, minDate: string): CalendarDayViewModel[] {
+function createAllowedDateValues(allowedDates: string[]): Set<string> | null {
+  if (allowedDates.length === 0) {
+    return null
+  }
+
+  return new Set(allowedDates)
+}
+
+function createCalendarDays(
+  monthDate: Date,
+  selectedValue: string,
+  minDate: string,
+  allowedDates: Set<string> | null,
+): CalendarDayViewModel[] {
   const firstOfMonth: Date = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1)
   const firstGridDate: Date = new Date(firstOfMonth)
   const minimumDate: Date | null = createDateFromValue(minDate)
@@ -125,8 +163,20 @@ function createCalendarDays(monthDate: Date, selectedValue: string, minDate: str
   firstGridDate.setDate(firstOfMonth.getDate() - getMondayStartOffset(firstOfMonth))
 
   return Array.from({ length: 42 }, (_entry: unknown, index: number): CalendarDayViewModel => {
-    return createCalendarDay(firstGridDate, index, monthDate, selectedValue, minimumDate)
+    return createCalendarDay(firstGridDate, index, monthDate, selectedValue, minimumDate, allowedDates)
   })
+}
+
+function isDateDisabled(date: Date, dateValue: string, minimumDate: Date | null, allowedDates: Set<string> | null): boolean {
+  if (minimumDate !== null && date < minimumDate) {
+    return true
+  }
+
+  if (allowedDates === null) {
+    return false
+  }
+
+  return allowedDates.has(dateValue) === false
 }
 
 function createCalendarDay(
@@ -135,6 +185,7 @@ function createCalendarDay(
   monthDate: Date,
   selectedValue: string,
   minimumDate: Date | null,
+  allowedDates: Set<string> | null,
 ): CalendarDayViewModel {
   const date: Date = new Date(firstGridDate)
   const todayValue: string = formatDateValue(new Date())
@@ -146,7 +197,7 @@ function createCalendarDay(
   return {
     dateValue,
     dayOfMonth: date.getDate(),
-    isDisabled: minimumDate !== null && date < minimumDate,
+    isDisabled: isDateDisabled(date, dateValue, minimumDate, allowedDates),
     isOutsideMonth: date.getMonth() !== monthDate.getMonth(),
     isSelected: dateValue === selectedValue,
     isToday: dateValue === todayValue,
