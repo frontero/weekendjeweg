@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+@layer base {
+  :where(
+    a[href],
+    button:not(:disabled),
+    input[type="button"]:not(:disabled),
+    input[type="reset"]:not(:disabled),
+    input[type="submit"]:not(:disabled),
+    label[for],
+    select:not(:disabled),
+    summary,
+    [role="button"]:not([aria-disabled="true"])
+  ) {
+    cursor: pointer;
+  }
+
+  :where(
+    button:disabled,
+    input:disabled,
+    select:disabled,
+    textarea:disabled,
+    [aria-disabled="true"]
+  ) {
+    cursor: not-allowed;
+  }
+}
+
 @layer utilities {
   .text-\[\#c94936\] {
     color: #b33b2f;
