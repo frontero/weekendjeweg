@@ -135,3 +135,13 @@ test('click handlers stay on native interactive elements', async () => {
 
   assert.deepEqual(failures, [])
 })
+
+test('global styles expose pointer cursor for interactive controls', async () => {
+  const stylesheetText: string = await readProjectFile('app/assets/styles/main.css')
+
+  assert.match(stylesheetText, /button:not\(:disabled\)/)
+  assert.match(stylesheetText, /a\[href\]/)
+  assert.match(stylesheetText, /cursor: pointer/)
+  assert.match(stylesheetText, /:disabled/)
+  assert.match(stylesheetText, /cursor: not-allowed/)
+})
